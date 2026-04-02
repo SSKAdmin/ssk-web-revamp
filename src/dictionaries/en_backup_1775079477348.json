@@ -1,0 +1,538 @@
+{
+  "navigation": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About Us",
+    "framework": "Solutions",
+    "careers": "Join Us",
+    "contact": "Contact Us",
+    "engagement": "Start with Us",
+    "explore": "Explore Services"
+  },
+  "footer": {
+    "identity": "A professional firm specialized in strategy execution, helping organizations transform plans into measurable outcomes with clinical precision.",
+    "nav_title": "Quick Links",
+    "compliance_title": "Legal & Privacy",
+    "presence_title": "Our Locations",
+    "copyright": "© {year} SSK. Excellence in Execution & Knowledge.",
+    "links": {
+      "services": "Services",
+      "about": "About Us",
+      "framework": "Solutions",
+      "careers": "Join Us",
+      "contact": "Contact Us",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "data": "Data Protection"
+    },
+    "address_line1": "Office Gardens, Anas Ibn Malik Rd",
+    "address_line2": "Al Malqa, Riyadh 13524"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "STRATEGY EXECUTION FIRM",
+      "title": "Helping organizations move from strategy to real, measurable outcomes.",
+      "subtitle": "Outcome-Driven Advisory",
+      "description": "We partner with our clients to bridge the gap between planning and actual delivery, using a clear methodology and regular alignment for guaranteed success."
+    },
+    "challenge": {
+      "eyebrow": "The Delivery Challenge",
+      "title": "Where Execution Often Fails",
+      "subtitle": "Bridging the Reality Gap",
+      "description": "Most projects don't struggle with strategy. The real challenges arise during actual implementation, where complex silos and unclear ownership slow down progress.",
+      "points": [
+        "Overlapping roles & silos",
+        "Delayed periodic reporting",
+        "Lack of effective coordination",
+        "Difficulty in measuring results"
+      ],
+      "stats": [
+        { "label": "Full Visibility", "value": "Global" },
+        { "label": "Delivery Speed", "value": "Optimal" },
+        { "label": "Risk Mitigation", "value": "Effective" }
+      ]
+    },
+    "positioning": {
+      "eyebrow": "Our Approach",
+      "title": "Your Partners in Execution — Not Just Advisors",
+      "subtitle": "Focused on Practical Impact",
+      "description": "At SSK, we focus on execution. We provide the organizational and technical framework required to support complex programs across various sectors.",
+      "comparison": {
+        "traditional": {
+          "title": "Traditional Advisory",
+          "points": [
+            "Theoretical Models & Deck Publications",
+            "Fragmented Vendor Management",
+            "Passively Reactive Reporting",
+            "Zero Accountability for Final Outcomes"
+          ]
+        },
+        "ssk": {
+          "title": "The SSK Execution Model",
+          "points": [
+            "End-to-End Execution Accountability",
+            "Integrated Turnkey Delivery Teams",
+            "Proactive Operational Rhythm",
+            "Guaranteed Institutional Outcomes"
+          ]
+        }
+      }
+    },
+    "protocol": {
+      "eyebrow": "Methodology",
+      "title": "Integrated Services for Institutional Execution.",
+      "subtitle": "Comprehensive Growth Solutions",
+      "description": "A systematic framework designed to align institutional efforts with strategic goals for long-term sustainability.",
+      "why": {
+        "title": "Professional Logic",
+        "text": "Our integrated services provide the governance and stability required to transform institutional vision into reality with total clarity."
+      },
+      "layers": [
+        {
+          "title": "Infrastructure Support",
+          "desc": "Strengthen foundational systems to ensure reliable and efficient operations.",
+          "deep_desc": "Establishing and managing a rock-solid technological backbone engineered for extreme scale. We guarantee high continuous availability while systematically stripping out technical debt and optimizing cloud spend.",
+          "features": ["99.9% High Availability Shield", "Proactive Network Monitoring", "Cloud FinOps Optimization", "Managed Operational Support"]
+        },
+        {
+          "title": "Data Management & AI",
+          "desc": "Turn operational data into clear, actionable insights for leadership.",
+          "deep_desc": "Engineering unified enterprise data platforms augmented by AI. We eradicate contradictory reporting and empower leadership with automated, intelligent early-warning systems and predictive insights.",
+          "features": ["Strict Data Governance Models", "Automated Insight Reporting", "Predictive Analytics Engine", "Centralized Data Pipelines"]
+        },
+        {
+          "title": "Compliance & Cybersecurity",
+          "desc": "Align operations with the latest security and regulatory standards.",
+          "deep_desc": "Deploying friction-free security controls entirely compliant with local and international mandates (NCA, SAMA, ISO). We ensure your institution remains legally and architecturally secure at all times.",
+          "features": ["Comprehensive Security Shield", "Automated GRC Auditing", "Real-time Risk Management", "Critical Asset Protection"]
+        },
+        {
+          "title": "Enterprise Architecture (EA)",
+          "desc": "Design scalable structures that support digital transformation and growth.",
+          "deep_desc": "Forging an absolute alignment between business intent, data, and technology. We dismantle organizational silos to create an architecture that effortlessly absorbs and scales new capabilities.",
+          "features": ["Digital Transformation Roadmaps", "Legacy Systems Modernization", "Architecture Review Boards (ARB)", "Scalable Framework Design"]
+        },
+        {
+          "title": "Performance & Rhythm",
+          "desc": "Establish a consistent work rhythm to ensure objectives are met.",
+          "deep_desc": "Calibrating the organizational heartbeat (daily, weekly, monthly) to mandate velocity. We ensure every department advances at the exact strategic pace required, eliminating waste and confusion.",
+          "features": ["Live Performance Dashboards", "Strategic KPI Synchronization", "Proactive Variance Alerts", "Workflow Re-engineering"]
+        },
+        {
+          "title": "Decision Support",
+          "desc": "Provide leadership with data-driven support for informed choices.",
+          "deep_desc": "Elevating executive strategy with dynamic matrices and simulation suites. Leaders are equipped to wargame scenarios, protect revenue footprints, and navigate crises with absolute situational authority.",
+          "features": ["Outcome Simulation Matrices", "Executive Intelligence Packs", "Impact Assessment Models", "Boardroom Presentation Support"]
+        },
+        {
+          "title": "Managed Execution Office (MEO)",
+          "desc": "Direct oversight to ensure projects stay on their critical path.",
+          "deep_desc": "An elite field-delivery force acting as your proxy. We eradicate logistical deadlocks, forcefully manage third-party vendors, and take absolute accountability for turning the final key on delivery.",
+          "features": ["Critical Path Defenses", "Aggressive Vendor Management", "Immediate Deviation Correction", "Turnkey Delivery Execution"]
+        },
+        {
+          "title": "Capability Transfer (BOT)",
+          "desc": "Uplift internal teams to ensure sustainable capability and growth.",
+          "deep_desc": "A rigorous and fully documented handover procedure ensuring institutional independence. We transform your internal teams into fully capable custodians, ensuring performance sustains far beyond our engagement.",
+          "features": ["Operational Playbook Creation", "Hands-on Tech Handovers", "Internal Team Enablement", "Guaranteed Independence"]
+        }
+      ]
+    },
+    "bot": {
+      "eyebrow": "Operating Model",
+      "title": "Build. Operate. Transfer.",
+      "description": "We design the systems, establish operational rhythm, and transition knowledge to your internal teams for long-term ownership.",
+      "phases": {
+        "build": {
+          "title": "BUILD",
+          "line1": "Institutional Office Design",
+          "line2": "Strategic Governance Setup",
+          "line3": "Operational Frameworks"
+        },
+        "operate": {
+          "title": "OPERATE",
+          "line1": "Continuous Performance Tracking",
+          "line2": "Executive Decision Support",
+          "line3": "Operational Rhythm Management"
+        },
+        "transfer": {
+          "title": "TRANSFER",
+          "line1": "Knowledge and Asset Transfer",
+          "line2": "Internal Capability Building",
+          "line3": "Sustainable Performance Handover"
+        }
+      }
+    },
+    "cta": {
+      "title": "Start Your Journey Now.",
+      "description": "For organizations seeking to turn plans into reality with professional, specialist oversight."
+    }
+  },
+  "services_page": {
+    "hero": {
+      "eyebrow": "Our Services",
+      "title": "Strategy. Precision. Outcomes.",
+      "description": "A systematic approach designed to bridge the gap between high-level strategy and operational implementation."
+    },
+    "sections": {
+      "labels": {
+        "discipline": "Core Business Area",
+        "definition": "Service Definition",
+        "deploy": "Start with Us",
+        "scope": "Operational Scope",
+        "how": "Methodology",
+        "inputs": "Required Inputs",
+        "outputs": "Expected Deliverables",
+        "impact": "Anticipated Impact"
+      },
+      "items": {
+        "meo": {
+          "title": "Managed Execution Office (MEO)",
+          "definition": "Direct oversight of project delivery, ensuring objectives are met on time and with high precision.",
+          "scope": ["Project Coordination", "Delivery Management", "Critical Path Defense", "Organizational Alignment"],
+          "how": "Close collaboration with field teams to ensure direct delivery and obstacle removal.",
+          "inputs": ["Strategic Plan", "Project Objectives", "Authorized Requirements"],
+          "outputs": ["Key Milestone Delivery", "Operational Stability", "Clear Status Visibility"],
+          "impact": "Ensuring initiatives are implemented with high accuracy and achieve desired results."
+        },
+        "rhythm": {
+          "title": "Program Rhythm & Performance",
+          "definition": "Establishing a consistent work heartbeat to drive high-speed delivery and quality outputs.",
+          "scope": ["Performance Management", "Productivity Optimization", "Process Engineering", "Automated Tracking"],
+          "how": "Applying technical and administrative tools that accelerate work pace effectively.",
+          "inputs": ["Program Goals", "Timelines", "Coordination Requirements"],
+          "outputs": ["Periodic Performance Insights", "Accelerated Pace", "Work Consistency"],
+          "impact": "Increasing organizational velocity and speed of objective achievement."
+        },
+        "intelligence": {
+          "title": "Governance & Decision Intelligence",
+          "definition": "Converting operational data into clear insights to support executive decision-making.",
+          "scope": ["Data Analytics", "Outcome Modeling", "Trend Analysis", "Risk Assessment"],
+          "how": "Using advanced analytics to provide a clear view of current status and future steps.",
+          "inputs": ["Real-time Operational Data", "Strategic Objectives"],
+          "outputs": ["Data-driven Advisory Reports", "Decision Support Models"],
+          "impact": "Empowering leadership with accurate decisions based on real-world facts."
+        },
+        "architecture": {
+          "title": "Enterprise Architecture (EA)",
+          "definition": "Designing the structural backbone of institutional systems to align technology with business needs.",
+          "scope": ["Business Architecture", "Data Architecture", "Digital Ecosystem Planning", "Transformation Strategy"],
+          "how": "Aligning business, data, applications, and technology into one unified model.",
+          "inputs": ["Business Requirements", "Current Tech Landscape"],
+          "outputs": ["Technology Roadmap", "Unified Architecture Framework"],
+          "impact": "Providing a flexible and scalable infrastructure that supports sustainable growth."
+        },
+        "data-ai": {
+          "title": "Data Implementation & AI",
+          "definition": "Organizing data assets and leveraging AI and automation for operational efficiency.",
+          "scope": ["Data Strategy", "Process Automation", "Data Pipeline Engineering", "Data Governance"],
+          "how": "Building integrated data platforms that transition manual work into smart, automated workflows.",
+          "inputs": ["Siloed Data Sources", "Operational Requirements"],
+          "outputs": ["Unified Data Layer", "AI Automation Nodes"],
+          "impact": "Achieving a significant leap in operational accuracy and digital execution speed."
+        },
+        "cyber": {
+          "title": "Cybersecurity & Compliance",
+          "definition": "Protecting digital assets and ensuring adherence to local and international security standards.",
+          "scope": ["Threat Management", "Compliance Auditing", "Security Framework Development", "Information Integrity"],
+          "how": "Implementing advanced security controls that ensure data integrity and system stability.",
+          "inputs": ["Regulatory Standards (NCA/SDAIA)", "Current Network Map"],
+          "outputs": ["Compliant Digital Environment", "Certified Security Standard"],
+          "impact": "Reducing cyber risks and ensuring total business continuity across critical functions."
+        },
+        "infrastructure": {
+          "title": "Cloud, ITAM & Infrastructure",
+          "definition": "Managing and optimizing data centers and cloud services for maximum operational efficiency.",
+          "scope": ["Cloud Managed Services", "System Performance Optimization", "IT Asset Management (ITAM)", "Infrastructure Support"],
+          "how": "Providing advanced cloud solutions and technical asset management to enhance reliability.",
+          "inputs": ["Infrastructure Status", "Scalability Requirements"],
+          "outputs": ["Stable Operating Environment", "Efficiently Managed IT Assets"],
+          "impact": "Achieving the highest levels of reliability and stability for core business services."
+        },
+        "managed-ops": {
+          "title": "SAP & Managed Services (SMO)",
+          "definition": "Comprehensive support for SAP systems and managed business operations to ensure continuity.",
+          "scope": ["SAP Implementation", "Managed Support (SMO)", "Business Process Optimization", "ITSM/ITAM Integration"],
+          "how": "Deploying expert teams to manage ERP systems and align them with organizational goals.",
+          "inputs": ["Digital Transformation Roadmap", "Current ERP Landscape"],
+          "outputs": ["Stabilized SAP Environment", "Professionally Managed Operations"],
+          "impact": "Maximizing ROI on technical investments and ensuring durability of large-scale operations."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready for Execution Certainty?",
+      "description": "For organizations seeking measurable results through professional, specialist management.",
+      "button": "Start with Us"
+    }
+  },
+  "framework_page": {
+    "hero": {
+      "eyebrow": "Solutions",
+      "title": "Integrated Services Framework",
+      "description": "A comprehensive model focused on bridging the gap between strategy and practical delivery."
+    }
+  },
+  "engagement_page": {
+    "hero": {
+      "back_to_home": "Back to Home",
+      "eyebrow": "Start with Us",
+      "title": "Contact us to begin our collaboration.",
+      "description": "Please provide some initial details so we can understand your needs and offer the right support."
+    },
+    "form": {
+      "labels": {
+        "org_name": "Organization Name",
+        "contact_person": "Contact Person",
+        "initiative_type": "Service Type Required",
+        "timeline": "Approximate Timeline",
+        "requirement_description": "Brief Description of Requirements"
+      },
+      "placeholders": {
+        "org_name": "e.g. Ministry of... / Group...",
+        "contact_person": "Full Name",
+        "timeline": "e.g. 12 Months",
+        "description": "Describe the primary objectives you seek to achieve..."
+      },
+      "options": {
+        "transformation": "Digital or Institutional Transformation",
+        "national": "National Program",
+        "infrastructure": "Infrastructure Development",
+        "other": "Other Services"
+      },
+      "submit": "Send Information"
+    }
+  },
+  "about_page": {
+    "hero": {
+      "eyebrow": "About SSK",
+      "title": "Turning strategy into practical outcomes.",
+      "description": "SSK is a specialist execution firm focused on turning plans into measurable results. We work with government entities and major corporations to organize programs, improve governance, and ensure efficient project delivery."
+    },
+    "philosophy": {
+      "title": "Our Focus Areas",
+      "pillars": {
+        "integration": {
+          "title": "Clarity & Execution.",
+          "desc": "Operating as a core unit within the institutional fabric to ensure absolute alignment."
+        },
+        "control": {
+          "title": "Practical Impact.",
+          "desc": "Focusing on ground-level results that transform vision into operational reality."
+        },
+        "sustainability": {
+          "title": "Institutional Continuity.",
+          "desc": "Ensuringbuilt systems and internal capabilities operate perpetually and independently."
+        }
+      }
+    },
+    "edge": {
+      "eyebrow": "Why SSK?",
+      "title": "Excellence in Strategic Implementation.",
+      "description": "While others focus on advisory, we believe true success is found in the quality of execution and commitment to results.",
+      "comparisons": [
+        {
+          "title": "Shared Accountability",
+          "desc": "We view your success as our own, working side-by-side to achieve every objective."
+        },
+        {
+          "title": "Data-Driven Approach",
+          "desc": "Our methodology is based on clear facts and figures, removing ambiguity and accelerating pace."
+        },
+        {
+          "title": "Capability Maturity",
+          "desc": "We prioritize uplifting internal teams to ensure long-term, independent capability."
+        }
+      ]
+    },
+    "leadership": {
+      "eyebrow": "Leadership Vision",
+      "title": "Building the Future through Delivery.",
+      "quote": "Excellence is not found in the plan alone; it is in the ability to turn those plans into a reality that benefits the institution and society.",
+      "focus_areas": [
+        {
+          "title": "Global Standards",
+          "desc": "Following international best practices to ensure high-quality performance at every step."
+        },
+        {
+          "title": "Smart Solutions",
+          "desc": "Using latest technologies to simplify complex challenges and provide intelligent pathways."
+        },
+        {
+          "title": "Total Transparency",
+          "desc": "We believe honesty and clarity are the foundation of any successful partnership."
+        },
+        {
+          "title": "Talent Development",
+          "desc": "We invest in people as the true wealth of any successful organization."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Start Your Collaboration Today."
+    }
+  },
+  "careers_page": {
+    "hero": {
+      "eyebrow": "Careers at SSK",
+      "title": "Join our team of achievers.",
+      "description": "We look for practical people who focus on results and teamwork to contribute to major national and institutional projects."
+    },
+    "value_prop": {
+      "title": "Working at SSK",
+      "pillars": [
+        {
+          "title": "Continuous Growth",
+          "desc": "We provide space to learn new skills and gain unique field experience."
+        },
+        {
+          "title": "Real Impact",
+          "desc": "Feel the value of your work through measurable results in the projects we oversee."
+        },
+        {
+          "title": "Team Culture",
+          "desc": "We work as one family joined by ambition and honest collaboration."
+        }
+      ]
+    },
+    "intake": {
+      "title": "Ambitious Career Opportunities",
+      "description": "Discover how you can contribute your expertise to building successful and sustainable business models."
+    },
+    "culture": {
+      "title": "A Culture of Delivery.",
+      "description": "At SSK, we value initiative and team spirit. We seek individuals who are both creative and results-focused.",
+      "pillars": [
+        "Team Collaboration",
+        "Clarity & Honesty",
+        "Result Ownership",
+        "Continuous Learning"
+      ]
+    }
+  },
+  "contact_page": {
+    "hero": {
+      "eyebrow": "Contact Us",
+      "title": "Start with us now.",
+      "description": "We are here to discuss your aspirations and how we can support you in turning your strategy into reality."
+    },
+    "form": {
+      "title": "Send us a message",
+      "fields": {
+        "name": "Full Name",
+        "email": "Email Address",
+        "organization": "Institution or Company",
+        "phone": "Contact Number",
+        "message": "How can we help you?",
+        "submit": "Send Request"
+      },
+      "success": "Your message has been received successfully. Our team will contact you shortly.",
+      "error": "Submission failed. Please check your data and try again.",
+      "submitting": "Processing your request..."
+    },
+    "details": {
+      "title": "Riyadh Office",
+      "description": "Office Gardens, Anas Ibn Malik Rd, Al Malqa, Riyadh 13524. Positioned to provide direct support to our partners across all sectors."
+    },
+    "presence": {
+      "title": "Riyadh Office"
+    }
+  },
+  "careers_form": {
+    "title": "Application Form",
+    "success_title": "Application Received",
+    "success_message": "Thank you for your interest in joining our team. Our HR department will review your application and contact you if your profile matches.",
+    "return_button": "Return to Form",
+    "labels": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "phone": "Contact Number",
+      "cv": "CV Document (PDF)",
+      "summary": "Professional Summary",
+      "submit": "Submit Application",
+      "submitting": "Submitting..."
+    },
+    "placeholders": {
+      "name": "Full Name",
+      "email": "example@email.com",
+      "phone": "+966",
+      "summary": "Briefly describe your main professional achievements..."
+    },
+    "validation": {
+       "confidentiality": "All data is handled with strict confidentiality."
+    }
+  },
+  "legal": {
+    "privacy": {
+      "eyebrow": "Privacy",
+      "title": "Privacy Policy",
+      "description": "We are committed to protecting your data privacy and using it only for agreed professional purposes to ensure the best service."
+    },
+    "terms": {
+      "eyebrow": "Terms",
+      "title": "Terms of Service",
+      "description": "By using this platform, you agree to the professional standards and usage rules established for a successful partnership."
+    },
+    "data_protection": {
+      "eyebrow": "Security",
+      "title": "Data Protection",
+      "description": "We follow global best practices in data protection and management to ensure the privacy of our partners, driven by our professional responsibility.",
+      "sections": [
+        {
+          "title": "Professional Data Management",
+          "content": "At SSK, we believe client data is the backbone of institutional work. We follow strict procedures to ensure its protection and its use solely for business development."
+        },
+        {
+          "title": "Encryption & Technical Security",
+          "content": "We use modern encryption techniques to ensure data integrity during transmission or storage, in compliance with local and international technical standards."
+        },
+        {
+          "title": "Continuous Audit & Development",
+          "content": "Our systems undergo periodic reviews to ensure their resilience against emerging security challenges, providing a secure and reliable work environment."
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "home": {
+      "title": "SSK | Strategic Execution & Growth Solutions",
+      "description": "Helping entities and companies turn strategy into real-world outputs and measurable results."
+    },
+    "about": {
+      "title": "About Us | SSK: Excellence in Execution",
+      "description": "Learn about SSK and how we bridge the gap between planning and actual delivery."
+    },
+    "services": {
+      "title": "Our Services | SSK: Integrated Execution Solutions",
+      "description": "Discover how our diverse services can enhance organizational efficiency and achieve goals."
+    },
+    "careers": {
+      "title": "Join Us | Career Pathways at SSK",
+      "description": "Start an ambitious career with our specialist team in execution management and large-scale projects."
+    },
+    "contact": {
+      "title": "Contact Us | Start Collaboration with SSK",
+      "description": "We are here to support you. Contact us today to discuss your future aspirations."
+    },
+    "privacy": {
+      "title": "Privacy Policy | SSK",
+      "description": "How we protect your data and maintain your professional privacy."
+    },
+    "terms": {
+      "title": "Terms of Service | SSK",
+      "description": "Rules and policies governing the use of our services and digital platform."
+    },
+    "dataProtection": {
+      "title": "Data Protection | SSK",
+      "description": "Our professional commitment to the security and confidentiality of our partners' information."
+    },
+    "framework": {
+      "title": "Solutions | SSK: Integrated Service Model",
+      "description": "Explore our comprehensive institutional framework for strategic delivery and operational excellence."
+    },
+    "engagement": {
+      "title": "Start Your Collaboration | SSK Strategic Intake",
+      "description": "Begin your journey with SSK by providing your institutional requirements for a tailored execution strategy."
+    }
+  }
+}

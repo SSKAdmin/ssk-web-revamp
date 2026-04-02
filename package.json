@@ -6,11 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:migrate": "tsx src/lib/db/migrate.ts",
+    "db:seed": "tsx src/lib/db/seed.ts",
+    "db:seed:docs": "tsx src/lib/db/seed-docs.ts",
+    "verify:current": "bash ./scripts/verify-current.sh"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^0.0.66",
+    "@ai-sdk/react": "^0.0.52",
+    "@auth/core": "^0.34.3",
     "@base-ui/react": "^1.3.0",
     "@hookform/resolvers": "^5.2.2",
+    "@next/third-parties": "^16.2.2",
+    "@upstash/redis": "^1.37.0",
+    "ai": "^3.3.41",
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -18,6 +30,7 @@
     "lucide-react": "^1.7.0",
     "next": "16.2.1",
     "next-auth": "^4.24.13",
+    "nodemailer": "^6.10.0",
     "postgres": "^3.4.8",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -31,6 +44,7 @@
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
+    "@types/nodemailer": "^7.0.11",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "drizzle-kit": "^0.31.10",
@@ -39,6 +53,7 @@
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

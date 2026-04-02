@@ -1,0 +1,132 @@
+
+> ssk-platform@0.1.0 verify:current
+> bash ./scripts/verify-current.sh
+
+============================================================
+SSK CURRENT STATE VERIFICATION STARTED
+============================================================
+
+[1] PRECHECK
+✅ PASS: Required commands and files present
+
+[2] PROJECT INVENTORY
+Public Pages: 13
+Admin Pages:  8
+API Routes:   10
+✅ PASS: Public routes detected
+✅ PASS: Admin routes detected
+✅ PASS: API routes detected
+
+[3] STATIC QUALITY GATES
+❌ FAIL: Build failed
+❌ FAIL: Typecheck failed
+✅ PASS: Lint passed
+
+[4] LOCALIZATION & CONTENT SANITY
+✅ PASS: EN/AR dictionaries exist
+✅ PASS: Required pattern exists: "title"
+✅ PASS: Required pattern exists: "description"
+✅ PASS: Required pattern exists: Build
+✅ PASS: Required pattern exists: Operate
+✅ PASS: Required pattern exists: Transfer
+✅ PASS: Forbidden pattern absent: SSK Consulting
+✅ PASS: Forbidden pattern absent: للاستشارات
+
+[5] LEGAL & STRUCTURE
+✅ PASS: Legal page exists: privacy
+✅ PASS: Legal page exists: terms
+✅ PASS: Legal page exists: data-protection
+✅ PASS: middleware.ts exists
+✅ PASS: Middleware contains protection logic
+
+[6] METADATA PRESENCE
+✅ PASS: Metadata found in src/app/[lang]/(public)/about/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/careers/[id]/apply/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/careers/[id]/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/careers/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/contact/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/data-protection/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/engagement/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/framework/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/login/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/privacy/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/services/page.tsx
+✅ PASS: Metadata found in src/app/[lang]/(public)/terms/page.tsx
+
+[7] ENV READINESS
+✅ PASS: At least one env file exists
+✅ PASS: DATABASE_URL present in env files
+✅ PASS: NEXTAUTH_SECRET present in env files
+
+[8] START APPLICATION
+✅ PASS: Application started on http://127.0.0.1:3007
+
+[9] ROUTE HEALTH - PUBLIC
+✅ PASS: http://127.0.0.1:3007/en returned 200
+✅ PASS: http://127.0.0.1:3007/ar returned 200
+✅ PASS: http://127.0.0.1:3007/en/about returned 200
+✅ PASS: http://127.0.0.1:3007/ar/about returned 200
+✅ PASS: http://127.0.0.1:3007/en/services returned 200
+✅ PASS: http://127.0.0.1:3007/ar/services returned 200
+✅ PASS: http://127.0.0.1:3007/en/contact returned 200
+✅ PASS: http://127.0.0.1:3007/ar/contact returned 200
+✅ PASS: http://127.0.0.1:3007/en/careers returned 200
+✅ PASS: http://127.0.0.1:3007/ar/careers returned 200
+✅ PASS: http://127.0.0.1:3007/en/privacy returned 200
+✅ PASS: http://127.0.0.1:3007/ar/privacy returned 200
+✅ PASS: http://127.0.0.1:3007/en/terms returned 200
+✅ PASS: http://127.0.0.1:3007/ar/terms returned 200
+✅ PASS: http://127.0.0.1:3007/en/data-protection returned 200
+✅ PASS: http://127.0.0.1:3007/ar/data-protection returned 200
+
+[10] AUTH / ADMIN HEALTH
+✅ PASS: http://127.0.0.1:3007/en/dashboard returned redirect 307
+✅ PASS: http://127.0.0.1:3007/ar/dashboard returned redirect 307
+✅ PASS: http://127.0.0.1:3007/en/documents returned redirect 307
+✅ PASS: http://127.0.0.1:3007/ar/documents returned redirect 307
+✅ PASS: http://127.0.0.1:3007/en/cms returned redirect 307
+✅ PASS: http://127.0.0.1:3007/ar/cms returned redirect 307
+✅ PASS: /login reachable
+
+[11] API HEALTH
+✅ PASS: /api/jobs responded with acceptable code 200
+✅ PASS: /api/contact responded with acceptable code 405
+✅ PASS: /api/applications responded with acceptable code 401
+✅ PASS: /api/cms responded with acceptable code 200
+✅ PASS: /api/documents responded with acceptable code 401
+
+[12] FORM ENDPOINT CHECKS
+✅ PASS: POST http://127.0.0.1:3007/api/contact returned 503
+✅ PASS: /api/applications validation path working (400)
+
+[13] HOMEPAGE CONTENT PRESENCE
+✅ PASS: EN homepage contains core content signals
+✅ PASS: AR homepage contains core content signals
+
+[14] BROKEN LINK SAMPLING - NAV/FOOTER
+✅ PASS: Internal link valid: /_next/static/chunks/%5Broot-of-the-server%5D__0sk.deu._.css (200)
+✅ PASS: Internal link valid: /_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_10z625~._.js (200)
+✅ PASS: Internal link valid: /ar (200)
+✅ PASS: Internal link valid: /en (200)
+✅ PASS: Internal link valid: /en/about (200)
+✅ PASS: Internal link valid: /en/careers (200)
+✅ PASS: Internal link valid: /en/contact (200)
+✅ PASS: Internal link valid: /en/data-protection (200)
+✅ PASS: Internal link valid: /en/engagement (200)
+✅ PASS: Internal link valid: /en/framework (200)
+✅ PASS: Internal link valid: /en/privacy (200)
+✅ PASS: Internal link valid: /en/services (200)
+✅ PASS: Internal link valid: /en/services#ea (200)
+✅ PASS: Internal link valid: /en/services#governance (200)
+✅ PASS: Internal link valid: /en/services#meo (200)
+✅ PASS: Internal link valid: /en/services#rhythm (200)
+✅ PASS: Internal link valid: /en/terms (200)
+
+[15] FINAL SUMMARY
+------------------------------------------------------------
+PASS: 84
+WARN: 0
+FAIL: 2
+------------------------------------------------------------
+❌ CURRENT STATE VERIFICATION FAILED

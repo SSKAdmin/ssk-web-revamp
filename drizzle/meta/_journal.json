@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1774919297536,
+      "tag": "0000_daffy_wolfpack",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1775080092839,
+      "tag": "0001_secret_sentry",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1775114300574,
+      "tag": "0002_stale_shiva",
+      "breakpoints": true
+    }
+  ]
+}

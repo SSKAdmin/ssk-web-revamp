@@ -1,0 +1,287 @@
+import "dotenv/config";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import { documents } from "./schema";
+
+const dbUrl = process.env.DATABASE_URL;
+
+if (!dbUrl) {
+  throw new Error("DATABASE_URL is not set");
+}
+
+const connection = postgres(dbUrl, { max: 1 });
+const db = drizzle(connection);
+
+const seedDocuments = [
+  // A) BUSINESS / STRATEGY / GOVERNANCE DOCUMENTS
+  { category: "Business", name: "Project Charter", purpose: "Formalize project mandate & objectives", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Business", name: "Executive Summary", purpose: "High-level overview of value proposition", status: "exists", path: "README.md", owner: "Product Owner", priority: "high", requiredForGoLive: true },
+  { category: "Strategy", name: "Business Requirements Document (BRD)", purpose: "Defines business needs and rationale", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Strategy", name: "Product Requirements Document (PRD)", purpose: "Functional/Product feature matrix", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Strategy", name: "Scope Document", purpose: "Defines boundaries of deployment", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Strategy", name: "Vision / Positioning Document", purpose: "SSK institutional market stance", status: "partial", path: "KI: narrative_strategy.md", owner: "Strategic Lead", priority: "high", requiredForGoLive: true },
+  { category: "Governance", name: "Stakeholder Matrix", purpose: "Identifies key decision makers", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Governance", name: "RACI Matrix", purpose: "Roles and Responsibilities definition", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Governance", name: "Governance Model", purpose: "Board / Steering committee operating rules", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "PM", name: "Decision Log", purpose: "Records of all key architecture/business decisions", status: "missing", owner: "Tech Lead", priority: "high", requiredForGoLive: true },
+  { category: "PM", name: "Assumptions Log", purpose: "List of all business/technical assumptions", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "PM", name: "Constraints Log", purpose: "Resource / Technical limits identified", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Risk", name: "Risks Register", purpose: "Track potential project risks and mitigation", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Risk", name: "Issues Register", purpose: "Track actual problems occurring and resolution", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Risk", name: "RAID Log", purpose: "Combined Risks, Assumptions, Issues, Dependencies", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Metrics", name: "Success Metrics / KPIs", purpose: "How platform success is measured post-launch", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "QA", name: "Acceptance Criteria Master List", purpose: "Absolute definitions of 'Done' for launch", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "PM", name: "Change Request Log", purpose: "Tracking out-of-scope requests", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "PM", name: "Change Control Procedure", purpose: "Formal rules for injecting changes", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Planning", name: "Project Plan", purpose: "Timelines, Gantt, resource allocation", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Planning", name: "Rollout Plan", purpose: "Staged deployment steps for final release", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Planning", name: "Release Plan", purpose: "Version targeting and delivery schedule", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Comm", name: "Communication Plan", purpose: "Internal and external stakeholder comms", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Comm", name: "Meeting Cadence / Operating Rhythm", purpose: "Sprint ceremonies and standing meetings", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Support", name: "Escalation Model", purpose: "Flow of support paths (L1 > L2 > L3)", status: "missing", owner: "Ops Lead", priority: "high", requiredForGoLive: true },
+
+  // B) ANALYSIS / ARCHITECTURE / SYSTEM DESIGN
+  { category: "Arch", name: "Solution Architecture Document", purpose: "Comprehensive technical topology", status: "partial", path: "Codebase", owner: "Architect", priority: "high", requiredForGoLive: true },
+  { category: "Arch", name: "Enterprise Architecture (EA)", purpose: "High-level organizational tech blueprint", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Arch", name: "Application Architecture", purpose: "Core software patterns (Next.js App Router)", status: "partial", path: "KI: implementation_patterns.md", owner: "Tech Lead", priority: "high", requiredForGoLive: true },
+  { category: "Arch", name: "Technical Architecture", purpose: "Language, framework, and tooling decisions", status: "exists", path: "package.json", owner: "Tech Lead", priority: "medium", requiredForGoLive: false },
+  { category: "Infra", name: "Infrastructure Architecture", purpose: "Hosting topology and resource mapping", status: "partial", path: "docs/infrastructure-hardening.md", owner: "DevOps", priority: "high", requiredForGoLive: true },
+  { category: "Infra", name: "Network Architecture", purpose: "Networking, tunneling, and WAF rules", status: "partial", path: "cloudflared.log config", owner: "NetSec", priority: "high", requiredForGoLive: true },
+  { category: "Security", name: "Security Architecture", purpose: "RBAC, TLS, WAF, Encryption mechanisms", status: "partial", path: "docs/infrastructure-hardening.md", owner: "InfoSec", priority: "high", requiredForGoLive: true },
+  { category: "Data", name: "Data Architecture", purpose: "Structure of data flow, caching, Upstash", status: "partial", path: "src/lib/db/*", owner: "DBA", priority: "medium", requiredForGoLive: false },
+  { category: "Data", name: "ERD (Entity Relationship Diagram)", purpose: "Visual map of DB tables", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Data", name: "Data Dictionary", purpose: "Definition of all schema fields", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "API", name: "API Architecture", purpose: "REST structure, status payloads, Fallbacks", status: "partial", path: "src/lib/api-errors.ts", owner: "Backend Lead", priority: "high", requiredForGoLive: true },
+  { category: "API", name: "API Contract / API Spec", purpose: "Schema contracts (Zod definitions)", status: "partial", path: "src/app/api/*/route.ts", owner: "Backend Lead", priority: "high", requiredForGoLive: true },
+  { category: "Arch", name: "Integration Architecture", purpose: "How DB, Redis, and Mailer communicate", status: "partial", path: "Codebase", owner: "Architect", priority: "medium", requiredForGoLive: false },
+  { category: "UML", name: "Sequence Diagrams", purpose: "Flowchart of system interactions", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "UML", name: "Component Diagrams", purpose: "React UI hierarchy (Site + Admin)", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "UML", name: "Service Interaction Diagrams", purpose: "Communication between Next.js and upstream", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Deploy", name: "Deployment Diagram", purpose: "Visual representation of deployment pipeline", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Infra", name: "Environment Architecture", purpose: "Dev, Stage, Prod mapping", status: "partial", path: ".env.example", owner: "DevOps", priority: "high", requiredForGoLive: true },
+  { category: "Arch", name: "Multi-language / i18n architecture", purpose: "Defines AR/EN dictionary mapping", status: "exists", path: "src/lib/i18n.ts", owner: "Arch", priority: "high", requiredForGoLive: true },
+  { category: "Arch", name: "CMS architecture", purpose: "Markdown / DB content delivery", status: "exists", path: "src/lib/cmsData.ts", owner: "Backend Lead", priority: "high", requiredForGoLive: true },
+  { category: "Arch", name: "Admin / Command Center architecture", purpose: "RBAC layout structure", status: "exists", path: "src/app/[lang]/(admin)/", owner: "Fullstack Lead", priority: "high", requiredForGoLive: true },
+  { category: "Security", name: "Role / Permission model", purpose: "Admin vs User privilege matrix", status: "exists", path: "src/lib/auth/roles.ts", owner: "InfoSec", priority: "high", requiredForGoLive: true },
+  { category: "Security", name: "Authentication architecture", purpose: "NextAuth + Credentials mechanism", status: "exists", path: "src/lib/auth/auth-options.ts", owner: "Backend Lead", priority: "high", requiredForGoLive: true },
+  { category: "Security", name: "Session architecture", purpose: "JWT Strategy config", status: "exists", path: "src/lib/auth/auth-options.ts", owner: "Backend Lead", priority: "high", requiredForGoLive: true },
+  { category: "Security", name: "Rate limiting architecture", purpose: "Upstash Redis + Memory fallback", status: "exists", path: "src/lib/security/rate-limit.ts", owner: "InfoSec", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Logging / Monitoring architecture", purpose: "Trace logs & Sentry injection", status: "exists", path: "src/lib/api-errors.ts", owner: "DevOps", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Backup / Recovery architecture", purpose: "DB PITR instructions", status: "partial", path: "docs/infrastructure-hardening.md", owner: "DBA", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Incident handling architecture", purpose: "Server error fallbacks", status: "exists", path: "src/lib/api-errors.ts", owner: "DevOps", priority: "high", requiredForGoLive: true },
+
+  // C) SOFTWARE DEVELOPMENT LIFECYCLE (SDLC)
+  { category: "Master", name: "SDLC Master Plan", purpose: "Guidelines for development phases", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "QA", name: "Requirements Traceability Matrix", purpose: "Maps reqs to test cases", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Req", name: "Functional Specifications", purpose: "What the platform explicitly does", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Req", name: "Non-Functional Requirements (NFR)", purpose: "Scale, security, performance rules", status: "partial", path: "docs/infrastructure-hardening.md", owner: "Architect", priority: "high", requiredForGoLive: true },
+  { category: "Req", name: "Software Requirements Spec (SRS)", purpose: "Technical manual of features", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Spec", name: "Technical Specifications", purpose: "Detailed logic maps", status: "partial", path: "Codebase", owner: "Tech Lead", priority: "low", requiredForGoLive: false },
+  { category: "Agile", name: "User Stories", purpose: "'As a user, I want...'", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Agile", name: "Epics", purpose: "High level groupings of features", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Agile", name: "Features list", purpose: "Complete manifest of delivered tools", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Agile", name: "Sprint backlog references", purpose: "Past sprints logging", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Log", name: "Design decisions log", purpose: "Record of UI/UX pivots", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Tech", name: "Source code structure documentation", purpose: "Folder map", status: "partial", path: "KI: project_structure.md", owner: "Architect", priority: "medium", requiredForGoLive: true },
+  { category: "DevOps", name: "Branching strategy", purpose: "Main, develop, feature branches rule", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "DevOps", name: "Versioning strategy", purpose: "SemVer definitions (0.1.0)", status: "partial", path: "package.json", owner: "Release Mgr", priority: "low", requiredForGoLive: false },
+  { category: "DevOps", name: "Release tagging strategy", purpose: "How artifacts are tagged", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "DevOps", name: "Build process documentation", purpose: "npm run build dependencies", status: "exists", path: "package.json", owner: "DevOps", priority: "high", requiredForGoLive: true },
+  { category: "DevOps", name: "Dependency management documentation", purpose: "Standard for locking", status: "exists", path: "package.json", owner: "Architect", priority: "low", requiredForGoLive: false },
+  { category: "DevOps", name: "Environment configuration guide", purpose: "Details on .env vars", status: "exists", path: ".env.example", owner: "DevOps", priority: "high", requiredForGoLive: true },
+  { category: "DevSecOps", name: "Secrets management guide", purpose: "Proper storage of keys", status: "partial", path: "docs/infrastructure-hardening.md", owner: "InfoSec", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Migration strategy", purpose: "drizzle-kit transition plan", status: "exists", path: "src/lib/db/migrate.ts", owner: "DBA", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Rollback strategy", purpose: "Immediate rollback code / DB actions", status: "missing", priority: "high", requiredForGoLive: true },
+
+  // D) AGILE / DELIVERY / PM DOCUMENTS
+  { category: "Scrum", name: "Product Backlog", purpose: "Remaining items to build", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Scrum", name: "Sprint Plan", purpose: "Active development goals", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Scrum", name: "Sprint Goals", purpose: "High-level focus of iteration", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Delivery", name: "Delivery Roadmap", purpose: "Future release schedule", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Tracker", name: "Milestone Tracker", purpose: "Target dates for Key phases", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Tracker", name: "Burndown / Progress Tracker", purpose: "Velocity monitoring", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "UAT", name: "UAT Plan", purpose: "User Acceptance validation scripts", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "UAT", name: "UAT Sign-off Template", purpose: "Formal client approval document", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "QA", name: "Test Execution Log", purpose: "History of test passes/fails", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Review", name: "Readiness Checklist", purpose: "Pre-flight check", status: "partial", path: "scripts/verify-current.sh", owner: "Release Mgr", priority: "high", requiredForGoLive: true },
+  { category: "Review", name: "Go / No-Go Checklist", purpose: "Final checkpoint before domain swap", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Review", name: "Launch Readiness Review", purpose: "Post-mortem of Go/No-Go", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Support", name: "Hypercare Plan", purpose: "2-week active monitoring plan post live", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Review", name: "Post-launch review template", purpose: "Template for retro", status: "missing", priority: "low", requiredForGoLive: false },
+
+  // E) DEVOPS / DEVSECOPS / CI-CD DOCUMENTS
+  { category: "Strategy", name: "DevOps Strategy", purpose: "Tooling and deployment ethos", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Strategy", name: "DevSecOps Strategy", purpose: "Security integration within pipeline", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Pipeline", name: "CI/CD Pipeline Document", purpose: "How Github Actions / Vercel runs", status: "missing", priority: "medium", requiredForGoLive: true },
+  { category: "Pipeline", name: "Build Pipeline Definition", purpose: "next build scripts", status: "exists", path: "package.json", owner: "DevOps Lead", priority: "high", requiredForGoLive: true },
+  { category: "Pipeline", name: "Deployment Pipeline Definition", purpose: "Hosting target mappings", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Env", name: "Promotion Flow", purpose: "How code ascends environments", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Env", name: "Environment Matrix", purpose: "Matrix of URLs per environment", status: "partial", path: ".env.example", owner: "DevOps Lead", priority: "medium", requiredForGoLive: false },
+  { category: "Env", name: "Environment Variables Register", purpose: "Dictionary of EVAR definitions", status: "partial", path: ".env.example", owner: "DevOps Lead", priority: "high", requiredForGoLive: true },
+  { category: "Security", name: "Secrets Register", purpose: "Safe location for production keys", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Pipeline", name: "Release Automation Flow", purpose: "Auto-trigger rules", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Pipeline", name: "Rollback Procedure", purpose: "Hot-fix deployment reversal", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Checklist", name: "Deployment Checklist", purpose: "Step-by-step deploy procedure", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Checklist", name: "Pre-deploy Checklist", purpose: "verify:current validations", status: "exists", path: "scripts/verify-current.sh", owner: "QA Lead", priority: "high", requiredForGoLive: true },
+  { category: "Checklist", name: "Post-deploy Checklist", purpose: "Active site validations", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Security", name: "Infrastructure Hardening Document", purpose: "WAF, Backups, Protection matrix", status: "exists", path: "docs/infrastructure-hardening.md", owner: "InfoSec", priority: "high", requiredForGoLive: true },
+  { category: "Security", name: "WAF / Cloudflare config guide", purpose: "Customs rules for edge blocking", status: "exists", path: "docs/infrastructure-hardening.md", owner: "DevOps", priority: "high", requiredForGoLive: true },
+  { category: "Security", name: "SSL / TLS enforcement guide", purpose: "PG + Frontend HTTPS protocols", status: "exists", path: "src/lib/db/index.ts", owner: "InfoSec", priority: "high", requiredForGoLive: true },
+  { category: "Pipeline", name: "Container / runtime config", purpose: "Docker parameters if shipped via Docker", status: "exists", path: "Dockerfile", owner: "DevOps", priority: "low", requiredForGoLive: false },
+  { category: "Security", name: "Dependency scanning process", purpose: "Checking npm audit", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Security", name: "Code scanning process", purpose: "SAST integrations", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Security", name: "Security testing process", purpose: "DAST integrations", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "InfoSec", name: "Vulnerability handling process", purpose: "How to respond to reported exploits", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Audit logging process", purpose: "Admin action logs", status: "exists", path: "src/lib/auth/auth-options.ts", owner: "Dev Lead", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Monitoring / alerting setup", purpose: "Sentry + Webhook mapping", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Sentry / logging integration status", purpose: "Connection state of Trace tools", status: "partial", path: "src/lib/api-errors.ts", owner: "Ops Lead", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Backup schedule / recovery val", purpose: "Database backup policy config", status: "partial", path: "docs/infrastructure-hardening.md", owner: "DBA", priority: "high", requiredForGoLive: true },
+  { category: "DR", name: "Disaster Recovery Plan", purpose: "System collapse SLA response", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "DR", name: "Business Continuity Plan", purpose: "Maintaining operations during downtime", status: "missing", priority: "medium", requiredForGoLive: false },
+
+  // F) SECURITY / COMPLIANCE / PRIVACY DOCUMENTS
+  { category: "Security", name: "Security Hardening Checklist", purpose: "OS, App, Infra lockdown list", status: "exists", path: "docs/infrastructure-hardening.md", owner: "InfoSec", priority: "high", requiredForGoLive: true },
+  { category: "Code", name: "Secure Coding Checklist", purpose: "XSS protection, ORM injection pre-check", status: "missing", priority: "high", requiredForGoLive: false },
+  { category: "Auth", name: "Authentication & Authz Standard", purpose: "How users log in securely", status: "exists", path: "src/lib/auth/auth-options.ts", owner: "Identity Arch", priority: "high", requiredForGoLive: true },
+  { category: "Crypto", name: "Password / Hashing Standard", purpose: "Algorithm specifications", status: "exists", path: "src/lib/auth/password.ts", owner: "Dev Lead", priority: "high", requiredForGoLive: true },
+  { category: "Crypto", name: "Bcrypt usage note", purpose: "bcrypt rounds (12)", status: "exists", path: "src/lib/auth/password.ts", owner: "Dev Lead", priority: "high", requiredForGoLive: true },
+  { category: "Crypto", name: "Encryption Standard", purpose: "Token and Session encryption", status: "exists", path: "auth-options.ts (JWT)", owner: "InfoSec", priority: "high", requiredForGoLive: true },
+  { category: "Protocol", name: "Secrets Handling Standard", purpose: "No raw secrets in repo rules", status: "partial", path: ".gitignore", owner: "InfoSec", priority: "high", requiredForGoLive: true },
+  { category: "Auth", name: "Session Security Standard", purpose: "Secure, HttpOnly, SameSite enforcements", status: "exists", path: "src/lib/auth/auth-options.ts", owner: "InfoSec", priority: "high", requiredForGoLive: true },
+  { category: "API", name: "API Security Standard", purpose: "Global API protection limits", status: "exists", path: "src/lib/security/rate-limit.ts", owner: "Backend Lead", priority: "high", requiredForGoLive: true },
+  { category: "Privacy", name: "Data Protection Notice", purpose: "Site-facing data declaration", status: "exists", path: "src/app/[lang]/(public)/privacy/", owner: "Legal", priority: "high", requiredForGoLive: true },
+  { category: "Privacy", name: "Privacy Policy", purpose: "Formal legal user data terms", status: "exists", path: "src/app/[lang]/(public)/privacy/", owner: "Legal", priority: "high", requiredForGoLive: true },
+  { category: "Legal", name: "Terms & Conditions", purpose: "Legal terms of use", status: "exists", path: "src/app/[lang]/(public)/terms/", owner: "Legal", priority: "high", requiredForGoLive: true },
+  { category: "Auditing", name: "Access Control Matrix", purpose: "RBAC mapped definitions", status: "exists", path: "src/lib/auth/roles.ts", owner: "PM", priority: "high", requiredForGoLive: true },
+  { category: "Auditing", name: "Audit Trail / Audit Log Standard", purpose: "Logging template [SECURITY_AUDIT]", status: "exists", path: "src/lib/auth/auth-options.ts", owner: "InfoSec", priority: "high", requiredForGoLive: true },
+  { category: "InfoSec", name: "Vulnerability Register", purpose: "Identified security CVEs", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "DR", name: "Incident Response Plan", purpose: "Immediate action on breach", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Testing", name: "Security Testing Report", purpose: "Results of automated/manual audit", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Testing", name: "Penetration Testing placeholder", purpose: "Planned ethical hacking slots", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Compl", name: "NCA Alignment", purpose: "Saudi Nat. Cybersecurity Auth alignment", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Compl", name: "SAMA Alignment", purpose: "Saudi Central Bank compliance", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Compl", name: "DGA Alignment", purpose: "Digital Government Authority alignment", status: "missing", priority: "medium", requiredForGoLive: true },
+  { category: "Compl", name: "CITC / CST Alignment", purpose: "CST standards", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Compl", name: "MCI / MoC Alignment", purpose: "Commerce alignment", status: "missing", priority: "medium", requiredForGoLive: true },
+  { category: "Compl", name: "ISO 27001 Alignment", purpose: "InfoSec systems conformity", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Compl", name: "ISO 9001 Alignment", purpose: "Quality Management conformity", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Compl", name: "ISO 22301 Alignment", purpose: "Business Continuity conformity", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Compl", name: "Records retention / data policy", purpose: "CV deletion requirements", status: "missing", priority: "high", requiredForGoLive: true },
+
+  // G) QA / TESTING DOCUMENTS
+  { category: "Strategy", name: "Test Strategy", purpose: "Overall QA validation approach", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Execution", name: "Test Plan", purpose: "Details on test cycles", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Execution", name: "Test Scenarios", purpose: "Broad cases defined", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Execution", name: "Test Cases", purpose: "Strict input/output expectation", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Checklist", name: "Smoke Test Checklist", purpose: "Rapid CI functionality check", status: "exists", path: "scripts/verify-current.sh", owner: "QA", priority: "high", requiredForGoLive: true },
+  { category: "Checklist", name: "SIT Checklist", purpose: "System integration test", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Checklist", name: "UAT Checklist", purpose: "Client acceptance test", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Checklist", name: "Regression Checklist", purpose: "Guard against reverted fixes", status: "partial", path: "scripts/verify-current.sh", owner: "QA", priority: "medium", requiredForGoLive: false },
+  { category: "Checklist", name: "Security Testing Checklist", purpose: "Endpoint validation checklist", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Checklist", name: "API Testing Checklist", purpose: "Validate endpoints", status: "exists", path: "scripts/verify-current.sh", owner: "Backend", priority: "high", requiredForGoLive: true },
+  { category: "Checklist", name: "Cross-browser Checklist", purpose: "Safari, Chrome, Edge parity", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Checklist", name: "Responsive Testing Checklist", purpose: "Mobile / Desktop parity constraints", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Checklist", name: "Localization Testing Checklist", purpose: "AR / EN layout mirroring validation", status: "exists", path: "scripts/verify-current.sh", owner: "QA", priority: "high", requiredForGoLive: true },
+  { category: "Checklist", name: "Accessibility Testing Checklist", purpose: "WCAG checks", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Checklist", name: "Performance Testing Checklist", purpose: "Lighthouse score tracking", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Tracking", name: "Defect Log", purpose: "Bugs tracked during SIT/UAT", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Tracking", name: "Defect Severity Matrix", purpose: "Definitions of P1, P2, P3", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Output", name: "Final Verification Report", purpose: "Summary of testing cycle", status: "partial", path: ".verify-current.log", owner: "QA Lead", priority: "high", requiredForGoLive: true },
+  { category: "Auto", name: "verify-current documentation", purpose: "Script manifest and exit codes", status: "exists", path: "scripts/verify-current.sh", owner: "Dev Lead", priority: "high", requiredForGoLive: true },
+  { category: "Auto", name: "Known Issues List", purpose: "Accepted deferrals", status: "missing", priority: "high", requiredForGoLive: true },
+
+  // H) OPERATIONS / SUPPORT / ITSM DOCUMENTS
+  { category: "Handbook", name: "Runbook", purpose: "Standard operating procedures", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Handbook", name: "Support Handbook", purpose: "Training for L1 support", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Handbook", name: "Admin User Guide", purpose: "Using the SSK Dashboard", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Handbook", name: "CMS User Guide", purpose: "Using the content injection system", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Handbook", name: "Command Center User Guide", purpose: "Reading analytics / telemetry", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Procedure", name: "Incident Management Procedure", purpose: "Responding to site crashes", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Procedure", name: "Problem Management Procedure", purpose: "Finding root cause of reoccurring bugs", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Procedure", name: "Change Management Procedure", purpose: "Releasing new features", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Procedure", name: "Service Request Procedure", purpose: "Adding new Admins/Users", status: "missing", priority: "medium", requiredForGoLive: true },
+  { category: "Process", name: "SLA / OLA notes", purpose: "Uptime guarantees (99.9%)", status: "missing", priority: "medium", requiredForGoLive: true },
+  { category: "Handover", name: "On-call / Escalation Runbook", purpose: "SMS/Email chains for P1 crashes", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Handover", name: "Monitoring Runbook", purpose: "Dashboards / Sentry review process", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Handover", name: "Recovery Runbook", purpose: "How to spin up cold servers", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Backup Restore Procedure", purpose: "How to fetch pg_dump from provider", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Identity", name: "Production Access Procedure", purpose: "How devs access production safely", status: "missing", priority: "high", requiredForGoLive: true },
+  { category: "Identity", name: "Environment Access Matrix", purpose: "Who holds keys to Prod/Dev/Stage", status: "missing", priority: "high", requiredForGoLive: true },
+
+  // I) UI / UX / CONTENT / BRAND DOCUMENTS
+  { category: "Branding", name: "Design System", purpose: "System defining elements", status: "exists", path: "globals.css / tailwind.config", owner: "UX Lead", priority: "high", requiredForGoLive: true },
+  { category: "UX", name: "UI Kit Inventory", purpose: "Used Shadcn components", status: "exists", path: "components.json", owner: "UI Lead", priority: "medium", requiredForGoLive: true },
+  { category: "Branding", name: "Design Tokens", purpose: "Colors, scaling, radii definitions", status: "exists", path: "globals.css", owner: "UI Lead", priority: "high", requiredForGoLive: true },
+  { category: "UI", name: "Color Palette", purpose: "Primary #1CC8C8/#021C2A mappings", status: "exists", path: "tailwind.config", owner: "UI Lead", priority: "high", requiredForGoLive: true },
+  { category: "UI", name: "Typography Rules", purpose: "Outfit / IBM Plex Sans Arabic", status: "exists", path: "src/app/layout.tsx", owner: "UI Lead", priority: "high", requiredForGoLive: true },
+  { category: "UI", name: "Iconography Rules", purpose: "Lucide standards", status: "exists", path: "src/components/site/*", owner: "UI Lead", priority: "medium", requiredForGoLive: false },
+  { category: "UI", name: "Layout/Grid Rules", purpose: "1280px container constraint", status: "exists", path: "KI: visual_standards.md", owner: "UI Lead", priority: "high", requiredForGoLive: true },
+  { category: "Code", name: "Component Inventory", purpose: "Mapping of re-usable pieces", status: "exists", path: "src/components/ui/", owner: "Frontend", priority: "low", requiredForGoLive: false },
+  { category: "Content", name: "Page Inventory", purpose: "13 Public, 7 Admin", status: "exists", path: "scripts/verify-current.sh", owner: "SEO", priority: "high", requiredForGoLive: true },
+  { category: "Content", name: "Content Matrix", purpose: "Hierarchy of site text", status: "exists", path: "KI: content_governance.md", owner: "Copywriter", priority: "medium", requiredForGoLive: false },
+  { category: "Content", name: "Content Bible", purpose: "True source of all platform text", status: "exists", path: "src/lib/platformContent.ts", owner: "Copywriter", priority: "high", requiredForGoLive: true },
+  { category: "Content", name: "EN/AR copy deck", purpose: "Parity translations", status: "exists", path: "src/lib/i18n.ts", owner: "Copywriter", priority: "high", requiredForGoLive: true },
+  { category: "Strategy", name: "Terminology Guide", purpose: "Use of “Execution-Led”, “MEO”", status: "exists", path: "KI: narrative_strategy.md", owner: "Brand Lead", priority: "high", requiredForGoLive: true },
+  { category: "Strategy", name: "Tone of Voice Guide", purpose: "Executive, boardroom standards", status: "exists", path: "KI: narrative_strategy.md", owner: "Brand Lead", priority: "high", requiredForGoLive: true },
+  { category: "Brand", name: "Brand Guidelines", purpose: "SSK Marketing Manual", status: "missing", priority: "medium", requiredForGoLive: false },
+  { category: "Brand", name: "Logo usage guide", purpose: "Clearspace / Dark/Light models", status: "missing", priority: "low", requiredForGoLive: false },
+  { category: "Visuals", name: "Visual identity references", purpose: "SVGs and graphic references", status: "exists", path: "public/", owner: "Brand Lead", priority: "medium", requiredForGoLive: false },
+  { category: "Content", name: "Presentation-to-website map", purpose: "Slides transformed to text", status: "exists", path: "KI: ssk_boardroom_...", owner: "Strat Lead", priority: "medium", requiredForGoLive: false },
+  { category: "Content", name: "Infographic requirements", purpose: "Complex charts to React blocks", status: "exists", path: "Execution...Block.tsx", owner: "UX Lead", priority: "medium", requiredForGoLive: false },
+  { category: "SEO", name: "SEO content plan", purpose: "Metadata mapping", status: "exists", path: "page.tsx generateMetadata", owner: "SEO", priority: "high", requiredForGoLive: true },
+  { category: "SEO", name: "Metadata matrix", purpose: "Canonical tracking", status: "exists", path: "src/app/", owner: "SEO", priority: "high", requiredForGoLive: true },
+
+  // J) DATABASE / CODE / TECHNICAL ARTIFACTS
+  { category: "DBA", name: "Database Schema", purpose: "Overall schema structure", status: "exists", path: "src/lib/db/schema.ts", owner: "Backend", priority: "high", requiredForGoLive: true },
+  { category: "DBA", name: "Tables list", purpose: "4 core tables mapped", status: "exists", path: "src/lib/db/schema.ts", owner: "DBA", priority: "high", requiredForGoLive: true },
+  { category: "DBA", name: "Columns list", purpose: "Types, enums, FKs", status: "exists", path: "src/lib/db/schema.ts", owner: "DBA", priority: "high", requiredForGoLive: true },
+  { category: "DBA", name: "Constraints list", purpose: "Unique fields, not-null validations", status: "exists", path: "src/lib/db/schema.ts", owner: "DBA", priority: "high", requiredForGoLive: true },
+  { category: "DBA", name: "Migrations list", purpose: "Drizzle tracked up/down scripts", status: "exists", path: "drizzle/ dir", owner: "DBA", priority: "high", requiredForGoLive: true },
+  { category: "DBA", name: "Seed data documentation", purpose: "Dummy/Base data injection", status: "exists", path: "src/lib/db/seed.ts", owner: "Backend", priority: "high", requiredForGoLive: true },
+  { category: "DevOps", name: "Codebase structure map", purpose: "Where logic resides", status: "exists", path: "KI: project_structure.md", owner: "Architect", priority: "high", requiredForGoLive: true },
+  { category: "App", name: "Route inventory", purpose: "Map of Next.js pages", status: "exists", path: "scripts/verify-current.sh", owner: "Frontend", priority: "high", requiredForGoLive: true },
+  { category: "API", name: "API inventory", purpose: "Map of exposed JSON endpoints", status: "exists", path: "scripts/verify-current.sh", owner: "Backend", priority: "high", requiredForGoLive: true },
+  { category: "App", name: "Admin routes inventory", purpose: "Protected URL maps", status: "exists", path: "scripts/verify-current.sh", owner: "Frontend", priority: "high", requiredForGoLive: true },
+  { category: "App", name: "Public routes inventory", purpose: "Open URL maps", status: "exists", path: "scripts/verify-current.sh", owner: "Frontend", priority: "high", requiredForGoLive: true },
+  { category: "Net", name: "Middleware inventory", purpose: "Next.js request interceptors", status: "exists", path: "src/middleware.ts", owner: "Arch", priority: "high", requiredForGoLive: true },
+  { category: "Lib", name: "Utility modules inventory", purpose: "utils.ts, helpers", status: "exists", path: "src/lib/utils.ts", owner: "Tech Lead", priority: "low", requiredForGoLive: false },
+  { category: "Sec", name: "Authentication modules", purpose: "Auth logic", status: "exists", path: "src/lib/auth/", owner: "Backend", priority: "high", requiredForGoLive: true },
+  { category: "Sec", name: "Security modules", purpose: "Rate passing, RBAC", status: "exists", path: "src/lib/security/", owner: "Backend", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Mailer modules", purpose: "SMTP connection scripts", status: "exists", path: "src/lib/mail/transporter.ts", owner: "Backend", priority: "high", requiredForGoLive: true },
+  { category: "Ops", name: "Logging modules", purpose: "Error handling logic", status: "exists", path: "src/lib/api-errors.ts", owner: "DevOps", priority: "high", requiredForGoLive: true },
+  { category: "CI/CD", name: "Verification scripts", purpose: "QA sanity checks (verify-current)", status: "exists", path: "scripts/verify-current.sh", owner: "QA Lead", priority: "high", requiredForGoLive: true },
+  { category: "CI/CD", name: "Build scripts", purpose: "Compiler configs", status: "exists", path: "next.config.ts", owner: "DevOps", priority: "high", requiredForGoLive: true },
+  { category: "CI/CD", name: "Deployment scripts", purpose: "Dockerfiles, package commands", status: "exists", path: "package.json", owner: "DevOps", priority: "high", requiredForGoLive: true }
+];
+
+async function seed() {
+  try {
+    console.log("⏳ Injecting Documentation Governance Master List...");
+    const start = Date.now();
+    
+    // Clear old ones maybe? No, we don't have constraints issues if we run this once, but to be idempotent:
+    await db.delete(documents);
+    
+    await db.insert(documents).values(
+      seedDocuments.map(doc => ({
+        category: doc.category,
+        name: doc.name,
+        purpose: doc.purpose,
+        status: doc.status as any,
+        path: doc.path,
+        owner: doc.owner,
+        priority: doc.priority as any,
+        requiredForGoLive: doc.requiredForGoLive
+      }))
+    );
+    
+    const end = Date.now();
+    console.log(`✅ Seeded ${seedDocuments.length} documents in ${end - start}ms`);
+  } catch (error) {
+    console.error("❌ Document seed failed:", error);
+  } finally {
+    await connection.end();
+  }
+}
+
+seed();

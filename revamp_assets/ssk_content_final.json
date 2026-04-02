@@ -1,0 +1,211 @@
+{
+  "brand": {
+    "name": {
+      "en": "SSK: Sovereign Strategy & Knowledge",
+      "ar": "SSK: السيادة في الاستراتيجية والمعرفة"
+    },
+    "tagline": {
+      "primary": {
+        "en": "Execution. Controlled. Absolute.",
+        "ar": "تنفيذ. مُحكم. مطلق."
+      },
+      "secondary": {
+        "en": "From Strategy to Structured Execution.",
+        "ar": "من الاستراتيجية إلى التنفيذ المنظم."
+      }
+    },
+    "description": {
+      "short": {
+        "en": "SSK is an institutional execution authority operating inside complex environments to structure, govern, and deliver national and enterprise programs with absolute control.",
+        "ar": "SSK هي جهة تنفيذ مؤسسية تعمل ضمن البيئات المعقدة لبناء الهياكل، فرض الحوكمة، وتقديم البرامج الوطنية والمؤسسية بضبط مطلق."
+      },
+      "overview": {
+        "en": "SSK operates as an embedded execution authority, not an external advisor. We design execution architectures, enforce governance, stabilize delivery environments, and transfer operational control to internal teams through structured capability systems.",
+        "ar": "تعمل SSK كسلطة تنفيذ مدمجة، لا كمستشار خارجي. نصمم هياكل التنفيذ، نفرض الحوكمة، نُثبت بيئات التسليم، وننقل السيطرة التشغيلية للفرق الداخلية عبر أنظمة قدرات مؤسسية منظمة."
+      }
+    }
+  },
+  "pages": {
+    "home": {
+      "hero": {
+        "eyebrow": {
+          "en": "SOVEREIGN EXECUTION AUTHORITY",
+          "ar": "الجهة السيادية للتنفيذ"
+        },
+        "title": {
+          "en": "Execution. Controlled. Absolute.",
+          "ar": "تنفيذ. مُحكم. مطلق."
+        },
+        "description": {
+          "en": "SSK operates inside execution environments to structure, govern, and stabilize institutional delivery across national mandates and enterprise programs.",
+          "ar": "تعمل SSK ضمن بيئات التنفيذ لبناء الهياكل، فرض الحوكمة، وتثبيت التسليم المؤسسي عبر المبادرات الوطنية والبرامج الكبرى."
+        },
+        "ctas": [
+          {
+            "label": { "en": "Initialize Engagement", "ar": "بدء الارتباط المؤسسي" },
+            "action": "/contact"
+          },
+          {
+            "label": { "en": "Explore Capabilities", "ar": "استكشاف القدرات" },
+            "action": "/capabilities"
+          }
+        ]
+      },
+      "problem": {
+        "quote": {
+          "en": "Strategy is a vision. Execution is a reality.",
+          "ar": "الاستراتيجية رؤية. التنفيذ واقع."
+        },
+        "description": {
+          "en": "Programs fail not in strategy — but in execution translation. Where governance is unclear, ownership is fragmented, and delivery lacks systemic control.",
+          "ar": "غالباً ما تفشل البرامج ليس بسبب استراتيجيات معيبة، بل في ترجمة تلك الاستراتيجية إلى تنفيذ فعال. يحدث هذا عادةً في البيئات التي تتسم بغموض الحوكمة، وتجزئة الملكية، وافتقار عملية التسليم للتحكم المنهجي."
+        },
+        "pain_points": [
+          { "en": "Sovereign program silos", "ar": "صوامع البرامج السيادية" },
+          { "en": "Reporting latency nodes", "ar": "عقد تأخير التقارير" },
+          { "en": "Governance opacity", "ar": "غياب شفافية الحوكمة" },
+          { "en": "Fragmented ownership", "ar": "تشتت الملكية" }
+        ]
+      },
+      "positioning": {
+        "traditional": [
+          "External perspective only",
+          "Recommendations without ownership",
+          "Periodic reporting",
+          "Passive advisory"
+        ],
+        "ssk": [
+          "Embedded core model",
+          "Direct operational control",
+          "Absolute delivery accountability",
+          "Active execution authority"
+        ]
+      }
+    },
+    "protocol": {
+      "layers": [
+        {
+          "id": "01",
+          "title": { "en": "Infrastructure Stabilization", "ar": "استقرار البنية التحتية" },
+          "description": { "en": "Stabilizing foundational systems to ensure uninterrupted execution environments.", "ar": "تثبيت الأنظمة الأساسية لضمان بيئات تنفيذ مستمرة دون انقطاع." }
+        },
+        {
+          "id": "02",
+          "title": { "en": "Execution Data & AI", "ar": "بيانات التنفيذ والذكاء الاصطناعي" },
+          "description": { "en": "Transforming fragmented data into real-time execution intelligence.", "ar": "تحويل البيانات المجزأة إلى ذكاء تنفيذي لحظي." }
+        },
+        {
+          "id": "03",
+          "title": { "en": "Defensive Compliance & Cyber", "ar": "الامتثال الدفاعي والأمن السيبراني" },
+          "description": { "en": "Embedding regulatory, security, and compliance frameworks into execution layers.", "ar": "دمج الأطر التنظيمية والأمنية والامتثال ضمن طبقات التنفيذ." }
+        },
+        {
+          "id": "04",
+          "title": { "en": "Systemic Architecture", "ar": "الهندسة المعمارية المنهجية" },
+          "description": { "en": "Designing structured architectures for complex institutional ecosystems.", "ar": "تصميم هياكل منظمة للأنظمة البيئية المؤسسية المعقدة." }
+        },
+        {
+          "id": "05",
+          "title": { "en": "Performance Rhythm & Control", "ar": "إيقاع الأداء والتحكم" },
+          "description": { "en": "Establishing deterministic execution cycles and control mechanisms.", "ar": "إرساء دورات تنفيذ حتمية وآليات تحكم فعالة." }
+        },
+        {
+          "id": "06",
+          "title": { "en": "Decision Intelligence", "ar": "ذكاء القرار" },
+          "description": { "en": "Enabling leadership with real-time insights and predictive clarity.", "ar": "تمكين القيادة برؤى لحظية ووضوح تنبؤي." }
+        },
+        {
+          "id": "07",
+          "title": { "en": "Managed Execution Office (MEO)", "ar": "مكتب التنفيذ المُدار" },
+          "description": { "en": "Direct control over execution nodes and delivery streams.", "ar": "سيطرة مباشرة على نقاط التنفيذ وتدفقات التسليم." }
+        },
+        {
+          "id": "08",
+          "title": { "en": "Capability Transfer (BOT)", "ar": "نقل القدرات (BOT)" },
+          "description": { "en": "Transferring execution ownership to internal teams with full maturity.", "ar": "نقل ملكية التنفيذ للفرق الداخلية مع تحقيق النضج الكامل." }
+        }
+      ]
+    },
+    "bot_model": {
+      "build": {
+        "title": { "en": "BUILD", "ar": "البناء" },
+        "points": [
+          { "en": "Execution architecture design", "ar": "تصميم بنية التنفيذ" },
+          { "en": "Governance system deployment", "ar": "نشر نظام الحوكمة" },
+          { "en": "System integration", "ar": "تكامل الأنظمة" }
+        ]
+      },
+      "operate": {
+        "title": { "en": "OPERATE", "ar": "التشغيل" },
+        "points": [
+          { "en": "Real-time execution control", "ar": "التحكم اللحظي في التنفيذ" },
+          { "en": "Risk neutralization", "ar": "تحييد المخاطر" },
+          { "en": "Decision support", "ar": "دعم القرار" }
+        ]
+      },
+      "transfer": {
+        "title": { "en": "TRANSFER", "ar": "النقل" },
+        "points": [
+          { "en": "Knowledge migration", "ar": "ترحيل المعرفة" },
+          { "en": "Internal capability maturity", "ar": "نضج القدرات الداخلية" },
+          { "en": "Full operational handover", "ar": "التسليم التشغيلي الكامل" }
+        ]
+      }
+    },
+    "about": {
+      "content": {
+        "en": "SSK is not a consulting entity; it is an execution authority. We operate within institutions to enforce alignment between strategy, systems, and delivery. We do not advise; we build, control, and transfer execution systems.",
+        "ar": "SSK ليست جهة استشارية؛ بل هي سلطة تنفيذ. نعمل ضمن المؤسسات لفرض التوافق بين الاستراتيجية والأنظمة والتسليم. نحن لا نقدم المشورة؛ بل نبني، نتحكم، وننقل أنظمة التنفيذ."
+      }
+    },
+    "talent": {
+      "content": {
+        "en": "We recruit execution specialists — not consultants. We seek individuals capable of operating within complex environments, assuming ownership, and delivering tangible outcomes.",
+        "ar": "نستقطب متخصصي تنفيذ، لا مستشارين. نبحث عن أفراد يمتلكون القدرة على العمل ضمن بيئات معقدة، تحمل المسؤولية، وتحقيق نتائج ملموسة."
+      }
+    },
+    "contact": {
+      "content": {
+        "en": "Initialize Strategic Brief. For institutions requiring immediate execution control and structural alignment.",
+        "ar": "بدء ملخص استراتيجي. للجهات التي تتطلب سيطرة تنفيذية فورية ومواءمة هيكلية."
+      }
+    },
+    "trust": {
+      "certifications": [
+        "ISO 27001",
+        "ISO 9001",
+        "ISO 22301",
+        "NCA Compliance (Saudi)",
+        "SDAIA Alignment (Data)"
+      ],
+      "content": {
+        "en": "SSK aligns with global standards for information security, quality management, and operational continuity.",
+        "ar": "تلتزم SSK بالمعايير العالمية لأمن المعلومات، إدارة الجودة، واستمرارية العمليات."
+      }
+    }
+  },
+  "design_system": {
+    "colors": {
+      "white": "#FFFFFF",
+      "dark_navy": "#001F3F",
+      "cyan": "#00FFFF",
+      "light_gray": "#F5F5F5",
+      "dark_gray": "#333333"
+    },
+    "typography": {
+      "headlines": "Large bold, tight spacing",
+      "contrast": "High",
+      "fonts": {
+        "en": "Inter / Segoe UI",
+        "ar": "Arabic Typesetting / Droid Arabic Naskh"
+      }
+    },
+    "ui_rules": [
+      "No clutter",
+      "No gradients overload",
+      "No marketing fluff",
+      "Everything structured",
+      "Mobile-First Design"
+    ]
+  }
+}

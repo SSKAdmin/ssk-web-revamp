@@ -1,0 +1,18 @@
+
+> ssk-platform@0.1.0 dev
+> next dev --port 3007
+
+▲ Next.js 16.2.1 (Turbopack)
+- Local:         http://localhost:3007
+- Network:       http://192.168.3.123:3007
+- Environments: .env.local, .env
+✓ Ready in 179ms
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          70989
+- Dir:          /Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform
+- Log:          .next/dev/logs/next-development.log
+
+Run kill 70989 to stop it.
+[?25h

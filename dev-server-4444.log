@@ -1,0 +1,23 @@
+
+> ssk-platform@0.1.0 dev
+> next dev -p 4444
+
+▲ Next.js 16.2.1 (Turbopack)
+- Local:         http://localhost:4444
+- Network:       http://192.168.1.147:4444
+- Environments: .env.local, .env
+✓ Ready in 200ms
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          47353
+- Dir:          /Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform
+- Log:          .next/dev/logs/next-development.log
+
+Run kill 47353 to stop it.
+[?25h
+npm notice
+npm notice New minor version of npm available! 11.8.0 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
