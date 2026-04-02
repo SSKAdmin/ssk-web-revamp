@@ -6,13 +6,143 @@
 - Local:         http://localhost:3007
 - Network:       http://192.168.3.123:3007
 - Environments: .env.local, .env
-✓ Ready in 179ms
-⨯ Another next dev server is already running.
+✓ Ready in 183ms
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
 
-- Local:        http://localhost:3000
-- PID:          70989
-- Dir:          /Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform
-- Log:          .next/dev/logs/next-development.log
-
-Run kill 70989 to stop it.
+ GET /en 200 in 2.2s (next.js: 2.0s, proxy.ts: 1200µs, application-code: 196ms)
+ GET /ar 200 in 63ms (next.js: 3ms, proxy.ts: 2ms, application-code: 57ms)
+ GET /en/about 200 in 329ms (next.js: 282ms, proxy.ts: 1118µs, application-code: 45ms)
+ GET /ar/about 200 in 24ms (next.js: 2ms, proxy.ts: 1220µs, application-code: 20ms)
+ GET /en/services 200 in 407ms (next.js: 342ms, proxy.ts: 1266µs, application-code: 63ms)
+ GET /ar/services 200 in 40ms (next.js: 3ms, proxy.ts: 1135µs, application-code: 36ms)
+ GET /en/contact 200 in 605ms (next.js: 546ms, proxy.ts: 1302µs, application-code: 58ms)
+ GET /ar/contact 200 in 23ms (next.js: 2ms, proxy.ts: 1092µs, application-code: 20ms)
+ GET /en/careers 200 in 361ms (next.js: 318ms, proxy.ts: 1182µs, application-code: 42ms)
+ GET /ar/careers 200 in 22ms (next.js: 3ms, proxy.ts: 982µs, application-code: 19ms)
+ GET /en/privacy 200 in 292ms (next.js: 269ms, proxy.ts: 1058µs, application-code: 22ms)
+ GET /ar/privacy 200 in 18ms (next.js: 2ms, proxy.ts: 1433µs, application-code: 14ms)
+ GET /en/terms 200 in 286ms (next.js: 269ms, proxy.ts: 1109µs, application-code: 17ms)
+ GET /ar/terms 200 in 17ms (next.js: 2ms, proxy.ts: 896µs, application-code: 14ms)
+ GET /en/data-protection 200 in 298ms (next.js: 279ms, proxy.ts: 1017µs, application-code: 19ms)
+ GET /ar/data-protection 200 in 19ms (next.js: 2ms, proxy.ts: 979µs, application-code: 16ms)
+[API_ERROR] [JOBS_GET] {
+  message: 'Failed query: select "id", "lang", "title", "department", "location", "type", "description", "responsibilities", "requirements", "status", "created_at" from "jobs" where "jobs"."status" = $1 order by "jobs"."created_at" desc\n' +
+    'params: published',
+  stack: 'Error: Failed query: select "id", "lang", "title", "department", "location", "type", "description", "responsibilities", "requirements", "status", "created_at" from "jobs" where "jobs"."status" = $1 order by "jobs"."created_at" desc\n' +
+    'params: published\n' +
+    '    at PostgresJsPreparedQuery.queryWithCache (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_drizzle-orm_0bxbib6._.js:8642:23)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n' +
+    '    at async /Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_drizzle-orm_0bxbib6._.js:8801:26\n' +
+    '    at async GET (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/[root-of-the-server]__0rna6qz._.js:823:24)\n' +
+    '    at async AppRouteRouteModule.do (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:40732)\n' +
+    '    at async AppRouteRouteModule.handle (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:47861)\n' +
+    '    at async responseGenerator (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_next_0591ctn._.js:17676:38)\n' +
+    '    at async AppRouteRouteModule.handleResponse (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:227216)\n' +
+    '    at async handleResponse (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_next_0591ctn._.js:17739:32)\n' +
+    '    at async Module.handler (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_next_0591ctn._.js:17793:13)\n' +
+    '    at async DevServer.renderToResponseWithComponentsImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1454:9)\n' +
+    '    at async DevServer.renderPageComponent (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1506:24)\n' +
+    '    at async DevServer.renderToResponseImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1556:32)\n' +
+    '    at async DevServer.pipeImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1043:25)\n' +
+    '    at async NextNodeServer.handleCatchallRenderRequest (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/next-server.js:338:17)\n' +
+    '    at async DevServer.handleRequestImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:934:17)\n' +
+    '    at async /Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/dev/next-dev-server.js:394:20\n' +
+    '    at async Span.traceAsyncFn (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/trace/trace.js:164:20)\n' +
+    '    at async DevServer.handleRequest (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/dev/next-dev-server.js:390:24)\n' +
+    '    at async invokeRender (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/router-server.js:253:21)\n' +
+    '    at async handleRequest (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/router-server.js:452:24)\n' +
+    '    at async requestHandlerImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/router-server.js:501:13)\n' +
+    '    at async Server.requestListener (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/start-server.js:225:13)',
+  timestamp: '2026-04-02T09:42:04.389Z'
+}
+ GET /api/jobs 200 in 421ms (next.js: 393ms, application-code: 28ms)
+ GET /api/contact 405 in 187ms (next.js: 185ms, application-code: 1430µs)
+ GET /api/applications 401 in 124ms (next.js: 119ms, application-code: 5ms)
+[API_ERROR] [CMS_GET] {
+  message: 'Failed query: select "id", "page", "lang", "section_key", "title", "subtitle", "body", "sort_order", "is_published", "created_at", "updated_at" from "cms_sections" where "cms_sections"."page" = $1 order by "cms_sections"."sort_order" asc, "cms_sections"."created_at" desc\n' +
+    'params: home',
+  stack: 'Error: Failed query: select "id", "page", "lang", "section_key", "title", "subtitle", "body", "sort_order", "is_published", "created_at", "updated_at" from "cms_sections" where "cms_sections"."page" = $1 order by "cms_sections"."sort_order" asc, "cms_sections"."created_at" desc\n' +
+    'params: home\n' +
+    '    at PostgresJsPreparedQuery.queryWithCache (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_drizzle-orm_0bxbib6._.js:8642:23)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n' +
+    '    at async /Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_drizzle-orm_0bxbib6._.js:8801:26\n' +
+    '    at async GET (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/[root-of-the-server]__0ug._8f._.js:819:26)\n' +
+    '    at async AppRouteRouteModule.do (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:40732)\n' +
+    '    at async AppRouteRouteModule.handle (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:47861)\n' +
+    '    at async responseGenerator (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_next_0ovulzj._.js:17676:38)\n' +
+    '    at async AppRouteRouteModule.handleResponse (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:227216)\n' +
+    '    at async handleResponse (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_next_0ovulzj._.js:17739:32)\n' +
+    '    at async Module.handler (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_next_0ovulzj._.js:17793:13)\n' +
+    '    at async DevServer.renderToResponseWithComponentsImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1454:9)\n' +
+    '    at async DevServer.renderPageComponent (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1506:24)\n' +
+    '    at async DevServer.renderToResponseImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1556:32)\n' +
+    '    at async DevServer.pipeImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1043:25)\n' +
+    '    at async NextNodeServer.handleCatchallRenderRequest (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/next-server.js:338:17)\n' +
+    '    at async DevServer.handleRequestImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:934:17)\n' +
+    '    at async /Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/dev/next-dev-server.js:394:20\n' +
+    '    at async Span.traceAsyncFn (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/trace/trace.js:164:20)\n' +
+    '    at async DevServer.handleRequest (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/dev/next-dev-server.js:390:24)\n' +
+    '    at async invokeRender (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/router-server.js:253:21)\n' +
+    '    at async handleRequest (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/router-server.js:452:24)\n' +
+    '    at async requestHandlerImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/router-server.js:501:13)\n' +
+    '    at async Server.requestListener (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/start-server.js:225:13)',
+  timestamp: '2026-04-02T09:42:04.873Z'
+}
+ GET /api/cms 200 in 139ms (next.js: 135ms, application-code: 5ms)
+ GET /api/documents 401 in 101ms (next.js: 96ms, application-code: 5ms)
+[API_ERROR] [CONTACT_POST] {
+  message: 'Failed query: insert into "contacts" ("id", "name", "email", "phone", "organization", "message", "status", "created_at") values (default, $1, $2, default, default, $3, default, default) returning "id", "name", "email", "phone", "organization", "message", "status", "created_at"\n' +
+    'params: Test User,test@example.com,This is a release verification message.',
+  stack: 'Error: Failed query: insert into "contacts" ("id", "name", "email", "phone", "organization", "message", "status", "created_at") values (default, $1, $2, default, default, $3, default, default) returning "id", "name", "email", "phone", "organization", "message", "status", "created_at"\n' +
+    'params: Test User,test@example.com,This is a release verification message.\n' +
+    '    at PostgresJsPreparedQuery.queryWithCache (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_drizzle-orm_0bxbib6._.js:8642:23)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n' +
+    '    at async /Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_drizzle-orm_0bxbib6._.js:8801:26\n' +
+    '    at async POST (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/[root-of-the-server]__0t~5xz-._.js:728:30)\n' +
+    '    at async AppRouteRouteModule.do (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:40732)\n' +
+    '    at async AppRouteRouteModule.handle (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:47861)\n' +
+    '    at async responseGenerator (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_next_0ar42e~._.js:16452:38)\n' +
+    '    at async AppRouteRouteModule.handleResponse (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:227216)\n' +
+    '    at async handleResponse (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_next_0ar42e~._.js:16515:32)\n' +
+    '    at async Module.handler (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/.next/dev/server/chunks/node_modules_next_0ar42e~._.js:16569:13)\n' +
+    '    at async DevServer.renderToResponseWithComponentsImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1454:9)\n' +
+    '    at async DevServer.renderPageComponent (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1506:24)\n' +
+    '    at async DevServer.renderToResponseImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1556:32)\n' +
+    '    at async DevServer.pipeImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:1043:25)\n' +
+    '    at async NextNodeServer.handleCatchallRenderRequest (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/next-server.js:338:17)\n' +
+    '    at async DevServer.handleRequestImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/base-server.js:934:17)\n' +
+    '    at async /Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/dev/next-dev-server.js:394:20\n' +
+    '    at async Span.traceAsyncFn (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/trace/trace.js:164:20)\n' +
+    '    at async DevServer.handleRequest (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/dev/next-dev-server.js:390:24)\n' +
+    '    at async invokeRender (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/router-server.js:253:21)\n' +
+    '    at async handleRequest (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/router-server.js:452:24)\n' +
+    '    at async requestHandlerImpl (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/router-server.js:501:13)\n' +
+    '    at async Server.requestListener (/Users/fahadalotaibi/Desktop/SSK Website V2 Revamp /ssk-platform/node_modules/next/dist/server/lib/start-server.js:225:13)',
+  timestamp: '2026-04-02T09:42:04.995Z'
+}
+ POST /api/contact 503 in 6ms (next.js: 667µs, application-code: 6ms)
+ POST /api/applications 400 in 3ms (next.js: 605µs, application-code: 1961µs)
+ GET /en 200 in 48ms (next.js: 2ms, proxy.ts: 1009µs, application-code: 45ms)
+ GET /ar 200 in 44ms (next.js: 1437µs, proxy.ts: 922µs, application-code: 41ms)
+ GET /en 200 in 42ms (next.js: 1222µs, proxy.ts: 985µs, application-code: 40ms)
+ GET /ar 200 in 45ms (next.js: 2ms, proxy.ts: 1028µs, application-code: 42ms)
+ GET /en 200 in 51ms (next.js: 7ms, proxy.ts: 981µs, application-code: 43ms)
+ GET /en/about 200 in 27ms (next.js: 2ms, proxy.ts: 981µs, application-code: 23ms)
+ GET /en/careers 200 in 41ms (next.js: 5ms, proxy.ts: 1109µs, application-code: 35ms)
+ GET /en/contact 200 in 43ms (next.js: 3ms, proxy.ts: 1400µs, application-code: 38ms)
+ GET /en/data-protection 200 in 48ms (next.js: 4ms, proxy.ts: 2ms, application-code: 41ms)
+ GET /en/engagement 200 in 354ms (next.js: 330ms, proxy.ts: 2ms, application-code: 21ms)
+ GET /en/framework 200 in 298ms (next.js: 256ms, proxy.ts: 914µs, application-code: 41ms)
+ GET /en/privacy 200 in 17ms (next.js: 2ms, proxy.ts: 967µs, application-code: 14ms)
+ GET /en/services 200 in 47ms (next.js: 3ms, proxy.ts: 1027µs, application-code: 43ms)
+ GET /en/services 200 in 42ms (next.js: 1836µs, proxy.ts: 1075µs, application-code: 39ms)
+ GET /en/services 200 in 43ms (next.js: 1962µs, proxy.ts: 1152µs, application-code: 40ms)
+ GET /en/services 200 in 44ms (next.js: 1504µs, proxy.ts: 1357µs, application-code: 41ms)
+ GET /en/services 200 in 38ms (next.js: 2ms, proxy.ts: 884µs, application-code: 35ms)
+ GET /en/terms 200 in 19ms (next.js: 2ms, proxy.ts: 1091µs, application-code: 16ms)
 [?25h
+npm notice
+npm notice New minor version of npm available! 11.8.0 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice

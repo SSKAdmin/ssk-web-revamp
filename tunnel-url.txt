@@ -361979,3 +361979,271 @@ npm error To permanently fix this problem, please run:
 npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
 npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
 npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm notice
+npm notice New minor version of npm available! 11.8.0 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm notice
+npm notice New minor version of npm available! 11.8.0 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm notice
+npm notice New minor version of npm available! 11.8.0 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm notice
+npm notice New minor version of npm available! 11.8.0 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm notice
+npm notice New minor version of npm available! 11.8.0 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm notice
+npm notice New minor version of npm available! 11.8.0 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm notice
+npm notice New minor version of npm available! 11.8.0 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+npm error code EPERM
+npm error syscall mkdir
+npm error path /Users/fahadalotaibi/.npm/_cacache/tmp
+npm error errno EPERM
+npm error
+npm error Your cache folder contains root-owned files, due to a bug in
+npm error previous versions of npm which has since been addressed.
+npm error
+npm error To permanently fix this problem, please run:
+npm error   sudo chown -R 501:20 "/Users/fahadalotaibi/.npm"
+npm notice
+npm notice New minor version of npm available! 11.8.0 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
+npm error Log files were not written due to an error writing to the directory: /Users/fahadalotaibi/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
