@@ -22,11 +22,11 @@ import { getDictionary } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 
 const applicationSchema = z.object({
-  name: z.string().min(2, "Name is required"),
+  name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
-  phone: z.string().min(8, "Phone is required"),
-  coverLetter: z.string().min(20, "Summary must be at least 20 characters"),
-  cvUrl: z.string().min(1, "Attachment is required"),
+  phone: z.string().optional(),
+  coverLetter: z.string().optional(),
+  cvUrl: z.string().min(1, "Attachment is required").optional().or(z.literal("pending_upload")),
 });
 
 type ApplicationValues = z.infer<typeof applicationSchema>;
@@ -159,7 +159,7 @@ export function ApplicationForm({ jobId, lang }: { jobId: string, lang: string }
             {...register("name")}
             placeholder={f.placeholders.name}
             className={cn(
-              "w-full bg-ssk-surface border border-ssk-border p-5 text-sm font-medium focus:border-ssk-cyan outline-none transition-all rounded-none placeholder:text-ssk-navy/20",
+              "w-full bg-ssk-surface border border-ssk-border p-5 text-sm font-semibold text-black focus:bg-white focus:border-ssk-cyan outline-none transition-all rounded-none placeholder:text-neutral-400 placeholder:font-medium",
               errors.name && "border-destructive",
               isAr && "text-right"
             )}
@@ -176,7 +176,7 @@ export function ApplicationForm({ jobId, lang }: { jobId: string, lang: string }
             {...register("email")}
             placeholder={f.placeholders.email}
             className={cn(
-              "w-full bg-ssk-surface border border-ssk-border p-5 text-sm font-medium focus:border-ssk-cyan outline-none transition-all rounded-none placeholder:text-ssk-navy/20",
+              "w-full bg-ssk-surface border border-ssk-border p-5 text-sm font-semibold text-black focus:bg-white focus:border-ssk-cyan outline-none transition-all rounded-none placeholder:text-neutral-400 placeholder:font-medium",
               errors.email && "border-destructive",
               isAr && "text-right"
             )}
@@ -195,7 +195,7 @@ export function ApplicationForm({ jobId, lang }: { jobId: string, lang: string }
             {...register("phone")}
             placeholder={f.placeholders.phone}
             className={cn(
-              "w-full bg-ssk-surface border border-ssk-border p-5 text-sm font-medium focus:border-ssk-cyan outline-none transition-all rounded-none placeholder:text-ssk-navy/20",
+              "w-full bg-ssk-surface border border-ssk-border p-5 text-sm font-semibold text-black focus:bg-white focus:border-ssk-cyan outline-none transition-all rounded-none placeholder:text-neutral-400 placeholder:font-medium",
               errors.phone && "border-destructive",
               isAr && "text-right"
             )}
@@ -235,7 +235,7 @@ export function ApplicationForm({ jobId, lang }: { jobId: string, lang: string }
           placeholder={f.placeholders.summary}
           rows={6}
           className={cn(
-            "w-full bg-ssk-surface border border-ssk-border p-5 text-sm font-medium focus:border-ssk-cyan outline-none transition-all rounded-none placeholder:text-ssk-navy/20 resize-none",
+            "w-full bg-ssk-surface border border-ssk-border p-5 text-sm font-semibold text-black focus:bg-white focus:border-ssk-cyan outline-none transition-all rounded-none placeholder:text-neutral-400 placeholder:font-medium resize-none",
             errors.coverLetter && "border-destructive",
             isAr && "text-right"
           )}

@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local Deployment Agent Scripts & Telemetry
+*.log
+*.out
+gen-*.js
+fix-*.js
+test-*.js
+generate-*.js
+tmp_*.ts

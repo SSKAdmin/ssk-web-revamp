@@ -1,0 +1,123 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Executive Admin",
+      "mail": "admin@ssksaudi.com",
+      "role": "Super Admin",
+      "active": true
+    },
+    {
+      "id": "2",
+      "name": "Sarah Al-Rashid",
+      "mail": "s.alrashid@ssksaudi.com",
+      "role": "Manager",
+      "active": true
+    },
+    {
+      "id": "3",
+      "name": "Khalid Mansour",
+      "mail": "k.mansour@ssksaudi.com",
+      "role": "Director",
+      "active": false
+    }
+  ],
+  "services": [
+    {
+      "id": "1",
+      "name": "Enterprise Resource Planning (ERP)",
+      "active": true,
+      "desc": "Abstracted service deployment matrix for internal systems."
+    },
+    {
+      "id": "2",
+      "name": "Data & Analytics (D&A)",
+      "active": true,
+      "desc": "Data warehousing and analytics pipeline strategy."
+    },
+    {
+      "id": "3",
+      "name": "IT Service Management (ITSM)",
+      "active": false,
+      "desc": "ITIL aligned methodologies for IT execution."
+    }
+  ],
+  "cms": [
+    {
+      "id": "1",
+      "page": "Home / Hero Headline",
+      "valueEn": "Empowering Sovereign B2B Intelligence",
+      "valueAr": "تمكين ذكاء الأعمال السيادي"
+    },
+    {
+      "id": "2",
+      "page": "About / Core Narrative",
+      "valueEn": "SSK Consulting leads digital maturity transformations.",
+      "valueAr": "تقود اس اس كي تحولات النضج الرقمي."
+    }
+  ],
+  "inbox": [
+    {
+      "id": "1",
+      "from": "Ahmed Al-Faisal",
+      "comp": "SABIC",
+      "sub": "Enterprise Data Strategy Request",
+      "time": "10:42 AM",
+      "unread": true,
+      "archived": false,
+      "body": "We are evaluating frameworks to overhaul pipelines."
+    },
+    {
+      "id": "2",
+      "from": "Majid Sultan",
+      "comp": "Aramco",
+      "sub": "PMO Framework",
+      "time": "Yesterday",
+      "unread": true,
+      "archived": false,
+      "body": "Need an executive preamble meeting next week."
+    }
+  ],
+  "settings": {
+    "maintenanceMode": true,
+    "hydration": true
+  },
+  "knowledge": [
+    {
+      "id": "brd_01",
+      "folder": "Business Analysis",
+      "title": "SSK Portal BRD & Scope",
+      "author": "Fahad Meshal SSK Admin User",
+      "team": "Lead Business Analyst",
+      "date": "April 2026",
+      "content": "# Business Requirements Document (BRD)\n## Executive Summary\nThe SSK Institutional OS replaces the fragmented advisory infrastructure with a unified boardroom-ready dashboard. It consolidates CRM (contact/careers), CMS (multilingual string manipulation EN/AR), and Strategic Portfolio Management into a singular authoritative source.\n\n## Core Functions Authorized\n1. Absolute Authentication bypassing external SQL constraints via strict JWT parameters.\n2. Immediate Server-Side action execution reducing hydration latency.\n3. Dual-language architectural parity across all user-facing components.\n\n## Success Metrics\n- 0 Defect Routing across Next.js 15.\n- Sub 50ms configuration synchronization globally."
+    },
+    {
+      "id": "erd_01",
+      "folder": "Enterprise Architecture",
+      "title": "Database ERD & Technologies",
+      "author": "Fahad Meshal SSK Admin User",
+      "team": "Enterprise Architect",
+      "date": "April 2026",
+      "content": "# Entity Relationship Architecture\n\n## Technical Stack Overview\n- **Framework**: Next.js 15 (App Router, Strict Types)\n- **Database Schema**: PostgreSQL (Production) mapped to Prisma ORM. Fallback system deployed natively to JSON flat-file.\n- **Port Operations**: Core services hardbound to `localhost:3010` bypassing MacOS process isolation locks.\n- **Styling**: Pure Tailwind CSS v4 featuring #0E1522 backgrounds and #1d9cf0 organizational accents.\n\n## Primary Entities\n1. `Users` [UUID, Email, Role, JWT Hash, ActiveStatus]\n2. `Services` [String ID, DeploymentStatus, RawDescription]\n3. `CMS_Keys` [String ID, EnglishValue, ArabicValue]\n4. `Inquiries` [Sender, Payload, ReadState, ArchiveState]"
+    },
+    {
+      "id": "api_01",
+      "folder": "Engineering",
+      "title": "API Flow & Endpoints",
+      "author": "Fahad Meshal SSK Admin User",
+      "team": "Backend Engineering Lead",
+      "date": "April 2026",
+      "content": "# API Connectivity Matrix\n\nAll external traffic flows through an impenetrable middleware shield enforcing local state.\n\n## Core Services Exposed\n- `POST /api/auth/login`: Accepts Turnstile Token, cryptographically verifies against internal Bcrypt hashes. Throws 500 automatically intercepted to simulation mode if DB offline.\n- `Server Actions /lib/admin-actions.ts`: Explicit Next.js 15 function calls acting as API wrappers. Prevents external manipulation via strict scope constraints.\n\n**Implementation Steps (Code Flow):**\n1. User requests `/en/ssk-admin-portal`.\n2. Middleware detects missing explicit JWT. Returns HTTP 307.\n3. User logs in. JWT deposited securely.\n4. Client requests `getServices()`. Server action resolves local DB instantly."
+    },
+    {
+      "id": "qa_01",
+      "folder": "Quality Assurance",
+      "title": "QA Regression & CI/CD",
+      "author": "Fahad Meshal SSK Admin User",
+      "team": "DevOps & QA",
+      "date": "April 2026",
+      "content": "# CI/CD & Regression Policies\n\n## Automated Build Flow\nEvery commit merged to master triggers the following GitHub Actions pipeline:\n1. `npx tsc --noEmit`: Strict typescript adherence.\n2. `ESLint / Prettier`: Trailing commas and stylistic hygiene.\n3. `Turbopack Build`: Compiles cached artifact payloads.\n\n## QA Testing Protocol\n- Massive regression sweeps on the `DynamicTechCard` to assure 0 visible layout clipping on mobile viewpoints.\n- Testing of offline routing: Purposely shutting off PostgreSQL instances to confirm the application gracefully handles ECONNREFUSED with internal mock routing.\n- The 16-Module Admin UI validates perfectly via End-to-End Cypress integration clicking every save button."
+    }
+  ]
+}

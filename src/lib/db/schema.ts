@@ -42,6 +42,7 @@ export const users = pgTable("users", {
   passwordHash: text("password_hash").notNull(),
   role: userRoleEnum("role").notNull().default("viewer"),
   isActive: boolean("is_active").notNull().default(true),
+  twoFactorEnabled: boolean("two_factor_enabled").default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
@@ -195,4 +196,72 @@ export const websiteAnalytics = pgTable("website_analytics", {
   sessionId: varchar("session_id", { length: 100 }),
   durationSeconds: integer("duration_seconds").default(0),
   visitedAt: timestamp("visited_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+// Admin Command Center additions
+
+export const backupRecords = pgTable("backup_records", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  fileName: varchar("file_name", { length: 255 }).notNull(),
+  fileSize: varchar("file_size", { length: 50 }),
+  status: varchar("status", { length: 50 }).notNull().default("completed"),
+  url: text("url"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const serviceCategories = pgTable("service_categories", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  nameEn: varchar("name_en", { length: 255 }).notNull(),
+  nameAr: varchar("name_ar", { length: 255 }).notNull(),
+  descriptionEn: text("description_en"),
+  descriptionAr: text("description_ar"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const services = pgTable("services", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  categoryId: uuid("category_id").references(() => serviceCategories.id, { onDelete: "cascade" }),
+  titleEn: varchar("title_en", { length: 255 }).notNull(),
+  titleAr: varchar("title_ar", { length: 255 }).notNull(),
+  descriptionEn: text("description_en"),
+  descriptionAr: text("description_ar"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const solutionSectors = pgTable("solution_sectors", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  nameEn: varchar("name_en", { length: 255 }).notNull(),
+  nameAr: varchar("name_ar", { length: 255 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const solutions = pgTable("solutions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  sectorId: uuid("sector_id").references(() => solutionSectors.id, { onDelete: "cascade" }),
+  titleEn: varchar("title_en", { length: 255 }).notNull(),
+  titleAr: varchar("title_ar", { length: 255 }).notNull(),
+  contentEn: text("content_en"),
+  contentAr: text("content_ar"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const presentations = pgTable("presentations", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  authorId: uuid("author_id").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const presentationSlides = pgTable("presentation_slides", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  presentationId: uuid("presentation_id").references(() => presentations.id, { onDelete: "cascade" }),
+  order: integer("order").notNull().default(0),
+  title: varchar("title", { length: 255 }),
+  content: text("content"),
+  layout: varchar("layout", { length: 100 }).default("standard"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });

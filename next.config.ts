@@ -4,7 +4,6 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  output: "standalone",
   experimental: {
     // serverActions: true, // usually default in 15+
   },

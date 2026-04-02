@@ -11,11 +11,11 @@ import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email format"),
   phone: z.string().optional(),
   organization: z.string().optional(),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  message: z.string().optional(),
   honeypot: z.string().max(0, "Bot detected").optional(),
 });
 
@@ -56,13 +56,16 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) throw new Error("Submission failed");
+      const responseData = await response.json();
+      if (!response.ok) throw new Error(responseData.error || "Submission failed");
 
       setStatus("success");
       reset();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       setStatus("error");
+      // Optionally store error string in state if we want to show exact error,
+      // but modifying the error rendering below instead.
     }
   }
 
@@ -107,7 +110,7 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
           <Input 
             {...register("name")}
             className={cn(
-              "bg-white border-ssk-border rounded-none py-6 focus:border-ssk-cyan focus:ring-0 transition-colors h-14",
+              "bg-white border-ssk-border rounded-none py-6 focus:border-ssk-cyan focus:ring-0 transition-colors h-14 text-black font-semibold placeholder:text-neutral-400 placeholder:font-medium",
               isRtl && "text-right font-[var(--font-arabic)]",
               errors.name && "border-red-500 focus:border-red-500"
             )} 
@@ -125,7 +128,7 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
           <Input 
             {...register("email")}
             className={cn(
-              "bg-white border-ssk-border rounded-none py-6 focus:border-ssk-cyan focus:ring-0 transition-colors h-14",
+              "bg-white border-ssk-border rounded-none py-6 focus:border-ssk-cyan focus:ring-0 transition-colors h-14 text-black font-semibold placeholder:text-neutral-400 placeholder:font-medium",
               isRtl && "text-right font-[var(--font-arabic)]",
               errors.email && "border-red-500 focus:border-red-500"
             )} 
@@ -146,7 +149,7 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
           <Input 
             {...register("organization")}
             className={cn(
-              "bg-white border-ssk-border rounded-none py-6 focus:border-ssk-cyan focus:ring-0 h-14",
+              "bg-white border-ssk-border rounded-none py-6 focus:border-ssk-cyan focus:ring-0 h-14 text-black font-semibold placeholder:text-neutral-400 placeholder:font-medium",
               isRtl && "text-right font-[var(--font-arabic)]"
             )} 
             placeholder={isRtl ? "اسم الجهة" : "Organization Name"} 
@@ -162,7 +165,7 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
           <Input 
             {...register("phone")}
             className={cn(
-              "bg-white border-ssk-border rounded-none py-6 focus:border-ssk-cyan focus:ring-0 h-14",
+              "bg-white border-ssk-border rounded-none py-6 focus:border-ssk-cyan focus:ring-0 h-14 text-black font-semibold placeholder:text-neutral-400 placeholder:font-medium",
               isRtl && "text-right font-[var(--font-arabic)]"
             )} 
             placeholder="+966 5X XXX XXXX" 
@@ -180,7 +183,7 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
         <Textarea 
           {...register("message")}
           className={cn(
-            "bg-white border-ssk-border rounded-none py-6 min-h-[160px] focus:border-ssk-cyan focus:ring-0 transition-colors",
+            "bg-white border-ssk-border rounded-none py-6 min-h-[160px] focus:border-ssk-cyan focus:ring-0 transition-colors text-black font-semibold placeholder:text-neutral-400 placeholder:font-medium",
             isRtl && "text-right font-[var(--font-arabic)]",
             errors.message && "border-red-500 focus:border-red-500"
           )} 

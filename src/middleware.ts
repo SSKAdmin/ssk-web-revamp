@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { i18n } from "./lib/i18n";
 import { getToken } from "next-auth/jwt";
+import { jwtVerify } from "jose";
+
+// Ensure the JWT secret string matches the one used in `lib/security/jwt.ts`
+const ADMIN_JWT_SECRET = process.env.ADMIN_JWT_SECRET || "fallback-secret-for-development-only";
+const encodedAdminKey = new TextEncoder().encode(ADMIN_JWT_SECRET);
 
 // 1. Define Role-Based Access Control (RBAC)
 const PROTECTED_ROUTES = {
@@ -44,7 +49,40 @@ export async function middleware(request: NextRequest) {
   const locale = segments[1];
   const basePath = "/" + segments.slice(2).join("/");
 
-  // 4. Security Enforcement for Dashboard/Protected Routes
+  // 4. Custom JWT Enforcement for the newly replicated SSK Admin Portal and API Admin endpoints
+  if ((basePath.startsWith("/ssk-admin-portal") && !basePath.startsWith("/ssk-admin-portal/login")) || basePath.startsWith("/api/admin")) {
+    const sessionCookie = request.cookies.get("ssk_admin_session")?.value;
+    
+    if (!sessionCookie) {
+      if (basePath.startsWith("/api/admin")) {
+        return new NextResponse(JSON.stringify({ error: "Unauthorized access" }), { status: 401, headers: { 'content-type': 'application/json' } });
+      }
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = `/${locale}/ssk-admin-portal/login`;
+      return NextResponse.redirect(loginUrl);
+    }
+    
+    try {
+      const { payload } = await jwtVerify(sessionCookie, encodedAdminKey, {
+        algorithms: ["HS256"],
+      });
+      
+      if (payload.role !== "admin" && payload.role !== "super_admin") {
+        return new NextResponse(JSON.stringify({ error: "High-level clearance required." }), { status: 403, headers: { 'content-type': 'application/json' } });
+      }
+      
+      return NextResponse.next();
+    } catch (e) {
+       if (basePath.startsWith("/api/admin")) {
+         return new NextResponse(JSON.stringify({ error: "Session invalid or expired" }), { status: 401, headers: { 'content-type': 'application/json' } });
+       }
+       const loginUrl = request.nextUrl.clone();
+       loginUrl.pathname = `/${locale}/ssk-admin-portal/login`;
+       return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  // 5. Security Enforcement for Dashboard/Protected Routes (Legacy/NextAuth)
   const allProtectedPaths = Object.values(PROTECTED_ROUTES).flat();
   const isProtectedPath = allProtectedPaths.some(path => basePath.startsWith(path));
 

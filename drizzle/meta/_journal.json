@@ -22,6 +22,13 @@
       "when": 1775114300574,
       "tag": "0002_stale_shiva",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1775130920077,
+      "tag": "0003_living_hellfire_club",
+      "breakpoints": true
     }
   ]
 }

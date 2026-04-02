@@ -104,23 +104,37 @@ export function Navbar({ lang }: NavProps) {
           </Link>
         </div>
 
-        {/* MOBILE TOGGLE */}
-        <button 
-          className="lg:hidden text-white w-12 h-12 flex items-center justify-center border border-white/10 active:bg-white/10 transition-colors cursor-pointer relative z-[100] touch-manipulation"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle Menu"
-          type="button"
+        {/* MOBILE TOGGLE (Fully Safari/iOS Compatible) */}
+        <div 
+          role="button"
+          tabIndex={0}
+          className="lg:hidden text-white w-14 h-14 flex items-center justify-center border border-white/10 active:bg-white/10 transition-colors cursor-pointer relative z-[999]"
+          onClick={() => setIsOpen(true)}
+          onTouchStart={() => setIsOpen(true)}
+          aria-label="Open Menu"
         >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+          <Menu className="h-7 w-7 pointer-events-none" />
+        </div>
       </div>
 
       {/* MOBILE MENU */}
       {isOpen && (
         <div className={cn(
-          "lg:hidden fixed inset-0 top-[100px] h-[calc(100vh-100px)] overflow-y-auto bg-ssk-navy z-[60] p-8 flex flex-col items-start gap-8 animate-in slide-in-from-top duration-300",
+          "lg:hidden fixed inset-0 top-[100px] h-[calc(100vh-100px)] overflow-y-auto bg-ssk-navy z-[1000] p-8 flex flex-col items-start gap-8 animate-in slide-in-from-top duration-300",
           isRtl && "items-end text-right"
         )}>
+          {/* Close button placed inside the menu to avoid conflicts */}
+          <div className="absolute top-4 right-6 rtl:left-6 rtl:right-auto z-[1001]">
+             <div 
+               role="button"
+               tabIndex={0}
+               className="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-full cursor-pointer text-white"
+               onClick={() => setIsOpen(false)}
+               onTouchStart={() => setIsOpen(false)}
+             >
+                <X className="h-6 w-6 pointer-events-none" />
+             </div>
+          </div>
           {navItems.map((item) => (
             <Link
               key={item.href}

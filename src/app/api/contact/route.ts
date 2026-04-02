@@ -6,11 +6,11 @@ import { sendInstitutionalMail } from "@/lib/mail/transporter";
 import { safeApiErrorResponse, logApiError } from "@/lib/api-errors";
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email format"),
   phone: z.string().optional(),
   organization: z.string().optional(),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  message: z.string().optional(),
   honeypot: z.string().max(0, "Bot detected").optional(),
 });
 
@@ -38,6 +38,7 @@ export async function POST(request: Request) {
     }
 
     const { name, email, phone, organization, message } = result.data;
+    const finalMessage = message && message.trim() !== "" ? message : "No message provided";
 
     // 2. Database Insertion
     const [newContact] = await db
@@ -47,7 +48,7 @@ export async function POST(request: Request) {
         email,
         phone,
         organization,
-        message,
+        message: finalMessage,
       })
       .returning();
 
@@ -62,7 +63,7 @@ export async function POST(request: Request) {
         <p><strong>Phone:</strong> ${phone || "N/A"}</p>
         <p><strong>Organization:</strong> ${organization || "N/A"}</p>
         <p><strong>Message:</strong></p>
-        <blockquote style="border-left: 4px solid #0ABAB5; padding-left: 10px;">${message}</blockquote>
+        <blockquote style="border-left: 4px solid #0ABAB5; padding-left: 10px;">${finalMessage}</blockquote>
       `,
     });
 
