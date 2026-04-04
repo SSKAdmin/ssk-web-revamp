@@ -40,7 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Local Deployment Agent Scripts & Telemetry
+# Local Deployment Scripts & Telemetry
 *.log
 *.out
 gen-*.js

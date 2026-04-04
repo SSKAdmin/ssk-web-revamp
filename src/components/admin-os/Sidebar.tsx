@@ -30,6 +30,7 @@ const GROUPS = [
     items: [
       { name: "Service Portfolio", url: "/ssk-admin-portal/portfolio/services", icon: Briefcase },
       { name: "Strategic Solutions", url: "/ssk-admin-portal/portfolio/solutions", icon: Target },
+      { name: "Talent Acquisition", url: "/ssk-admin-portal/jobs", icon: Users },
     ]
   },
   {

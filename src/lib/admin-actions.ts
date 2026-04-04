@@ -78,3 +78,33 @@ export async function toggleSetting(key: string) {
 }
 // KNOWLEDGE
 export async function getKnowledge() { return readDb().knowledge || []; }
+
+// JOBS (Careers)
+export async function getJobs() { return readDb().jobs || []; }
+export async function addJob(job: any) {
+  const db = readDb();
+  if(!db.jobs) db.jobs = [];
+  db.jobs.push({ 
+     ...job, 
+     id: "SSK-JOB-" + Date.now(), 
+     active: true, 
+     createdAt: new Date().toISOString().split('T')[0] 
+  });
+  writeDb(db);
+  return { success: true };
+}
+export async function toggleJob(id: string) {
+  const db = readDb();
+  if(!db.jobs) return { success: false };
+  const j = db.jobs.find((x: any) => x.id === id);
+  if(j) j.active = !j.active;
+  writeDb(db);
+  return { success: true };
+}
+export async function deleteJob(id: string) {
+  const db = readDb();
+  if(!db.jobs) return { success: false };
+  db.jobs = db.jobs.filter((j: any) => j.id !== id);
+  writeDb(db);
+  return { success: true };
+}

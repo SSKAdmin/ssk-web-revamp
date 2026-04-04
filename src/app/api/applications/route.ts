@@ -56,12 +56,14 @@ export async function POST(request: Request) {
       })
       .returning();
 
+    const referenceId = `SSK-APP-${newApplication.id.split('-')[0].toUpperCase()}`;
+
     // 3. Email Notification to HR
     await sendInstitutionalMail({
-      to: process.env.HR_EMAIL || "hr@ssksaudi.com",
-      subject: `New Job Application: ${name}`,
+      to: process.env.HR_EMAIL || "hr@ssk.sa",
+      subject: `[${referenceId}] New Job Application: ${name}`,
       html: `
-        <h2>New Candidate Application</h2>
+        <h2>New Candidate Application: ${referenceId}</h2>
         <p><strong>Candidate:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone || "N/A"}</p>
@@ -73,12 +75,12 @@ export async function POST(request: Request) {
     // 4. Client Notification
     await sendInstitutionalMail({
       to: email,
-      subject: "SSK Careers - Application Received",
+      subject: `SSK Careers - Application Received [${referenceId}]`,
       html: `
         <div style="font-family: sans-serif; color: #0B1F3A;">
           <h2>Application Successfully Submitted</h2>
           <p>Dear ${name},</p>
-          <p>Thank you for showing interest in joining SSK. We have received your application successfully.</p>
+          <p>Thank you for showing interest in joining SSK. We have received your application successfully. Your Application ID is: <strong>${referenceId}</strong>.</p>
           <p>Our talent acquisition team will review your profile and reach out if your qualifications meet our current requirements.</p>
           <p>Best regards,<br/><strong>SSK Talent Team</strong></p>
         </div>

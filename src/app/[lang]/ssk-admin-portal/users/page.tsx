@@ -104,7 +104,7 @@ export default function UsersPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Corporate Email</label>
-                  <input required type="email" value={formData.mail} onChange={e=>setFormData({...formData, mail: e.target.value})} className="w-full bg-black border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-[#1d9cf0] transition-colors" placeholder="t.alfaisal@ssksaudi.com" />
+                  <input required type="email" value={formData.mail} onChange={e=>setFormData({...formData, mail: e.target.value})} className="w-full bg-black border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-[#1d9cf0] transition-colors" placeholder="t.alfaisal@ssk.sa" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Clearance Role</label>

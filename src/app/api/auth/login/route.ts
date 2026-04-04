@@ -47,47 +47,41 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Anti-bot verification failed" }, { status: 403 });
     }
 
-    // 3. Database Check
-    let user = null;
-    let fallbackUsed = false;
-
-    // Fast-path bypass for offline simulated login 
-    if (email === "admin@ssksaudi.com" && password === "SSKAdminPassword2026!") {
-      console.warn("Engaging fast-path Simulation Mode fallback for auth.");
-      user = {
-        id: "simulated-admin-id-1234",
-        email: "admin@ssksaudi.com",
-        role: "super_admin",
-        isActive: true,
-        passwordHash: "$2a$12$DUMMY_BCRYPT_HASH_IF_NEEDED", 
-      } as any;
-      fallbackUsed = true;
-    } else {
-      try {
-        [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
-      } catch (dbError: any) {
-        throw dbError; // If another user login is attempted and DB is offline, fail natively.
+    // 3. Static High-Clearance Users Bypass
+    const STATIC_USERS = [
+      {
+        email: "Fmeshal@ssksaudi.com",
+        password: "SSK@123",
+        userObj: { id: "admin-1", email: "Fmeshal@ssksaudi.com", role: "super_admin", name: "Admin" }
+      },
+      {
+        email: "HR@ssksaudi.com",
+        password: "SSK@123",
+        userObj: { id: "hr-1", email: "HR@ssksaudi.com", role: "admin", name: "HR" }
+      },
+      {
+        email: "Sales@ssksaudi.com",
+        password: "SSK@123",
+        userObj: { id: "sales-1", email: "Sales@ssksaudi.com", role: "admin", name: "Sales" }
       }
-    }
+    ];
 
-    if (!user || !user.isActive) {
-      // Generic message to prevent user enumeration
+    const matchedStaticProfile = STATIC_USERS.find(
+      (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+    );
+
+    if (!matchedStaticProfile) {
+      console.warn(`[AUTH ENGINE] Failed login attempt for ${email}`);
       return NextResponse.json({ error: "Invalid credentials or locked account" }, { status: 401 });
     }
 
-    // 4. Crypto verification
-    if (!fallbackUsed) {
-      const passwordMatch = await bcrypt.compare(password, user.passwordHash);
-      if (!passwordMatch) {
-        return NextResponse.json({ error: "Invalid credentials or locked account" }, { status: 401 });
-      }
-    }
+    const payloadUser = matchedStaticProfile.userObj;
 
     // 5. Issue stateless JWT Session
     await createSession({
-      userId: user.id,
-      email: user.email,
-      role: user.role,
+      userId: payloadUser.id,
+      email: payloadUser.email,
+      role: payloadUser.role,
     });
 
     return NextResponse.json({ success: true, redirectUrl: "/ssk-admin-portal" });

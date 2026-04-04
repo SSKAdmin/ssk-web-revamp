@@ -2,8 +2,9 @@ import { getDictionary } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { SectionShell } from "@/components/site/SectionShell";
 import { cn } from "@/lib/utils";
-import { ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { ClientEngagementForm } from "@/components/site/ClientEngagementForm";
 import type { Metadata } from "next";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
@@ -50,73 +51,13 @@ export default async function EngagementPage({
             {e.hero.description}
           </p>
 
-          <form className="space-y-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              <div className="space-y-3">
-                <label className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-navy">
-                  {e.form.labels.org_name}
-                </label>
-                <input 
-                  type="text" 
-                  placeholder={e.form.placeholders.org_name}
-                  className="w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan outline-none transition-colors"
-                />
-              </div>
-              <div className="space-y-3">
-                <label className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-navy">
-                  {e.form.labels.contact_person}
-                </label>
-                <input 
-                  type="text" 
-                  placeholder={e.form.placeholders.contact_person}
-                  className="w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan outline-none transition-colors"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              <div className="space-y-3">
-                <label className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-navy">
-                  {e.form.labels.initiative_type}
-                </label>
-                <select className="w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan outline-none transition-colors appearance-none">
-                  <option>{e.form.options.transformation}</option>
-                  <option>{e.form.options.national}</option>
-                  <option>{e.form.options.infrastructure}</option>
-                  <option>{e.form.options.other}</option>
-                </select>
-              </div>
-              <div className="space-y-3">
-                <label className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-navy">
-                  {e.form.labels.timeline}
-                </label>
-                <input 
-                  type="text" 
-                  placeholder={e.form.placeholders.timeline}
-                  className="w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan outline-none transition-colors"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-navy">
-                {e.form.labels.requirement_description}
-              </label>
-              <textarea 
-                rows={5}
-                placeholder={e.form.placeholders.description}
-                className="w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan outline-none transition-colors resize-none"
-              ></textarea>
-            </div>
-
-            <button 
-              type="submit"
-              className="inline-flex min-h-[72px] items-center justify-center bg-ssk-navy px-16 text-[14px] font-bold uppercase tracking-[0.3em] text-ssk-cyan shadow-ssk-glow transition-all hover:bg-ssk-cyan hover:text-ssk-navy hover:scale-105 active:scale-95 group gap-4"
-            >
-              {e.form.submit}
-              <Send className={cn("h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform", isAr && "rotate-180")} />
-            </button>
-          </form>
+          <ClientEngagementForm 
+            lang={lang}
+            labels={e.form.labels}
+            placeholders={e.form.placeholders}
+            options={e.form.options}
+            submitText={e.form.submit}
+          />
         </div>
       </SectionShell>
     </div>

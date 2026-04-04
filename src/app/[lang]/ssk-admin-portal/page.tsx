@@ -40,7 +40,7 @@ export default function AdminPortalOverview() {
              {[1, 2, 3, 4, 5].map((i) => (
                <div key={i} className="grid grid-cols-4 text-sm py-3 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors cursor-default">
                  <span className="text-slate-300">LOGIN_SUCCESS</span>
-                 <span className="text-[#1d9cf0]">admin@ssksaudi.com</span>
+                 <span className="text-[#1d9cf0]">admin@ssk.sa</span>
                  <span className="text-slate-500">127.0.0.1</span>
                  <span className="text-slate-500 font-mono">Just now</span>
                </div>

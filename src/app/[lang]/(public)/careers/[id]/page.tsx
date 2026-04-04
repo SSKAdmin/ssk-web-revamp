@@ -1,4 +1,4 @@
-import { Section } from "@/components/site/Section";
+import { SectionShell } from "@/components/site/SectionShell";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -10,9 +10,11 @@ import {
   ArrowRight,
   ShieldCheck,
   Building2,
-  Workflow
+  Workflow,
+  Cpu
 } from "lucide-react";
 import { getJobById } from "@/lib/db/queries";
+import { cn } from "@/lib/utils";
 
 interface ApplyPageProps {
   params: Promise<{ id: string; lang: string }>;
@@ -27,121 +29,175 @@ export async function generateMetadata({ params }: ApplyPageProps) {
   
   return {
     title: `${job.title} | SSK ${isAr ? "للتوظيف" : "Careers"}`,
-    description: job.description || (isAr ? `فرصة عمل: ${job.title} في قطاع ${job.department}` : `Career Opportunity: ${job.title} in ${job.department}`),
+    description: job.description,
   };
 }
 
-export default async function ApplyPage({ params }: ApplyPageProps) {
-  const { id } = await params;
+export default async function JobDetailsPage({ params }: ApplyPageProps) {
+  const { id, lang } = await params;
   const job = await getJobById(id);
+  const isAr = lang === "ar";
 
   if (!job || job.status !== "published") {
     notFound();
   }
 
+  const title = job.title;
+  const description = job.description;
+  
+  // Normalize arrays if they exist, else empty array
+  const responsibilities = job.responsibilities || [];
+  const requirements = job.requirements || [];
+
   return (
-    <main className="min-h-screen pt-24 md:pt-32">
-      {/* 1. HERO — DARK */}
-      <Section className="bg-foreground text-background py-32 md:py-48 rounded-b-[3rem] shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-accent/5 -skew-x-12 translate-x-1/4"></div>
-        <div className="max-w-4xl relative z-10">
-          <Link href="/careers" className="text-[10px] font-black uppercase tracking-[0.5em] text-accent mb-12 flex items-center hover:translate-x-[-10px] transition-transform">
-            <ArrowLeft className="h-3 w-3 mr-4" /> Return to Talent Pool
+    <main className="min-h-screen bg-white">
+      {/* 1. HERO — INSTITUTIONAL NAVY */}
+      <section className="bg-ssk-navy pt-40 pb-24 border-b border-white border-b-4">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+          <Link href={`/${lang}/careers`} className="inline-flex text-[11px] font-bold uppercase tracking-[0.3em] text-ssk-cyan mb-10 hover:text-white transition-colors items-center">
+            <ArrowLeft className={cn("h-4 w-4 mr-3", isAr && "rotate-180 mr-0 ml-3")} /> 
+            {isAr ? "العودة لقائمة الشواغر" : "Return to Deployments Index"}
           </Link>
-          <h1 className="text-5xl md:text-7xl font-black tracking-[-0.04em] leading-[0.9] mb-12 uppercase">
-            {job.title}
+          
+          <h1 className={cn(
+             "text-[40px] md:text-[64px] font-bold text-white tracking-[-0.02em] leading-[1.1] mb-10 max-w-[900px]",
+             isAr ? "font-[var(--font-arabic)] tracking-normal" : "font-[var(--font-display)]"
+          )}>
+            {title}
           </h1>
-          <div className="flex flex-wrap gap-8">
-             <div className="flex items-center text-[10px] font-black uppercase tracking-widest bg-white/5 border border-white/10 px-6 py-3">
-                <MapPin className="h-3 w-3 mr-3 text-accent" /> {job.location}
+          
+          <div className="flex flex-wrap gap-4">
+             <div className="flex items-center text-[11px] font-bold uppercase tracking-[0.2em] bg-white/5 border border-white/10 px-5 py-3 text-white">
+                <MapPin className="h-4 w-4 mr-3 rtl:mr-0 rtl:ml-3 text-ssk-cyan" /> {job.location}
              </div>
-             <div className="flex items-center text-[10px] font-black uppercase tracking-widest bg-white/5 border border-white/10 px-6 py-3">
-                <Workflow className="h-3 w-3 mr-3 text-accent" /> {job.type}
+             <div className="flex items-center text-[11px] font-bold uppercase tracking-[0.2em] bg-white/5 border border-white/10 px-5 py-3 text-white">
+                <Workflow className="h-4 w-4 mr-3 rtl:mr-0 rtl:ml-3 text-ssk-cyan" /> {job.type}
              </div>
-             <div className="flex items-center text-[10px] font-black uppercase tracking-widest bg-white/5 border border-white/10 px-6 py-3">
-                <Building2 className="h-3 w-3 mr-3 text-accent" /> {job.department}
+             <div className="flex items-center text-[11px] font-bold uppercase tracking-[0.2em] bg-white/5 border border-white/10 px-5 py-3 text-white">
+                <Building2 className="h-4 w-4 mr-3 rtl:mr-0 rtl:ml-3 text-ssk-cyan" /> {job.department}
              </div>
           </div>
         </div>
-      </Section>
+      </section>
 
-      {/* 2. DESCRIPTION — LIGHT */}
-      <Section className="bg-background py-40">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-24">
+      {/* 2. DESCRIPTION — CLINICAL GRID */}
+      <section className="py-24">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+          
           {/* MAIN CONTENT */}
           <div className="lg:col-span-8 space-y-20">
+             
+             {/* CONTEXT */}
              <div>
-                <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-accent mb-10">Operational Context</h2>
-                <p className="text-xl text-muted-foreground font-medium leading-relaxed">
-                  {job.description}
+                <h2 className={cn(
+                  "text-[12px] font-bold uppercase tracking-[0.3em] text-ssk-cyan mb-6 flex items-center",
+                  isAr && "tracking-normal text-[14px]"
+                )}>
+                  <Briefcase className="w-4 h-4 mr-3 rtl:mr-0 rtl:ml-3" />
+                  {isAr ? "الإطار التشغيلي (السياق)" : "Operational Context"}
+                </h2>
+                <div className="w-12 h-1 bg-ssk-navy mb-8"></div>
+                <p className="text-[18px] text-ssk-navy/80 font-medium leading-relaxed">
+                  {description}
                 </p>
              </div>
 
              {/* RESPONSIBILITIES */}
-             <div>
-                <h3 className="text-3xl font-black uppercase tracking-tight mb-12">Clinical Responsibilities.</h3>
-                <ul className="space-y-6">
-                   {((job.responsibilities as unknown as string[]) || []).map((resp: string, i: number) => (
-                     <li key={i} className="flex items-start space-x-6 p-8 border border-border/50 bg-muted/5 group hover:bg-foreground hover:text-background transition-all">
-                        <span className="text-[10px] font-black text-accent group-hover:text-accent group-hover:scale-125 transition-all">0{i+1}</span>
-                        <p className="text-sm font-bold leading-relaxed">{resp}</p>
-                     </li>
-                   ))}
-                </ul>
-             </div>
+             {(responsibilities as string[]).length > 0 && (
+               <div>
+                  <h3 className={cn(
+                    "text-[28px] font-bold text-ssk-navy mb-8 tracking-tight",
+                    isAr && "font-[var(--font-arabic)] tracking-normal text-[32px]"
+                  )}>
+                    {isAr ? "نطاق المسؤوليات الاستراتيجي" : "Strategic Responsibilities"}
+                  </h3>
+                  <div className="w-12 h-1 bg-ssk-cyan mb-8"></div>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     {(responsibilities as string[]).map((resp: string, i: number) => (
+                       <li key={i} className="flex flex-col p-6 border-l-2 border-ssk-border bg-[#f7f9fb] group hover:border-ssk-cyan transition-all rtl:border-l-0 rtl:border-r-2">
+                          <span className="text-[20px] font-bold text-ssk-navy/20 mb-3 group-hover:text-ssk-cyan transition-colors">0{i+1}</span>
+                          <p className="text-[15px] font-medium text-ssk-navy leading-relaxed">{resp}</p>
+                       </li>
+                     ))}
+                  </ul>
+               </div>
+             )}
 
              {/* REQUIREMENTS */}
-             <div>
-                <h3 className="text-3xl font-black uppercase tracking-tight mb-12">Execution Standards.</h3>
-                <ul className="space-y-6">
-                   {((job.requirements as unknown as string[]) || []).map((req: string, i: number) => (
-                     <li key={i} className="flex items-center space-x-6">
-                        <div className="h-2 w-2 bg-accent"></div>
-                        <p className="text-sm font-bold uppercase tracking-widest opacity-60">{req}</p>
-                     </li>
-                   ))}
-                </ul>
-             </div>
+             {(requirements as string[]).length > 0 && (
+               <div>
+                  <h3 className={cn(
+                    "text-[28px] font-bold text-ssk-navy mb-8 tracking-tight",
+                    isAr && "font-[var(--font-arabic)] tracking-normal text-[32px]"
+                  )}>
+                    {isAr ? "معايير الكفاءة والقبول" : "Execution Credentials"}
+                  </h3>
+                  <div className="w-12 h-1 bg-ssk-cyan mb-8"></div>
+                  <ul className="space-y-4">
+                     {(requirements as string[]).map((req: string, i: number) => (
+                       <li key={i} className="flex items-start bg-white border border-ssk-border p-5 group hover:border-ssk-cyan transition-colors">
+                          <div className="mt-1 flex-shrink-0 h-5 w-5 rounded-full bg-ssk-navy/5 flex items-center justify-center mr-4 rtl:mr-0 rtl:ml-4 group-hover:bg-ssk-cyan/10 transition-colors">
+                             <CheckCircle2 className="h-3 w-3 text-ssk-navy group-hover:text-ssk-cyan transition-colors" />
+                          </div>
+                          <p className="text-[16px] font-medium text-ssk-navy/80">{req}</p>
+                       </li>
+                     ))}
+                  </ul>
+               </div>
+             )}
           </div>
 
           {/* SIDEBAR: ACTION */}
-          <div className="lg:col-span-4 lg:sticky lg:top-40 h-fit">
-             <div className="p-12 border border-border/50 bg-background shadow-2xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-8 opacity-[0.02]">
-                   <Briefcase className="h-32 w-32" />
+          <div className="lg:col-span-4">
+             <div className="sticky top-40 bg-[#f7f9fb] border-2 border-ssk-border p-10 hover:border-ssk-cyan/50 transition-colors">
+                <div className="flex items-center justify-between mb-8">
+                   <h4 className={cn(
+                     "text-[14px] font-bold uppercase tracking-[0.2em] text-ssk-navy",
+                     isAr && "tracking-normal text-[16px]"
+                   )}>
+                     {isAr ? "بوابة التقديم" : "Application Gateway"}
+                   </h4>
+                   <Cpu className="text-ssk-cyan w-6 h-6" />
                 </div>
-                <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground mb-8">Deployment Initialization</h4>
-                <p className="text-sm text-muted-foreground font-medium mb-12 leading-relaxed">
-                   Initialization of this role requires a clinical verification of your execution history. Ensure all documentation is executive-ready.
+                
+                <p className="text-[15px] text-ssk-text-soft font-medium mb-10 leading-relaxed">
+                   {isAr 
+                     ? "يتطلب تفعيل هذا الدور التحقق الدقيق من خبراتك وسجلك المهني. تأكد من أن ملفاتك متوافقة مع المعايير المؤسسية."
+                     : "Initialization of this role requires strict clinical verification of your execution history. Ensure documentation is executive-ready."}
                 </p>
-                <div className="space-y-4">
-                   <Link href={`/careers/${job.id}/apply`} className="w-full">
-                      <Button className="w-full bg-accent text-white font-black uppercase tracking-widest text-[10px] py-8 h-auto rounded-none hover:scale-[1.02] transition-all border-none">
-                         INITIALIZE APPLICATION <ArrowRight className="ml-3 h-4 w-4" />
+                
+                <div className="space-y-6">
+                   <Link href={`/${lang}/careers/${job.id}/apply`} className="block w-full">
+                      <Button className="w-full min-h-[64px] bg-ssk-navy text-ssk-cyan font-bold uppercase tracking-[0.2em] text-[12px] h-auto rounded-none hover:bg-ssk-cyan hover:text-ssk-navy transition-all border-none">
+                         {isAr ? "بدء عملية الترشيح" : "INITIALIZE DEPLOYMENT"} <ArrowRight className={cn("ml-3 h-4 w-4", isAr && "rotate-180 mr-3 ml-0")} />
                       </Button>
                    </Link>
-                   <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground text-center opacity-40">
-                      <ShieldCheck className="h-3 w-3 mr-2 inline" /> Secured Protocol Deployment
-                   </p>
+                   
+                   <div className="flex items-center justify-center text-[10px] font-bold uppercase tracking-[0.2em] text-ssk-navy/40">
+                      <ShieldCheck className="h-4 w-4 mr-2 rtl:mr-0 rtl:ml-2 text-ssk-cyan" /> 
+                      {isAr ? "نظام مشفر ومؤمن بالكامل" : "Secured Processing"}
+                   </div>
                 </div>
              </div>
           </div>
-        </div>
-      </Section>
 
-      {/* 3. FINAL CTA — DARK */}
-      <Section className="bg-foreground text-background py-48 text-center rounded-t-[3rem] shadow-2xl relative overflow-hidden">
-        <div className="max-w-4xl mx-auto relative z-10">
-          <h2 className="text-4xl md:text-7xl font-black tracking-tight mb-16 uppercase">
-            Ready for <br /> Deployment?
-          </h2>
-          <Link href={`/careers/${job.id}/apply`}>
-             <Button className="bg-accent text-white hover:bg-accent/90 font-black uppercase tracking-widest text-xs px-20 py-10 h-auto rounded-none border-none shadow-2xl">
-               Apply Now
-             </Button>
-          </Link>
         </div>
-      </Section>
+      </section>
+
+      {/* 3. FINAL CTA MAP */}
+      <section className="bg-ssk-surface py-20 border-t border-ssk-border text-center">
+        <h2 className={cn(
+          "text-[32px] font-bold text-ssk-navy mb-8",
+          isAr ? "font-[var(--font-arabic)]" : "font-[var(--font-display)]"
+        )}>
+          {isAr ? "هل أنت جاهز للمهمة الاستراتيجية؟" : "Ready to Drive Execution?"}
+        </h2>
+        <Link href={`/${lang}/careers/${job.id}/apply`}>
+           <Button className="bg-ssk-cyan text-ssk-navy hover:bg-ssk-navy hover:text-white font-bold uppercase tracking-[0.2em] text-[12px] px-16 py-8 h-auto rounded-none transition-colors border-none shadow-ssk-glow">
+             {isAr ? "المضي قدماً والتسجيل" : "Proceed to Application"}
+           </Button>
+        </Link>
+      </section>
     </main>
   );
 }

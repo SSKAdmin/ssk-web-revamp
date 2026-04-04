@@ -119,5 +119,19 @@
       "date": "April 2026",
       "content": "# CI/CD & Regression Policies\n\n## Automated Build Flow\nEvery commit merged to master triggers the following GitHub Actions pipeline:\n1. `npx tsc --noEmit`: Strict typescript adherence.\n2. `ESLint / Prettier`: Trailing commas and stylistic hygiene.\n3. `Turbopack Build`: Compiles cached artifact payloads.\n\n## QA Testing Protocol\n- Massive regression sweeps on the `DynamicTechCard` to assure 0 visible layout clipping on mobile viewpoints.\n- Testing of offline routing: Purposely shutting off PostgreSQL instances to confirm the application gracefully handles ECONNREFUSED with internal mock routing.\n- The 16-Module Admin UI validates perfectly via End-to-End Cypress integration clicking every save button."
     }
+  ],
+  "jobs": [
+    {
+      "titleEn": "Test",
+      "titleAr": "Test",
+      "department": "Test",
+      "location": "Riyadh, KSA",
+      "type": "Full-time",
+      "descriptionEn": "Test",
+      "descriptionAr": "اختبار",
+      "id": "SSK-JOB-1775225770028",
+      "active": true,
+      "createdAt": "2026-04-03"
+    }
   ]
 }

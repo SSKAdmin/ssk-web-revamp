@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 import { ClientGrid } from "@/components/site/ClientGrid";
 import { techSolutions } from "@/content/techSolutions";
-import { InstitutionalServiceCard } from "@/components/site/InstitutionalServiceCard";
 import { DynamicTechCard } from "@/components/site/DynamicTechCard";
 import { IsoCredentials } from "@/components/site/IsoCredentials";
 import { ExecutionComparisonBlock } from "@/components/site/ExecutionComparisonBlock";
@@ -129,96 +128,66 @@ export default async function HomePage({
           </div>
       </SectionShell>
 
-      {/* SECTION D: CAPABILITIES PREVIEW (4 CARDS) */}
+      {/* SECTION D: CAPABILITIES PREVIEW (EXECUTIVE GRID) */}
       <SectionShell className="bg-[#f7f9fb] py-40">
-        <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12">
+        <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12 max-w-[1280px] mx-auto px-6 lg:px-10">
           <div className="max-w-[700px]">
             <p className="mb-6 text-[13px] font-bold uppercase tracking-[0.3em] text-ssk-cyan">
                {dict.services_page.hero.eyebrow}
              </p>
               <h2 className={cn(
-                 "font-[var(--font-display)] text-[36px] md:text-[48px] font-bold text-ssk-navy lg:text-[84px] leading-[1] tracking-[-0.04em]",
+                 "font-[var(--font-display)] text-[36px] md:text-[48px] font-bold text-ssk-navy lg:text-[72px] leading-[1] tracking-[-0.04em]",
                  isAr && "font-[var(--font-arabic)] tracking-normal"
               )}>
-                {isAr ? "خدماتنا المتميزة" : "Our Core Services"}
+                {isAr ? "الركائز الاستراتيجية للتنفيذ" : "Core Execution Pillars"}
               </h2>
           </div>
           <Link 
             href={`/${lang}/services`}
-            className="group flex items-center gap-4 text-[14px] font-bold uppercase tracking-[0.3em] text-ssk-navy border-b-2 border-ssk-cyan pb-2"
+            className="group flex items-center gap-4 text-[13px] font-bold uppercase tracking-[0.3em] text-ssk-navy border-b-2 border-ssk-cyan pb-2 transition-colors hover:text-ssk-cyan"
           >
-             {isAr ? "عرض كافة الخدمات" : "View All Services"}
-             <ArrowRight className={cn("h-4 w-4 group-hover:translate-x-2 transition-transform", isAr && "rotate-180 group-hover:-translate-x-2")} />
+             {isAr ? "استكشاف تفاصيل المعمارية" : "Explore Architecture"}
+             <ArrowRight className={cn("h-4 w-4 transform transition-transform group-hover:translate-x-2", isAr && "rotate-180 group-hover:-translate-x-2")} />
           </Link>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.slice(0, 4).map((svc: any, i) => (
-            <div 
-              key={svc.id} 
-              className="relative w-full h-[250px] lg:h-[280px] group/card cursor-pointer"
-            >
-              
-              {/* MOBILE DIRECT LINK COVER */}
-              <Link href={`/${lang}/services#${svc.id}`} className="lg:hidden absolute inset-0 z-[60] touch-manipulation block" />
+        {/* HAIRLINE EXECUTIVE GRID: NO SHADOWS, NO POPUPS, PURE INFORMATION */}
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-ssk-border/60 border border-ssk-border/60">
+             {services.slice(0, 4).map((svc: any, i) => (
+               <Link 
+                 key={svc.id} 
+                 href={`/${lang}/services#${svc.id}`} 
+                 className="bg-white p-10 lg:p-16 hover:bg-ssk-surface/50 transition-colors group flex flex-col relative h-full items-start"
+               >
+                 
+                 <div className="mb-10 w-16 h-16 border border-ssk-border/50 bg-[#f7f9fb] flex items-center justify-center text-ssk-cyan shadow-sm group-hover:border-ssk-cyan/50 group-hover:bg-ssk-cyan/5 transition-all">
+                    <div className="scale-110">{serviceIcons[i]}</div>
+                 </div>
 
-              {/* RESTING STATE */}
-              <div className="absolute inset-0 bg-white border border-ssk-border rounded-xl p-6 flex flex-col items-center justify-center text-center shadow-sm transition-all duration-300">
-                <div className="w-16 h-16 mb-6 bg-ssk-surface border border-ssk-border flex items-center justify-center rounded-full text-ssk-cyan">
-                  <div className="text-ssk-cyan scale-125">{serviceIcons[i]}</div>
-                </div>
-                <h5 className={cn(
-                  "text-[20px] font-bold text-ssk-navy mb-2 leading-tight tracking-tight",
-                  isAr && "font-[var(--font-arabic)] text-[22px] tracking-normal"
-                )}>
-                  {isAr ? svc.title.ar : svc.title.en}
-                </h5>
-                <div className="text-[10px] text-ssk-text-soft font-bold uppercase tracking-[0.2em] opacity-60 mt-2">
-                  {isAr ? "انقر للمزيد بقوة" : "Tap for More"}
-                </div>
-              </div>
-
-              {/* EXPANDED POP-UP OVERLAY (Hidden on Mobile, Hover on Desktop) */}
-              <div className={cn(
-                "hidden lg:flex absolute -left-4 -right-4 lg:-left-12 lg:-right-12 -top-10 h-max min-h-[450px] bg-ssk-navy rounded-[2rem] shadow-[0_80px_150px_-20px_rgba(2,28,42,0.9)] border border-ssk-cyan/40 z-[100] p-8 lg:p-12 flex-col opacity-0 pointer-events-none scale-[0.9] origin-top group-hover/card:opacity-100 group-hover/card:pointer-events-auto group-hover/card:scale-100 transition-all duration-[500ms] ease-[cubic-bezier(0.23,1,0.32,1)]",
-                isAr && "text-right"
-              )}>
-                
-                {/* Popup Header */}
-                <div className="flex items-start justify-between border-b border-white/10 pb-6 mb-8 shrink-0">
-                  <div>
-                    <h5 className={cn(
-                      "text-[32px] lg:text-[40px] font-bold text-white mb-2 leading-none",
-                      isAr && "font-[var(--font-arabic)] tracking-normal"
-                    )}>
+                 <div className="flex-grow flex flex-col h-full w-full">
+                   <h5 className={cn(
+                     "text-[24px] lg:text-[28px] font-bold text-ssk-navy mb-4 leading-tight group-hover:text-ssk-cyan transition-colors",
+                     isAr && "font-[var(--font-arabic)] tracking-normal"
+                   )}>
                       {isAr ? svc.title.ar : svc.title.en}
-                    </h5>
-                    <div className="text-[12px] text-ssk-cyan font-bold uppercase tracking-[0.2em]">
-                      {isAr ? "نطاق الخدمات والتنفيذ" : "Service Scope"}
-                    </div>
-                  </div>
-                  <div className="w-16 h-16 bg-ssk-cyan/10 flex items-center justify-center rounded-2xl border border-ssk-cyan/30 shrink-0 transform rotate-3">
-                    <div className="text-ssk-cyan scale-110">{serviceIcons[i]}</div>
-                  </div>
-                </div>
-                
-                {/* Unconstrained Details (No Scrollbars) */}
-                <div className="flex flex-col gap-8 grow">
-                  <p className={cn(
-                    "text-[16px] lg:text-[18px] leading-[1.8] text-white/90 font-medium bg-white/5 p-6 lg:p-8 rounded-2xl border border-white/5 shadow-inner",
-                    isAr && "font-[var(--font-arabic)] leading-[1.9]"
-                  )}>
-                    {isAr ? svc.subtitle.ar : svc.subtitle.en}
-                  </p>
-                  
-                  <Link href={`/${lang}/services#${svc.id}`} className="mt-8 flex items-center justify-center w-full bg-ssk-cyan/10 hover:bg-ssk-cyan text-ssk-cyan hover:text-ssk-navy transition-colors py-5 rounded-xl border border-ssk-cyan/30 font-bold uppercase tracking-[0.2em] text-[12px] shadow-[0_0_30px_rgba(10,186,181,0.1)_inset]">
-                    {isAr ? "الاطلاع على التفاصيل الكاملة للإجراءات ←" : "Explore Full Execution Details ↗"}
-                  </Link>
-                </div>
+                   </h5>
+                   
+                   <p className={cn(
+                      "text-[16px] lg:text-[18px] leading-[1.8] text-ssk-text-soft font-medium mb-10 max-w-[95%] grow",
+                      isAr && "text-[17px] leading-[1.9]"
+                   )}>
+                      {isAr ? svc.intro.ar : svc.intro.en}
+                   </p>
 
-              </div>
-            </div>
-          ))}
+                   <div className="flex items-center text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-navy mt-auto group-hover:text-ssk-cyan transition-colors">
+                      <span className="shrink-0">{isAr ? "التفاصيل التنفيذية" : "Execution Details"}</span>
+                      <ArrowRight className={cn("w-4 h-4 shrink-0 transition-transform", isAr ? "mr-3 rotate-180 group-hover:-translate-x-2" : "ml-3 group-hover:translate-x-2")} />
+                   </div>
+                 </div>
+               </Link>
+             ))}
+           </div>
         </div>
       </SectionShell>
 

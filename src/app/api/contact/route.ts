@@ -52,12 +52,14 @@ export async function POST(request: Request) {
       })
       .returning();
 
+    const referenceId = `SSK-REQ-${newContact.id.split('-')[0].toUpperCase()}`;
+
     // 3. Email Notification to Support Desk
     await sendInstitutionalMail({
-      to: process.env.SUPPORT_EMAIL || "info@ssksaudi.com",
-      subject: `New Corporate Engagement: ${organization || name}`,
+      to: process.env.SUPPORT_EMAIL || "info@ssk.sa",
+      subject: `[${referenceId}] New Corporate Engagement: ${organization || name}`,
       html: `
-        <h2>New Contact Request</h2>
+        <h2>New Contact Request: ${referenceId}</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone || "N/A"}</p>
@@ -70,12 +72,13 @@ export async function POST(request: Request) {
     // 4. Auto-Responder to Client
     await sendInstitutionalMail({
       to: email,
-      subject: "SSK - We Received Your Request",
+      subject: `SSK Engagement Request Received - [${referenceId}]`,
       html: `
         <div style="font-family: sans-serif; color: #0B1F3A;">
-          <h2>Thank you for contacting SSK</h2>
+          <h2>Request Successfully Submitted</h2>
           <p>Dear ${name},</p>
-          <p>We have successfully received your engagement request. Our executive team will review your inquiry and contact you shortly.</p>
+          <p>We have successfully received your engagement request. Your reference ID is: <strong>${referenceId}</strong>.</p>
+          <p>Our executive team will review your inquiry and contact you shortly.</p>
           <p>Best regards,<br/><strong>SSK: Sovereign Strategy & Knowledge</strong></p>
         </div>
       `,

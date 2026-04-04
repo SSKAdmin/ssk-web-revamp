@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BrandText } from "@/components/site/BrandText";
-import { InstitutionalServiceCard } from "@/components/site/InstitutionalServiceCard";
 import { DynamicTechCard } from "@/components/site/DynamicTechCard";
 import { DemandDeliveryComparison } from "@/components/site/DemandDeliveryComparison";
+import { BOTFlow } from "@/components/site/BOTFlow";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -53,125 +53,236 @@ export default async function ServicesPage({
         </div>
       </section>
 
-      {/* IT DEMAND & DELIVERY (PMO vs SMO Lifecycle) */}
-      <DemandDeliveryComparison lang={lang as "en" | "ar"} />
+      {/* NEW: ENTERPRISE ARCHITECTURE (EA) OFFICES (E2E) */}
+      <section className="bg-white py-32 border-b border-ssk-border relative overflow-hidden">
+        {/* Subtle Background Mark */}
+        <div className="absolute -right-20 -top-20 opacity-[0.03] pointer-events-none select-none">
+           <svg width="400" height="400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4"/><polyline points="14 2 14 8 20 8"/><path d="M14 15v-4a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4"/><path d="M10 15v4a2 2 0 0 0 2 2h4"/></svg>
+        </div>
 
-      {/* CORE TECHNICAL CAPABILITIES (Simple grid replaces complex tabs) */}
-      <SectionShell className="bg-ssk-surface py-32 border-t-4 border-white">
-         <div className="mx-auto max-w-[1280px] px-6 lg:px-10 mb-16">
-            <h2 className={cn(
-               "font-[var(--font-display)] text-[36px] md:text-[48px] font-bold leading-[1] tracking-[-0.04em] text-ssk-navy lg:text-[64px]",
-               isAr && "font-[var(--font-arabic)] tracking-normal"
-            )}>
-              {isAr ? "مجالاتنا التقنية الأساسية" : "Core Technical Capabilities"}
-            </h2>
-         </div>
+        <div className="mx-auto max-w-[1280px] px-6 lg:px-10 relative z-10">
+           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+             
+             {/* Text Content */}
+             <div>
+                <p className="mb-6 text-[12px] font-bold uppercase tracking-[0.3em] text-ssk-cyan flex items-center gap-3">
+                   <span className="w-8 h-px bg-ssk-cyan shrink-0"></span>
+                   {isAr ? "تحكم تنفيذي شامل (E2E)" : "E2E EXECUTIVE CONTROL"}
+                </p>
+                <h2 className={cn(
+                  "font-[var(--font-display)] text-[36px] md:text-[56px] font-bold leading-[1.1] tracking-[-0.03em] text-ssk-navy mb-8",
+                  isAr && "font-[var(--font-arabic)] tracking-normal"
+                )}>
+                  {isAr ? "تأسيس وتشغيل مكاتب العائلة والبنية المؤسسية (EA Offices)" : "Establishing & Operating Enterprise Architecture (EA) Offices"}
+                </h2>
+                <div className="space-y-6">
+                  <p className="text-[18px] text-ssk-text-soft leading-relaxed font-medium">
+                    {isAr 
+                      ? "إدارة البنية المؤسسية (EA) هي العقل المدبر والحاكم الاستراتيجي لكافة استثماراتك التقنية ومشاريعك التطويرية. نحن لا نكتفي بوضع المخططات؛ نحن نبني مكتب الـ EA بالكامل ونشغّله لضمان حوكمة جميع القرارات التقنية وتطابقها التام مع استراتيجية الأعمال للشركة عبر إطارات عالمية مثل (TOGAF)."
+                      : "Enterprise Architecture (EA) is the strategic governing mind behind all tech investments. We don't just draw blueprints; we fully establish and operate your EA Office, ensuring every operational decision perfectly aligns with business objectives through frameworks like TOGAF."
+                    }
+                  </p>
+                  <p className="text-[18px] text-ssk-text-soft leading-relaxed font-medium">
+                    {isAr 
+                      ? "نقوم بتغطية هذه الخدمة من البداية إلى النهاية (E2E): من دراسة الفجوة وتصميم مكتب البنية، إلى تشغيله فعلياً ليلعب دور المنظم لحقائب التقنية وتوجيه التحول الرقمي بأعلى درجات النضج المؤسسي."
+                      : "We execute this End-to-End (E2E): covering the initial gap analysis, establishing the physical office, and continuously operating it to orchestrate tech portfolios and steer digital transformation with unparalleled institutional maturity."
+                    }
+                  </p>
+                </div>
 
-         <div className="mx-auto max-w-[1280px] px-6 lg:px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {techSolutions.map((solution) => (
-              <DynamicTechCard key={solution.id} solution={solution} lang={lang as "en" | "ar"} />
-            ))}
-         </div>
-      </SectionShell>
+                <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                   {[
+                     { 
+                       tAr: "حوكمة الاستثمارات التقنية", 
+                       tEn: "Tech Investment Governance",
+                       dAr: "ضبط العوائد والميزانيات.",
+                       dEn: "ROI & Budget Control." 
+                     },
+                     { 
+                       tAr: "مواءمة الأعمال (Business Alignment)", 
+                       tEn: "Business Edge Alignment",
+                       dAr: "توجيه التقنية لخدمة أهداف الشركة.",
+                       dEn: "Steering tech to serve core ops." 
+                     },
+                     { 
+                       tAr: "التصميم الشامل (E2E Blueprint)", 
+                       tEn: "Holistic E2E Blueprint",
+                       dAr: "ربط طبقات الأعمال والبيانات والتطبيقات.",
+                       dEn: "Linking Business, Data, & Apps." 
+                     },
+                     { 
+                       tAr: "إدارة التغيير ودورة الحياة", 
+                       tEn: "Lifecycle & Change Mgmt",
+                       dAr: "متابعة النضج المستمر لخدماتك التقنية.",
+                       dEn: "Assuring continuous service maturity." 
+                     }
+                   ].map((item, idx) => (
+                     <div key={idx} className="flex gap-4">
+                        <div className="w-12 h-12 rounded-lg bg-ssk-surface border border-ssk-border flex items-center justify-center shrink-0">
+                           <span className="text-[13px] font-bold text-ssk-cyan border-b-2 border-ssk-cyan">0{idx+1}</span>
+                        </div>
+                        <div>
+                           <h4 className={cn("text-[15px] font-bold text-ssk-navy mb-1", isAr && "font-[var(--font-arabic)]")}>{isAr ? item.tAr : item.tEn}</h4>
+                           <p className="text-[13px] font-medium text-ssk-text-soft">{isAr ? item.dAr : item.dEn}</p>
+                        </div>
+                     </div>
+                   ))}
+                </div>
+             </div>
 
-      {/* SYSTEMIC ALIGNMENT BAR */}
-      <SectionShell dark className="bg-ssk-navy py-56 border-y border-white/5">
-        <div className="grid grid-cols-1 gap-24 lg:grid-cols-12 items-center">
-           <div className="lg:col-span-12 mb-16">
-              <p className="mb-8 text-[13px] font-bold uppercase tracking-[0.3em] text-ssk-cyan">
-                {isAr ? "المواءمة الاستراتيجية" : "Strategic Alignment"}
+             {/* Visual / Info Box */}
+             <div className="bg-ssk-navy p-12 lg:p-14 shadow-2xl relative border-t-8 border-ssk-cyan">
+                {/* Decorative Dots */}
+                <div className="absolute top-6 right-6 flex gap-2 rtl:left-6 rtl:right-auto">
+                   <div className="w-1.5 h-1.5 rounded-full bg-ssk-cyan/30"></div>
+                   <div className="w-1.5 h-1.5 rounded-full bg-ssk-cyan/60"></div>
+                   <div className="w-1.5 h-1.5 rounded-full bg-ssk-cyan"></div>
+                </div>
+
+                <h3 className={cn(
+                  "text-[28px] font-bold text-white leading-tight mb-8",
+                  isAr && "font-[var(--font-arabic)] text-[32px]"
+                )}>
+                  {isAr ? "لماذا تحتاجون إلى مكتب البنية المؤسسية (EA)؟" : "Why Require an Autonomous EA Office?"}
+                </h3>
+
+                <ul className="space-y-6">
+                   {[
+                     isAr ? "يمنع تكرار الجهود والميزانيات المهدورة في المشاريع التقنية المعزولة." : "Prevents effort duplication and wasted budgets in siloed IT projects.",
+                     isAr ? "يؤسس لمعايير مؤسسية صلبة وموحدة تقود مكاتب التخطيط والتنفيذ (PMO/SMO)." : "Establishes a solid, unified standard driving all PMO & SMO delivery nodes.",
+                     isAr ? "يضمن انتقال سلس وآمن للتقنيات السحابية والسيادية." : "Guarantees secure and seamless transitions to sovereign & cloud-native tech."
+                   ].map((point, i) => (
+                     <li key={i} className="flex gap-4 items-start">
+                        <div className="mt-1 w-6 h-6 rounded-sm bg-ssk-cyan/10 flex items-center justify-center shrink-0 border border-ssk-cyan/20">
+                           <div className="w-2 h-2 bg-ssk-cyan rotate-45"></div>
+                        </div>
+                        <p className={cn("text-[16px] text-white/80 font-medium leading-relaxed", isAr && "text-[17px]")}>{point}</p>
+                     </li>
+                   ))}
+                </ul>
+
+                <hr className="my-10 border-white/10" />
+
+                <div className="bg-white/5 border border-white/10 p-6 rounded-lg">
+                   <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-cyan mb-2">{isAr ? "المنهجية القياسية المتبعة" : "Standardized Methodology"}</p>
+                   <p className={cn("text-white font-[var(--font-display)] tracking-wider text-[20px]", isAr && "font-[var(--font-arabic)] tracking-normal")}>TOGAF® & ITIL® 4 Aligned</p>
+                </div>
+             </div>
+
+           </div>
+        </div>
+      </section>
+
+      {/* INSTITUTIONAL ARCHITECTURE (EXECUTIVE FLAT DESIGN) - MERGED INTO EA */}
+      <SectionShell dark className="bg-ssk-navy py-32 border-t border-ssk-cyan/30 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-ssk-cyan/[0.05] via-transparent to-transparent">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+           <div className="mb-20 text-center lg:text-start max-w-[800px]">
+              <p className="mb-6 text-[12px] font-bold uppercase tracking-[0.3em] text-ssk-cyan">
+                {isAr ? "نطاق التنفيذ المؤسسي" : "Enterprise Execution Scope"}
               </p>
               <h2 className={cn(
-                "font-[var(--font-display)] text-[36px] md:text-[48px] font-bold leading-[1] tracking-[-0.04em] text-white lg:text-[72px]",
+                "font-[var(--font-display)] text-[36px] md:text-[56px] font-bold leading-[1.1] tracking-[-0.04em] text-white",
                 isAr && "font-[var(--font-arabic)] tracking-normal"
               )}>
-                {isAr ? "المعمارية المؤسسية" : "Institutional Architecture"}
+                {isAr ? "المعمارية المؤسسية المتكاملة" : "Holistic Institutional Architecture"}
               </h2>
+              <p className="mt-8 text-[18px] text-white/50 leading-relaxed font-medium">
+                {isAr 
+                  ? "منهجية صلبة لضمان عدم وجود فجوات بين الأهداف الاستراتيجية والتنفيذ التقني الفعلي. نقوم ببناء وتنفيذ معمارية شاملة تضمن التوافق التام." 
+                  : "A rigid methodology eliminating gaps between strategic objectives and deployment. We architect and execute a unified framework guaranteeing alignment."}
+              </p>
            </div>
            
-           <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 perspective-[2000px]">
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { 
                   en: "Business Layer", ar: "طبقة الأعمال", 
-                  desc_en: "Translating strategic objectives into actionable policies.",
-                  desc_ar: "تحويل الأهداف الاستراتيجية إلى سياسات قابلة للتنفيذ.",
-                  details_en: ["Business Capabilities Mapping", "Value Stream Architecture", "Process Re-engineering"],
-                  details_ar: ["تخطيط القدرات المؤسسية", "هندسة سلاسل القيمة", "إعادة هندسة وحوكمة العمليات"]
+                  desc_en: "Strategic Capability Mapping",
+                  desc_ar: "تخطيط وبناء القدرات الاستراتيجية",
+                  details_en: ["Value Stream Execution", "Operating Model Design", "Process Optimization"],
+                  details_ar: ["تنفيذ سلاسل القيمة", "تصميم النماذج التشغيلية", "حوكمة مسارات العمل"]
                 },
                 { 
                   en: "Data Layer", ar: "طبقة البيانات", 
-                  desc_en: "Governing information assets to serve decision efficiency.",
-                  desc_ar: "حوكمة الأصول المعلوماتية لخدمة كفاءة القرار.",
-                  details_en: ["Master Data Management", "Data Mesh / Fabric Design", "Governance & Quality"],
-                  details_ar: ["إدارة البيانات الرئيسية (MDM)", "تصميم شبكات البيانات المعمارية", "حوكمة وضمان جودة المعلومات"]
+                  desc_en: "Information Governance",
+                  desc_ar: "حوكمة الأصول المعلوماتية",
+                  details_en: ["Master Data (MDM)", "Data Mesh / Fabric", "Analytic Models"],
+                  details_ar: ["إدارة البيانات الرئيسية", "تصميم شبكات البيانات", "مصفوفات التحليل المعقدة"]
                 },
                 { 
-                  en: "Application Layer", ar: "طبقة التطبيقات", 
-                  desc_en: "Engineering technical solutions to meet institutional requirements.",
-                  desc_ar: "هندسة الحلول التقنية لتلبية المتطلبات المؤسسية.",
-                  details_en: ["Microservices Architecture", "API Management & Integration", "Legacy Modernization"],
-                  details_ar: ["معمارية الخدمات المصغرة", "إدارة وتكامل واجهات البرمجة (API)", "تحديث وتأهيل الأنظمة المتقادمة"]
+                  en: "Application", ar: "طبقة التطبيقات", 
+                  desc_en: "Ecosystem Integration",
+                  desc_ar: "تكامل الأنظمة والتطبيقات",
+                  details_en: ["Microservices Architecture", "Legacy Modernization", "API Gateways"],
+                  details_ar: ["معمارية الخدمات المصغرة", "تحديث الأنظمة المتقادمة", "بوابات الربط البرمجي (API)"]
                 },
                 { 
-                  en: "Technology Layer", ar: "طبقة التقنية", 
-                  desc_en: "Securing infrastructure and ensuring operational continuity.",
-                  desc_ar: "تأمين البناء التحتي وضمان استمرارية العمليات.",
-                  details_en: ["Cloud Native Infrastructure", "Zero-Trust Security Models", "High-Availability Deployment"],
-                  details_ar: ["البنى التحتية السحابية المدمجة", "النماذج الأمنية الصفرية الثقة", "النشر المستمر وعالي التوافر"]
+                  en: "Technology", ar: "البنية التقنية", 
+                  desc_en: "Sovereign Infrastructure",
+                  desc_ar: "البنية التحتية السيادية",
+                  details_en: ["Cloud Native Operations", "Zero-Trust Security", "High-Availability Nodes"],
+                  details_ar: ["التشغيل السحابي المدمج", "النماذج الأمنية السيادية", "عقد التوافر العالي للبيانات"]
                 },
               ].map((layer, i) => (
-                <div key={i} className="group relative w-full h-[400px] z-10 transition-all duration-700 hover:z-50 cursor-pointer">
-                  <div className="w-full h-full relative duration-[800ms] [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                    
-                    {/* FRONT FACE (Dark Navy) */}
-                    <div className="absolute inset-0 [backface-visibility:hidden] bg-white/5 p-10 border border-white/10 shadow-ssk-glow flex flex-col justify-between rounded-xl">
-                      <div>
-                        <div className="text-ssk-cyan font-bold text-[14px] flex items-center justify-between mb-8 opacity-60">
-                           <span>0{i+1}</span>
-                           <span>{isAr ? "قلب لقراءة التفاصيل" : "Flip for Details"}</span>
-                        </div>
-                        <h4 className={cn(
-                          "text-[24px] font-bold text-white leading-tight uppercase tracking-wider",
-                          isAr && "font-[var(--font-arabic)] tracking-normal text-[26px]"
-                        )}>
-                         {isAr ? layer.ar : layer.en}
-                        </h4>
+                <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-8 flex flex-col h-full hover:bg-white/10 hover:border-ssk-cyan/50 transition-all duration-300 shadow-ssk-layered">
+                   {/* Header Area */}
+                   <div className="mb-6 border-b border-white/10 pb-6">
+                      <div className="text-ssk-cyan font-bold text-[16px] mb-4 font-mono tracking-widest bg-ssk-cyan/10 w-fit px-3 py-1 rounded">
+                         0{i+1}
                       </div>
-                      <p className="text-white/60 text-[15px] leading-relaxed font-medium">
+                      <h4 className={cn(
+                        "text-[22px] font-bold text-white uppercase tracking-wider mb-2",
+                        isAr && "font-[var(--font-arabic)] tracking-normal text-[24px]"
+                      )}>
+                       {isAr ? layer.ar : layer.en}
+                      </h4>
+                      <p className="text-white/60 text-[14px] leading-relaxed font-medium">
                          {isAr ? layer.desc_ar : layer.desc_en}
                       </p>
-                    </div>
+                   </div>
 
-                    {/* BACK FACE (Cyan Color Flip) */}
-                    <div className={cn(
-                      "absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-ssk-cyan p-10 border border-ssk-cyan/50 shadow-[0_0_50px_rgba(10,186,181,0.3)] flex flex-col rounded-xl",
-                      isAr && "text-right"
-                    )}>
-                      <h4 className={cn(
-                        "text-[20px] font-bold text-ssk-navy mb-6 uppercase tracking-widest border-b border-ssk-navy/20 pb-4",
-                        isAr && "font-[var(--font-arabic)] tracking-normal text-[22px]"
-                      )}>
-                       {isAr ? "التفاصيل التقنية" : "Technical Scope"}
-                      </h4>
-                      
-                      <ul className="space-y-5">
+                   {/* Execution Points */}
+                   <div className="mt-auto">
+                      <h5 className="text-[11px] font-bold text-white/30 uppercase tracking-[0.2em] mb-4">
+                        {isAr ? "نطاق التنفيذ" : "Execution Scope"}
+                      </h5>
+                      <ul className="space-y-3">
                          {(isAr ? layer.details_ar : layer.details_en).map((detail, idx) => (
-                           <li key={idx} className="flex items-start gap-4 text-ssk-navy font-bold text-[14px] leading-snug">
-                              <span className="w-2 h-2 rounded-full bg-ssk-navy shrink-0 mt-1"></span>
-                              <span>{detail}</span>
+                           <li key={idx} className="flex items-start gap-3">
+                              <span className="w-1.5 h-1.5 rounded-full bg-ssk-cyan shrink-0 mt-1.5"></span>
+                              <span className={cn(
+                                "text-[13px] font-bold text-white/80 leading-snug",
+                                isAr && "font-[var(--font-arabic)] text-[14px]"
+                              )}>
+                                {detail}
+                              </span>
                            </li>
                          ))}
                       </ul>
-
-                      <div className="mt-auto text-ssk-navy font-bold text-[11px] tracking-[0.2em] uppercase opacity-70">
-                         {isAr ? "جاهز للتنفيذ" : "Execution Ready"}
-                      </div>
-                    </div>
-                  </div>
+                   </div>
                 </div>
               ))}
            </div>
         </div>
+      </SectionShell>
+
+      {/* IT DEMAND & DELIVERY (PMO vs SMO Lifecycle) */}
+      <DemandDeliveryComparison lang={lang as "en" | "ar"} />
+
+      {/* STRATEGIC B.O.T MODEL */}
+      <SectionShell className="bg-ssk-navy py-32 border-t border-white/5 overflow-hidden">
+         <div className="mx-auto max-w-[1280px] px-6 lg:px-10 mb-16 text-center">
+            <h2 className={cn(
+               "font-[var(--font-display)] text-[36px] md:text-[48px] font-bold leading-[1] tracking-[-0.04em] text-white lg:text-[64px]",
+               isAr && "font-[var(--font-arabic)] tracking-normal"
+            )}>
+              {isAr ? "نموذج البناء والتشغيل والنقل (B.O.T)" : "Build, Operate, Transfer (B.O.T)"}
+            </h2>
+            <p className="mt-6 text-[18px] text-white/50 max-w-[800px] mx-auto font-medium">
+               {isAr ? "نوفر قدرات مؤسسية متكاملة تبدأ من البناء الاستراتيجي، مروراً بالتشغيل بكفاءة عالية، وصولاً إلى مرحلة النقل والاستقلالية التامة لمنظومتك." : "We establish, run, and ultimately transfer highly mature operational capacities back into your organizational control."}
+            </p>
+         </div>
+         <BOTFlow isRtl={isAr} />
       </SectionShell>
 
       {/* FINAL CALL */}

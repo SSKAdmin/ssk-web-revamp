@@ -93,16 +93,14 @@ export default async function ContactPage({
                     {/* Raw Beautiful Map Background with Pin */}
                     <div className="absolute inset-0">
                        <iframe 
-                         src="https://maps.google.com/maps?q=6116+Anas+Ibn+Malik+Rd,+Al+Malqa,+Riyadh&t=m&z=16&ie=UTF8&iwloc=&output=embed" 
+                         src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d226.36024534544043!2d46.605238642758636!3d24.803536003828647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2ssa!4v1775232821084!5m2!1sar!2ssa" 
                          width="100%" 
                          height="100%" 
-                         frameBorder="0" 
                          style={{ border: 0 }} 
-                         allowFullScreen
-                         aria-hidden="false" 
-                         tabIndex={0}
-                         className="w-full h-full pointer-events-auto"
-                       />
+                         allowFullScreen={true} 
+                         loading="lazy" 
+                         referrerPolicy="no-referrer-when-downgrade"
+                       ></iframe>
                     </div>
                     
                     {/* Ultra-Premium Floating Data Card (Glassmorphism) */}
@@ -161,7 +159,7 @@ export default async function ContactPage({
                     </div>
                     <div>
                        <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-cyan mb-3">{isAr ? "تواصل معنا" : "Contact Us"}</p>
-                       <p className="text-[19px] font-bold text-ssk-navy select-all tracking-tight">info@ssksaudi.com</p>
+                       <p className="text-[19px] font-bold text-ssk-navy select-all tracking-tight">info@ssk.sa</p>
                     </div>
                  </div>
 

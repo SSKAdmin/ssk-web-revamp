@@ -124,7 +124,7 @@ export async function POST(req: Request) {
           }),
           execute: async ({ name, communication_method, topic }) => {
             await sendInstitutionalMail({
-              to: process.env.SUPPORT_EMAIL || "info@ssksaudi.com",
+              to: process.env.SUPPORT_EMAIL || "info@ssk.sa",
               subject: `Chatbot AI Lead Request: ${name}`,
               html: `
                 <h2>AI Bot: Direct Contact Request</h2>

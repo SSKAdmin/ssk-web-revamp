@@ -17,6 +17,7 @@ import { signOut } from "next-auth/react";
 
 const menuItems = [
   { id: "dashboard", icon: LayoutDashboard, label: "Global Overview" },
+  { id: "dashboard/presentation", icon: FileText, label: "Architecture Handover" },
   { id: "dashboard/jobs", icon: FileText, label: "Jobs" },
   { id: "dashboard/applications", icon: Database, label: "Applications" },
   { id: "dashboard/contacts", icon: Database, label: "Contacts" },
