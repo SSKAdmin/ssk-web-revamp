@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { 
   Terminal, Users, Component, FileKey2, FileCog, ShieldCheck, 
@@ -111,15 +112,28 @@ export function Sidebar({ lang }: { lang: string }) {
       </div>
 
       <div className="p-6 border-t border-white/5">
-        <div className="flex items-center gap-3 px-3 py-3 rounded-lg bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 cursor-pointer">
-          <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center font-bold text-xs text-white border border-white/10">
-            A
+        <button 
+          onClick={async () => {
+             // 1. Destroy NextAuth Session explicitly
+             await signOut({ callbackUrl: `/${lang}/ssk-admin-portal/login` });
+          }}
+          className="w-full flex items-center justify-between px-3 py-3 rounded-lg bg-white/5 border border-white/10 transition-all duration-300 hover:bg-red-500/10 hover:border-red-500/30 group cursor-pointer text-left"
+        >
+          <div className="flex items-center gap-3">
+             <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center font-bold text-xs text-white border border-white/10 group-hover:border-red-500/50 transition-colors">
+               A
+             </div>
+             <div>
+               <p className="text-xs font-semibold text-white">Administrator</p>
+               <p className="text-[10px] text-slate-400 uppercase tracking-widest font-mono">Sign Out</p>
+             </div>
           </div>
-          <div>
-            <p className="text-xs font-semibold text-white">Administrator</p>
-            <p className="text-[10px] text-slate-400 uppercase">Super Admin</p>
-          </div>
-        </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-500 group-hover:text-red-500 transition-colors">
+             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+             <polyline points="16 17 21 12 16 7"></polyline>
+             <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
       </div>
     </aside>
   );

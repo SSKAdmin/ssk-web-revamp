@@ -129,3 +129,19 @@
     animation: marquee 40s linear infinite;
   }
 }
+
+@media print {
+  /* Force exact color reproduction on PDF print to support dark modes */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  body, html {
+    background-color: var(--background) !important;
+    color: var(--foreground) !important;
+  }
+  /* Remove scrollbars from PDF snapshots */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}

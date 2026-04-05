@@ -78,11 +78,13 @@ export function Sidebar({ lang }: { lang: string }) {
           <span className="text-[10px] font-black uppercase tracking-widest">Public Domain</span>
         </Link>
         <button 
-          onClick={() => signOut()}
-          className="w-full flex items-center space-x-4 rtl:space-x-reverse p-4 text-red-500/60 hover:text-red-500 hover:bg-red-500/5 transition-all text-left"
+          onClick={async () => {
+             await signOut({ callbackUrl: `/${lang}/login` });
+          }}
+          className="w-full flex items-center space-x-4 rtl:space-x-reverse p-4 text-red-500/60 hover:text-red-500 hover:bg-red-500/5 transition-all text-left group"
         >
-          <LogOut className="h-4 w-4" />
-          <span className="text-[10px] font-black uppercase tracking-widest">Terminate Session</span>
+          <LogOut className="h-4 w-4 group-hover:scale-110 transition-transform" />
+          <span className="text-[11px] font-black uppercase tracking-widest">Logout (Sign Out)</span>
         </button>
       </div>
     </aside>

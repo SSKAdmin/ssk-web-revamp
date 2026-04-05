@@ -20,7 +20,6 @@ import {
   X,
   CheckCircle
 } from "lucide-react";
-import { ClientGrid } from "@/components/site/ClientGrid";
 import { techSolutions } from "@/content/techSolutions";
 import { DynamicTechCard } from "@/components/site/DynamicTechCard";
 import { IsoCredentials } from "@/components/site/IsoCredentials";
@@ -191,55 +190,6 @@ export default async function HomePage({
         </div>
       </SectionShell>
 
-
-      {/* SECTION H: INSTITUTIONAL PARTNERS */}
-      <SectionShell className="bg-white py-40">
-        <div className="mx-auto max-w-[1280px]">
-           <div className="text-center mb-24">
-              <p className="mb-6 text-[13px] font-bold uppercase tracking-[0.4em] text-ssk-cyan">
-                {isAr ? "شركاء الإنجاز" : "Our Institutional Partners"}
-              </p>
-              <h2 className={cn(
-                "font-[var(--font-display)] text-[36px] md:text-[48px] font-bold leading-[1] tracking-[-0.04em] text-ssk-navy lg:text-[72px]",
-                isAr && "font-[var(--font-arabic)] tracking-normal"
-              )}>
-                {isAr ? "نعمل مع كبرى الجهات والشركات." : "Who We Work With"}
-              </h2>
-           </div>
-           
-           <ClientGrid isAr={isAr} />
-
-           <div className="mt-32 grid grid-cols-1 md:grid-cols-2 gap-16 items-center border-t border-ssk-border pt-32">
-              <div className="max-w-[500px]">
-                 <h3 className={cn("text-[32px] font-bold text-ssk-navy mb-8", isAr && "font-[var(--font-arabic)]")}>
-                    {isAr ? "التميز في التنفيذ هو أولويتنا." : "Institutional Delivery Excellence."}
-                 </h3>
-                 <p className="text-[19px] text-ssk-text-soft leading-relaxed font-medium">
-                    {isAr ? "نحن مهيؤون لخدمة المتطلبات المهنية للجهات الحكومية، والمكاتب الوطنية للبرامج، والشركات الكبرى التي تتطلب تنفيذاً دقيقاً ونتائج ملموسة." : "SSK is built to serve the professional demands of government entities, national program offices, and large-scale enterprises that require high-precision execution and measurable outcomes."}
-                 </p>
-              </div>
-              <div className="grid grid-cols-1 gap-4">
-                 {[
-                   { en: "Government Entities", ar: "الجهات الحكومية" },
-                   { en: "Strategic Initiatives", ar: "المبادرات الاستراتيجية" },
-                   { en: "Large-Scale Enterprises", ar: "الشركات والمؤسسات الكبرى" }
-                 ].map((item, i) => (
-                   <div key={i} className="flex items-center gap-6 bg-ssk-surface p-8 group border-l-4 border-transparent hover:border-ssk-cyan transition-all shadow-ssk-layered">
-                      <div className="w-10 h-10 border border-ssk-border flex items-center justify-center text-ssk-cyan font-bold text-[14px]">
-                         0{i + 1}
-                      </div>
-                      <span className={cn(
-                        "text-[18px] font-bold text-ssk-navy uppercase tracking-widest",
-                        isAr && "font-[var(--font-arabic)] tracking-normal"
-                      )}>
-                        {isAr ? item.ar : item.en}
-                      </span>
-                   </div>
-                 ))}
-              </div>
-           </div>
-        </div>
-      </SectionShell>
 
       {/* SECTION I: ISO CREDENTIALS & CAPABILITIES */}
       <IsoCredentials lang={lang as "en" | "ar"} />

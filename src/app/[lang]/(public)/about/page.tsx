@@ -15,7 +15,6 @@ import {
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BrandText } from "@/components/site/BrandText";
-import { ClientGrid } from "@/components/site/ClientGrid";
 import { IsoCredentials } from "@/components/site/IsoCredentials";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
@@ -216,15 +215,6 @@ export default async function AboutPage({
          </div>
       </SectionShell>
 
-      {/* SECTION E: INSTITUTIONAL PARTNERS */}
-      <section className="bg-white py-40 border-t border-ssk-border">
-         <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
-            <p className="mb-12 text-[12px] font-bold uppercase tracking-[0.4em] text-ssk-cyan text-center opacity-60">
-               {isAr ? "شركاء الإنجاز" : "Our Institutional Partners"}
-            </p>
-            <ClientGrid isAr={isAr} />
-         </div>
-      </section>
 
       {/* SECTION F: ISO CREDENTIALS */}
       <IsoCredentials lang={lang as "en" | "ar"} />

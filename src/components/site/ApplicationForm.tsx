@@ -23,9 +23,9 @@ import { getDictionary } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 
 const applicationSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().optional(),
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email format").regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,13}$/, "Please enter a valid email"),
+  phone: z.string().regex(/^05\d{8}$/, "Mobile number must start with 05 and be exactly 10 digits").optional().or(z.literal("")),
   coverLetter: z.string().optional(),
   cvUrl: z.string().min(1, "Attachment is required").optional().or(z.literal("pending_upload")),
 });
@@ -98,16 +98,28 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
     }
   };
 
+  const onError = (errors: any) => {
+    const firstError = Object.keys(errors)[0];
+    const el = document.querySelector(`[name="${firstError}"]`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      (el as HTMLElement).focus();
+    }
+  };
+
   async function onSubmit(data: ApplicationValues) {
     if (!selectedFile) {
        setStatus("error");
        setErrorMessage("A CV or technical resume is strictly required to process this application.");
+       setTimeout(() => {
+         const errElement = document.getElementById("form-error-banner");
+         if (errElement) errElement.scrollIntoView({ behavior: "smooth", block: "center" });
+       }, 100);
        return;
     }
     
     setStatus("submitting");
     try {
-      // 1. Core Upload Transaction
       const formData = new FormData();
       formData.append("file", selectedFile);
       
@@ -119,7 +131,6 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
       const uploadData = await uploadRes.json();
       if (!uploadRes.ok) throw new Error(uploadData.error || "Document ingestion failed.");
       
-      // 2. Application Binding
       const applicationPayload = { ...data, jobId: jobTitle + " (" + jobId + ")", cvUrl: uploadData.url };
 
       const submitRes = await fetch("/api/applications", {
@@ -137,6 +148,10 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
     } catch (err: any) {
       setStatus("error");
       setErrorMessage(err.message || "An unexpected system fault occurred.");
+      setTimeout(() => {
+        const errElement = document.getElementById("form-error-banner");
+        if (errElement) errElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 100);
     }
   }
 
@@ -174,9 +189,8 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={cn("space-y-10 text-left", isAr && "text-right font-[var(--font-arabic)]")} dir={isAr ? "rtl" : "ltr"}>
+    <form onSubmit={handleSubmit(onSubmit, onError)} className={cn("space-y-10 text-left", isAr && "text-right font-[var(--font-arabic)]")} dir={isAr ? "rtl" : "ltr"}>
       
-      {/* INSTITUTIONAL BINDING BANNER */}
       <div className="bg-[#f7f9fb] border border-ssk-border p-6 flex flex-col items-center justify-center text-center space-y-3 mb-12">
          <Briefcase className="h-6 w-6 text-ssk-cyan mb-2" />
          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-ssk-navy/50">{isAr ? "تطبيق على وظيفة" : "APPLICATION FOR"}</p>
@@ -185,7 +199,7 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
       </div>
 
       {status === "error" && (
-        <div className="p-6 bg-destructive/10 border-l-4 border-destructive text-destructive font-bold text-sm tracking-wide flex items-center mb-10">
+        <div id="form-error-banner" className="p-6 bg-destructive/10 border-l-4 border-destructive text-destructive font-bold text-sm tracking-wide flex items-center mb-10">
           <AlertCircle className={cn("h-5 w-5 mr-4", isAr && "ml-4 mr-0")} />
           <span>{isAr ? "تدخل ضروري: " : "Action Required: "}{errorMessage}</span>
         </div>
@@ -239,7 +253,7 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
         </label>
         <input
           {...register("phone")}
-          placeholder={f.placeholders.phone}
+          placeholder="+966 5X XXX XXXX"
           className={cn(
             "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[16px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",
             errors.phone && "border-destructive focus:border-destructive bg-destructive/5"
@@ -247,7 +261,6 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
         />
       </div>
 
-      {/* ENHANCED PDF VERIFICATION UI */}
       <div className="space-y-3">
         <label className="text-[11px] font-bold uppercase tracking-[0.2em] text-ssk-navy flex items-center border-b border-ssk-border pb-4">
            <FileText className={cn("h-4 w-4 text-ssk-cyan mr-2", isAr && "ml-2 mr-0")} /> 

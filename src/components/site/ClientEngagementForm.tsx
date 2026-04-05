@@ -9,9 +9,9 @@ import { cn } from "@/lib/utils";
 
 const engagementSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
+  email: z.string().email("Invalid email format").regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,13}$/, "Please enter a valid email"),
   organization: z.string().min(1, "Organization is required"),
-  phone: z.string().optional(),
+  phone: z.string().regex(/^05\d{8}$/, "Mobile number must start with 05 and be exactly 10 digits").min(10, "10 digits required").max(10, "10 digits maximum").optional().or(z.literal("")),
   initiativeType: z.string().min(1, "Please select an initiative type"),
   timeline: z.string().optional(),
   description: z.string().min(10, "Please provide more details on the requirement"),
@@ -79,8 +79,21 @@ export function ClientEngagementForm({
     } catch (err: any) {
       setStatus("error");
       setErrorMessage(err.message || "An unexpected error occurred. Please try again.");
+      setTimeout(() => {
+        const errElement = document.getElementById("form-error-banner");
+        if (errElement) errElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 100);
     }
   }
+
+  const onError = (errors: any) => {
+    const firstError = Object.keys(errors)[0];
+    const el = document.querySelector(`[name="${firstError}"]`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      (el as HTMLElement).focus();
+    }
+  };
 
   if (status === "success") {
     return (
@@ -108,9 +121,9 @@ export function ClientEngagementForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={cn("space-y-12", isAr && "text-right")} dir={isAr ? "rtl" : "ltr"}>
+    <form onSubmit={handleSubmit(onSubmit, onError)} className={cn("space-y-12", isAr && "text-right")} dir={isAr ? "rtl" : "ltr"}>
       {status === "error" && (
-        <div className="p-6 bg-destructive/10 border-l-4 border-destructive text-destructive font-bold text-sm tracking-wide flex items-center">
+        <div id="form-error-banner" className="p-6 bg-destructive/10 border-l-4 border-destructive text-destructive font-bold text-sm tracking-wide flex items-center">
           <AlertCircle className={cn("h-5 w-5 mr-4", isAr && "ml-4 mr-0")} />
           <span>{isAr ? "عذراً، فشل إرسال الطلب: " : "Submission Failed: "}{errorMessage}</span>
         </div>
@@ -138,8 +151,8 @@ export function ClientEngagementForm({
             {...register("organization")}
             placeholder={placeholders.org_name}
             className={cn(
-               "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",
-               errors.organization && "border-destructive focus:border-destructive bg-destructive/5"
+               "w-full bg-[#f7f9fb] text-black font-semibold border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",
+               errors.organization ? "border-destructive focus:border-destructive bg-destructive/5" : ""
             )}
           />
         </div>
@@ -151,8 +164,8 @@ export function ClientEngagementForm({
             {...register("name")}
             placeholder={placeholders.contact_person}
             className={cn(
-               "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",
-               errors.name && "border-destructive focus:border-destructive bg-destructive/5"
+               "w-full bg-[#f7f9fb] text-black font-semibold border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",
+               errors.name ? "border-destructive focus:border-destructive bg-destructive/5" : ""
             )}
           />
         </div>
@@ -168,8 +181,8 @@ export function ClientEngagementForm({
             {...register("email")}
             placeholder={isAr ? "البريد الإلكتروني للجهة" : "Corporate Email Address"}
             className={cn(
-               "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",
-               errors.email && "border-destructive focus:border-destructive bg-destructive/5"
+               "w-full bg-[#f7f9fb] text-black font-semibold border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",
+               errors.email ? "border-destructive focus:border-destructive bg-destructive/5" : ""
             )}
           />
         </div>
@@ -179,8 +192,12 @@ export function ClientEngagementForm({
           </label>
           <input 
             {...register("phone")}
-           placeholder={isAr ? "رمز الدولة + الرقم" : "+966 5X XXX XXXX"}
-            className="w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors"
+            placeholder="+966 5X XXX XXXX"
+            pattern="[0-9]*"
+            className={cn(
+               "w-full bg-[#f7f9fb] text-black font-semibold border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",
+               errors.phone ? "border-destructive focus:border-destructive bg-destructive/5" : ""
+            )}
           />
         </div>
       </div>
@@ -193,8 +210,8 @@ export function ClientEngagementForm({
           <select 
             {...register("initiativeType")}
             className={cn(
-               "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors appearance-none",
-               errors.initiativeType && "border-destructive focus:border-destructive bg-destructive/5"
+               "w-full bg-[#f7f9fb] text-black font-semibold border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors appearance-none",
+               errors.initiativeType ? "border-destructive focus:border-destructive bg-destructive/5" : ""
             )}
           >
             <option value="">{isAr ? "اختر التصنيف..." : "Select classification..."}</option>
@@ -211,7 +228,7 @@ export function ClientEngagementForm({
           <input 
             {...register("timeline")}
             placeholder={placeholders.timeline}
-            className="w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors"
+            className="w-full bg-[#f7f9fb] text-black font-semibold border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors"
           />
         </div>
       </div>
@@ -225,8 +242,8 @@ export function ClientEngagementForm({
           rows={6}
           placeholder={placeholders.description}
           className={cn(
-             "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors resize-none",
-             errors.description && "border-destructive focus:border-destructive bg-destructive/5"
+             "w-full bg-[#f7f9fb] text-black font-semibold border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors resize-none",
+             errors.description ? "border-destructive focus:border-destructive bg-destructive/5" : ""
           )}
         ></textarea>
       </div>

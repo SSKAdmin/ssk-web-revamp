@@ -29,6 +29,13 @@
       "when": 1775130920077,
       "tag": "0003_living_hellfire_club",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1775423510420,
+      "tag": "0004_lumpy_bushwacker",
+      "breakpoints": true
     }
   ]
 }

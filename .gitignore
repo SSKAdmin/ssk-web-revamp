@@ -48,3 +48,12 @@ fix-*.js
 test-*.js
 generate-*.js
 tmp_*.ts
+\n*.log\n*.tar.gz\n*.zip\ncloudflared*\ntunnel-url.txt\nmock-db.json\n
+
+*.log
+*.tar.gz
+*.zip
+cloudflared*
+tunnel-url.txt
+mock-db.json
+

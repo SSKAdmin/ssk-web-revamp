@@ -12,8 +12,8 @@ import { cn } from "@/lib/utils";
 
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email format"),
-  phone: z.string().optional(),
+  email: z.string().email("Invalid email format").regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,13}$/, "Please enter a valid business email"),
+  phone: z.string().regex(/^05\d{8}$/, "Mobile number must start with 05 and be exactly 10 digits").min(10, "10 digits required").max(10, "10 digits maximum").optional().or(z.literal("")),
   organization: z.string().optional(),
   message: z.string().optional(),
   honeypot: z.string().max(0, "Bot detected").optional(),
@@ -64,10 +64,26 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
     } catch (error: any) {
       console.error(error);
       setStatus("error");
-      // Optionally store error string in state if we want to show exact error,
-      // but modifying the error rendering below instead.
+      
+      // Auto-scroll to error message container so user immediately sees it
+      setTimeout(() => {
+        const errElement = document.getElementById("form-error-banner");
+        if (errElement) {
+          errElement.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 100);
     }
   }
+
+  // To auto-scroll on form validation errors from Zod
+  const onError = (errors: any) => {
+    const firstError = Object.keys(errors)[0];
+    const el = document.querySelector(`[name="${firstError}"]`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      (el as HTMLElement).focus();
+    }
+  };
 
   if (status === "success") {
     return (
@@ -93,7 +109,7 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 animate-in fade-in duration-500">
+    <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-8 animate-in fade-in duration-500">
       {/* Honeypot field - Hidden from users */}
       <div className="hidden">
         <input {...register("honeypot")} tabIndex={-1} autoComplete="off" />
@@ -169,7 +185,9 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
               isRtl && "text-right font-[var(--font-arabic)]"
             )} 
             placeholder="+966 5X XXX XXXX" 
+            pattern="[0-9]*"
           />
+          {errors.phone && <p className="text-[10px] text-red-500 font-bold uppercase tracking-[0.2em]">{errors.phone.message}</p>}
         </div>
       </div>
 
@@ -193,7 +211,7 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
       </div>
 
       {status === "error" && (
-        <div className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 text-red-700 text-sm font-bold uppercase tracking-[0.3em]">
+        <div id="form-error-banner" className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 text-red-700 text-sm font-bold uppercase tracking-[0.3em]">
           <AlertCircle className="h-5 w-5" />
           {c.error}
         </div>

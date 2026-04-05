@@ -16,8 +16,8 @@ const contactSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    // Basic IP-based rate limiting (5 requests per 60 seconds)
     const ip = request.headers.get("x-forwarded-for") || "unknown";
+    const userAgent = request.headers.get("user-agent") || "unknown";
     const { success, message: rateLimitMsg } = await rateLimit(`contact_${ip}`);
     
     if (!success) {
@@ -49,6 +49,8 @@ export async function POST(request: Request) {
         phone,
         organization,
         message: finalMessage,
+        ipAddress: ip,
+        userAgent: userAgent,
       })
       .returning();
 
