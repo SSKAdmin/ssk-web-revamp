@@ -193,7 +193,7 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
       
       <div className="bg-[#f7f9fb] border border-ssk-border p-6 flex flex-col items-center justify-center text-center space-y-3 mb-12">
          <Briefcase className="h-6 w-6 text-ssk-cyan mb-2" />
-         <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-ssk-navy/50">{isAr ? "تطبيق على وظيفة" : "APPLICATION FOR"}</p>
+         <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-ssk-navy">{isAr ? "تطبيق على وظيفة" : "APPLICATION FOR"}</p>
          <h3 className="text-xl md:text-2xl font-bold tracking-tight text-ssk-navy">{jobTitle}</h3>
          <p className="text-xs font-bold text-ssk-cyan uppercase tracking-widest">ID: {jobId}</p>
       </div>
@@ -226,8 +226,8 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
             {...register("name")}
             placeholder={f.placeholders.name}
             className={cn(
-              "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[16px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",
-              errors.name && "border-destructive focus:border-destructive bg-destructive/5"
+              "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[16px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors text-black font-semibold placeholder:text-gray-400 placeholder:font-normal",
+              errors.name ? "border-destructive focus:border-destructive bg-destructive/5" : ""
             )}
           />
         </div>
@@ -240,8 +240,8 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
             {...register("email")}
             placeholder={f.placeholders.email}
             className={cn(
-              "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[16px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",
-              errors.email && "border-destructive focus:border-destructive bg-destructive/5"
+              "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[16px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors text-black font-semibold placeholder:text-gray-400 placeholder:font-normal",
+              errors.email ? "border-destructive focus:border-destructive bg-destructive/5" : ""
             )}
           />
         </div>
@@ -255,8 +255,8 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
           {...register("phone")}
           placeholder="+966 5X XXX XXXX"
           className={cn(
-            "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[16px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",
-            errors.phone && "border-destructive focus:border-destructive bg-destructive/5"
+            "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[16px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors text-black font-semibold placeholder:text-gray-400 placeholder:font-normal",
+            errors.phone ? "border-destructive focus:border-destructive bg-destructive/5" : ""
           )}
         />
       </div>
@@ -302,7 +302,7 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
                 <FileText className="h-12 w-12 text-ssk-navy mb-2" />
                 <div>
                    <p className="text-ssk-navy font-bold">{isAr ? "قم بسحب المستند هنا أو اضغط للاستعراض" : "Drag Document Here or Click to Browse"}</p>
-                   <p className="text-xs font-medium text-ssk-text-soft mt-2">{isAr ? "الحد الأقصى (5MB). الصيغ: PDF, DOCX" : "Maximum payload (5MB). Formats: PDF, DOCX"}</p>
+                   <p className="text-xs font-bold text-ssk-navy mt-2">{isAr ? "الحد الأقصى (5MB). الصيغ: PDF, DOCX" : "Maximum payload (5MB). Formats: PDF, DOCX"}</p>
                 </div>
                 <div className="mt-6 px-8 py-3 bg-ssk-navy text-ssk-cyan text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center">
                    {isAr ? "اختر ملفاً" : "Select File"}
@@ -321,8 +321,8 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
           placeholder={f.placeholders.summary}
           rows={6}
           className={cn(
-            "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[16px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors resize-none",
-            errors.coverLetter && "border-destructive focus:border-destructive bg-destructive/5"
+            "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[16px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors resize-none text-black font-semibold placeholder:text-gray-400 placeholder:font-normal",
+            errors.coverLetter ? "border-destructive focus:border-destructive bg-destructive/5" : ""
           )}
         ></textarea>
       </div>
@@ -343,7 +343,7 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
         )}
       </button>
 
-      <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-ssk-text-soft/40 text-center flex items-center justify-center pt-8">
+      <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-ssk-navy text-center flex items-center justify-center pt-8">
         <ShieldCheck className="h-4 w-4 mr-3" /> {f.validation.confidentiality}
       </p>
     </form>

@@ -56,7 +56,7 @@ export default async function ApplyPage({ params }: ApplyPageProps) {
           )}>
             {isAr ? "تفعيل إجراءات التقديم." : "Initialize Deployment Protocol."}
           </h1>
-          <p className="text-[18px] text-white/60 font-medium leading-relaxed mb-4">
+          <p className="text-[18px] text-white/90 font-bold leading-relaxed mb-4">
             {isAr ? "تأكيد الترشيح لشغل دور استراتيجي في منظومة SSK التنفيذية." : "Confirm candidacy for a strategic deployment within the SSK execution matrix."}
           </p>
           <div className="inline-flex flex-col bg-white/5 border border-white/10 px-6 py-4 mt-4">
@@ -105,7 +105,7 @@ export default async function ApplyPage({ params }: ApplyPageProps) {
                            <CheckCircle2 className="w-4 h-4 mr-3 rtl:mr-0 rtl:ml-3 text-ssk-cyan" />
                            {step.t}
                         </p>
-                        <p className="text-[13px] text-ssk-text-soft font-medium leading-relaxed pl-7 rtl:pl-0 rtl:pr-7">{step.d}</p>
+                        <p className="text-[13px] text-ssk-navy font-bold leading-relaxed pl-7 rtl:pl-0 rtl:pr-7">{step.d}</p>
                      </div>
                    ))}
                 </div>
@@ -115,7 +115,7 @@ export default async function ApplyPage({ params }: ApplyPageProps) {
                       <Lock className="h-4 w-4 text-ssk-cyan rtl:ml-3" />
                       <span className="text-[11px] font-bold uppercase tracking-[0.2em]">{isAr ? "حماية البيانات" : "Data Protection"}</span>
                    </div>
-                   <p className="text-[12px] font-medium leading-relaxed text-ssk-navy/60">
+                   <p className="text-[12px] font-bold leading-relaxed text-ssk-navy">
                       {isAr 
                        ? "كافة المدخلات تخضع لتشفير مؤسسي ولا يتم مشاركتها خارج نطاق فرق التقييم المعتمدة."
                        : "All telemetry is subjected to institutional-grade encryption algorithms and strictly siloed."

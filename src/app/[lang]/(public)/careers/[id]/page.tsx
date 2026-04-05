@@ -97,7 +97,7 @@ export default async function JobDetailsPage({ params }: ApplyPageProps) {
                   {isAr ? "الإطار التشغيلي (السياق)" : "Operational Context"}
                 </h2>
                 <div className="w-12 h-1 bg-ssk-navy mb-8"></div>
-                <p className="text-[18px] text-ssk-navy/80 font-medium leading-relaxed">
+                <p className="text-[18px] text-ssk-navy font-bold leading-relaxed">
                   {description}
                 </p>
              </div>
@@ -139,7 +139,7 @@ export default async function JobDetailsPage({ params }: ApplyPageProps) {
                           <div className="mt-1 flex-shrink-0 h-5 w-5 rounded-full bg-ssk-navy/5 flex items-center justify-center mr-4 rtl:mr-0 rtl:ml-4 group-hover:bg-ssk-cyan/10 transition-colors">
                              <CheckCircle2 className="h-3 w-3 text-ssk-navy group-hover:text-ssk-cyan transition-colors" />
                           </div>
-                          <p className="text-[16px] font-medium text-ssk-navy/80">{req}</p>
+                          <p className="text-[16px] font-bold text-ssk-navy">{req}</p>
                        </li>
                      ))}
                   </ul>
@@ -160,7 +160,7 @@ export default async function JobDetailsPage({ params }: ApplyPageProps) {
                    <Cpu className="text-ssk-cyan w-6 h-6" />
                 </div>
                 
-                <p className="text-[15px] text-ssk-text-soft font-medium mb-10 leading-relaxed">
+                <p className="text-[15px] text-ssk-navy font-bold mb-10 leading-relaxed">
                    {isAr 
                      ? "يتطلب تفعيل هذا الدور التحقق الدقيق من خبراتك وسجلك المهني. تأكد من أن ملفاتك متوافقة مع المعايير المؤسسية."
                      : "Initialization of this role requires strict clinical verification of your execution history. Ensure documentation is executive-ready."}
@@ -173,7 +173,7 @@ export default async function JobDetailsPage({ params }: ApplyPageProps) {
                       </Button>
                    </Link>
                    
-                   <div className="flex items-center justify-center text-[10px] font-bold uppercase tracking-[0.2em] text-ssk-navy/40">
+                   <div className="flex items-center justify-center text-[10px] font-bold uppercase tracking-[0.2em] text-ssk-navy">
                       <ShieldCheck className="h-4 w-4 mr-2 rtl:mr-0 rtl:ml-2 text-ssk-cyan" /> 
                       {isAr ? "نظام مشفر ومؤمن بالكامل" : "Secured Processing"}
                    </div>
