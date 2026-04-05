@@ -10,6 +10,7 @@ import { safeApiErrorResponse, isDbConnectionError, logApiError } from "@/lib/ap
 
 const applicationSchema = z.object({
   jobId: z.string().uuid("Invalid Job ID"),
+  jobTitle: z.string().optional(),
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email format"),
   phone: z.string().optional(),
@@ -42,7 +43,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { jobId, name, email, phone, cvUrl, coverLetter } = result.data;
+    const { jobId, jobTitle, name, email, phone, cvUrl, coverLetter } = result.data;
 
     // 2. Database Insertion
     const [newApplication] = await db
@@ -70,6 +71,7 @@ export async function POST(request: Request) {
         <p><strong>Candidate:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone || "N/A"}</p>
+        <p><strong>Job Title:</strong> ${jobTitle || "Not Specified"}</p>
         <p><strong>Job ID reference:</strong> ${jobId}</p>
         <p>Please check the recruitment dashboard for CV and Cover Letter details.</p>
       `,

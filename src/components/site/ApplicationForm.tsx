@@ -131,7 +131,7 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
       const uploadData = await uploadRes.json();
       if (!uploadRes.ok) throw new Error(uploadData.error || "Document ingestion failed.");
       
-      const applicationPayload = { ...data, jobId: jobTitle + " (" + jobId + ")", cvUrl: uploadData.url };
+      const applicationPayload = { ...data, jobId: jobId, jobTitle: jobTitle, cvUrl: uploadData.url };
 
       const submitRes = await fetch("/api/applications", {
          method: "POST",
