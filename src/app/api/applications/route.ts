@@ -19,6 +19,7 @@ const applicationSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  let json: any = {};
   try {
     const ip = request.headers.get("x-forwarded-for") || "unknown";
     const userAgent = request.headers.get("user-agent") || "unknown";
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: rateLimitMsg }, { status: 429 });
     }
 
-    const json = await request.json();
+    json = await request.json();
     
     // 1. Zod Validation
     const result = applicationSchema.safeParse(json);
@@ -92,6 +93,26 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, message: "Application submitted and acknowledged" }, { status: 201 });
   } catch (error) {
     logApiError("APPLICATIONS_POST", error);
+    
+    // SIMULATION MODE FALLBACK: If DB is offline locally, ensure form works for boardroom presentations
+    if (isDbConnectionError(error)) {
+      const isDev = process.env.NODE_ENV !== "production";
+      if (isDev) {
+        try {
+          const fs = require('fs');
+          const path = require('path');
+          const mockFile = path.resolve(process.cwd(), "mock-db.json");
+          const existing = fs.existsSync(mockFile) ? JSON.parse(fs.readFileSync(mockFile, "utf-8")) : {};
+          existing.offline_applications = existing.offline_applications || [];
+          existing.offline_applications.push({ ...json, timestamp: new Date().toISOString() });
+          fs.writeFileSync(mockFile, JSON.stringify(existing, null, 2));
+        } catch (e) {
+          console.error("Simulation fallback log failed:", e);
+        }
+        return NextResponse.json({ success: true, message: "Simulation Mode: Application submitted and acknowledged" }, { status: 201 });
+      }
+    }
+
     return safeApiErrorResponse(error);
   }
 }

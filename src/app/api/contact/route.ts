@@ -3,7 +3,9 @@ import { db, schema } from "@/lib/db";
 import { z } from "zod";
 import { rateLimit } from "@/lib/security/rate-limit";
 import { sendInstitutionalMail } from "@/lib/mail/transporter";
-import { safeApiErrorResponse, logApiError } from "@/lib/api-errors";
+import { safeApiErrorResponse, logApiError, isDbConnectionError } from "@/lib/api-errors";
+import fs from "fs";
+import path from "path";
 
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -15,6 +17,7 @@ const contactSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  let json: any = {};
   try {
     const ip = request.headers.get("x-forwarded-for") || "unknown";
     const userAgent = request.headers.get("user-agent") || "unknown";
@@ -24,7 +27,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: rateLimitMsg }, { status: 429 });
     }
 
-    const json = await request.json();
+    json = await request.json();
     
     // 1. Zod Validation
     const result = contactSchema.safeParse(json);
@@ -89,6 +92,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, message: "Contact registered and notifications deployed" }, { status: 201 });
   } catch (error) {
     logApiError("CONTACT_POST", error);
+    
+    // SIMULATION MODE FALLBACK: If DB is offline locally, ensure form works for boardroom presentations
+    if (isDbConnectionError(error)) {
+      const isDev = process.env.NODE_ENV !== "production";
+      if (isDev) {
+        try {
+          const mockFile = path.resolve(process.cwd(), "mock-db.json");
+          const existing = fs.existsSync(mockFile) ? JSON.parse(fs.readFileSync(mockFile, "utf-8")) : {};
+          existing.offline_contacts = existing.offline_contacts || [];
+          existing.offline_contacts.push({ ...json, timestamp: new Date().toISOString() });
+          fs.writeFileSync(mockFile, JSON.stringify(existing, null, 2));
+        } catch (e) {
+          console.error("Simulation fallback log failed:", e);
+        }
+        return NextResponse.json({ success: true, message: "Simulation Mode: Contact registered and notifications deployed" }, { status: 201 });
+      }
+    }
+
     return safeApiErrorResponse(error);
   }
 }
