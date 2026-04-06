@@ -125,8 +125,8 @@ export const contacts = pgTable("contacts", {
   organization: varchar("organization", { length: 255 }),
   message: text("message").notNull(),
   status: contactStatusEnum("status").notNull().default("new"),
-  ipAddress: varchar("ip_address", { length: 45 }),
-  userAgent: text("user_agent"),
+  // ipAddress: varchar("ip_address", { length: 45 }),
+  // userAgent: text("user_agent"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
@@ -153,8 +153,8 @@ export const applications = pgTable("applications", {
   cvUrl: text("cv_url"),
   coverLetter: text("cover_letter"),
   status: applicationStatusEnum("status").notNull().default("new"),
-  ipAddress: varchar("ip_address", { length: 45 }),
-  userAgent: text("user_agent"),
+  // ipAddress: varchar("ip_address", { length: 45 }),
+  // userAgent: text("user_agent"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
