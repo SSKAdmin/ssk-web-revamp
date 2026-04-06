@@ -38,8 +38,8 @@ export function logApiError(context: string, error: any) {
 
 export function safeApiErrorResponse(error: any) {
   if (isDbConnectionError(error)) {
-    return NextResponse.json({ success: false, error: "Service temporarily unavailable" }, { status: 503 });
+    return NextResponse.json({ success: false, error: "Service temporarily unavailable: " + (error?.message || error) }, { status: 503 });
   }
   
-  return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
+  return NextResponse.json({ success: false, error: "Internal Server Error: " + (error?.message || error) }, { status: 500 });
 }
