@@ -11,9 +11,9 @@ import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const contactSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().optional(),
   email: z.string().email("Invalid email format").regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,13}$/, "Please enter a valid business email"),
-  phone: z.string().regex(/^05\d{8}$/, "Mobile number must start with 05 and be exactly 10 digits").min(10, "10 digits required").max(10, "10 digits maximum").optional().or(z.literal("")),
+  phone: z.string().regex(/^05\d{8}$/, "Mobile number must start with 05 and be exactly 10 digits"),
   organization: z.string().optional(),
   message: z.string().optional(),
   honeypot: z.string().max(0, "Bot detected").optional(),
@@ -176,7 +176,7 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
             "text-[11px] font-bold uppercase tracking-[0.3em] text-ssk-navy",
             isRtl && "font-[var(--font-arabic)] tracking-normal"
           )}>
-            {c.fields.phone}
+            {c.fields.phone} <span className="text-destructive ml-1">*</span>
           </label>
           <Input 
             {...register("phone")}

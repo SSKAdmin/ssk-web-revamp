@@ -8,13 +8,13 @@ import { Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const engagementSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().optional(),
   email: z.string().email("Invalid email format").regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,13}$/, "Please enter a valid email"),
-  organization: z.string().min(1, "Organization is required"),
-  phone: z.string().regex(/^05\d{8}$/, "Mobile number must start with 05 and be exactly 10 digits").min(10, "10 digits required").max(10, "10 digits maximum").optional().or(z.literal("")),
-  initiativeType: z.string().min(1, "Please select an initiative type"),
+  organization: z.string().optional(),
+  phone: z.string().regex(/^05\d{8}$/, "Mobile number must start with 05 and be exactly 10 digits"),
+  initiativeType: z.string().optional(),
   timeline: z.string().optional(),
-  description: z.string().min(10, "Please provide more details on the requirement"),
+  description: z.string().optional(),
 });
 
 type EngagementValues = z.infer<typeof engagementSchema>;
@@ -145,7 +145,7 @@ export function ClientEngagementForm({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div className="space-y-3">
           <label className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-navy flex items-center">
-            {labels.org_name} <span className="text-destructive ml-1">*</span>
+            {labels.org_name}
           </label>
           <input 
             {...register("organization")}
@@ -158,7 +158,7 @@ export function ClientEngagementForm({
         </div>
         <div className="space-y-3">
           <label className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-navy flex items-center">
-            {labels.contact_person} <span className="text-destructive ml-1">*</span>
+            {labels.contact_person}
           </label>
           <input 
             {...register("name")}
@@ -188,7 +188,7 @@ export function ClientEngagementForm({
         </div>
         <div className="space-y-3">
           <label className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-navy">
-             {isAr ? "رقم الهاتف" : "Phone Number"}
+             {isAr ? "رقم الهاتف" : "Phone Number"} <span className="text-destructive ml-1">*</span>
           </label>
           <input 
             {...register("phone")}
@@ -205,7 +205,7 @@ export function ClientEngagementForm({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div className="space-y-3">
           <label className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-navy flex items-center">
-            {labels.initiative_type} <span className="text-destructive ml-1">*</span>
+            {labels.initiative_type}
           </label>
           <select 
             {...register("initiativeType")}
@@ -235,7 +235,7 @@ export function ClientEngagementForm({
 
       <div className="space-y-3 border-t border-ssk-border pt-12">
         <label className="text-[12px] font-bold uppercase tracking-[0.2em] text-ssk-navy flex items-center">
-          {labels.requirement_description} <span className="text-destructive ml-1">*</span>
+          {labels.requirement_description}
         </label>
         <textarea 
           {...register("description")}

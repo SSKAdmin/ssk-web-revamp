@@ -25,7 +25,7 @@ import type { Locale } from "@/lib/i18n";
 const applicationSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email format").regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,13}$/, "Please enter a valid email"),
-  phone: z.string().regex(/^05\d{8}$/, "Mobile number must start with 05 and be exactly 10 digits").optional().or(z.literal("")),
+  phone: z.string().regex(/^05\d{8}$/, "Mobile number must start with 05 and be exactly 10 digits"),
   coverLetter: z.string().optional(),
   cvUrl: z.string().min(1, "Attachment is required").optional().or(z.literal("pending_upload")),
 });
@@ -249,7 +249,7 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
 
       <div className="space-y-3">
         <label className="text-[11px] font-bold uppercase tracking-[0.2em] text-ssk-navy flex items-center">
-          <Phone className={cn("h-3 w-3 mr-2", isAr && "ml-2 mr-0")} /> {f.labels.phone}
+          <Phone className={cn("h-3 w-3 mr-2", isAr && "ml-2 mr-0")} /> {f.labels.phone} <span className="text-destructive ml-1">*</span>
         </label>
         <input
           {...register("phone")}
