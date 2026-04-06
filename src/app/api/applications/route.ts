@@ -14,7 +14,7 @@ const applicationSchema = z.object({
   name: z.string().optional().default("Anonymous Candidate"),
   email: z.string().email("Invalid email format"),
   phone: z.string().regex(/^05\d{8}$/, "Invalid phone format").optional().or(z.literal("")),
-  cvUrl: z.string().url("Invalid CV URL").optional().or(z.literal("")),
+  cvUrl: z.string().optional().or(z.literal("")),
   coverLetter: z.string().optional(),
   honeypot: z.string().max(0, "Bot detected").optional(),
 });

@@ -57,9 +57,9 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
   });
 
   const processFile = (file: File) => {
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 2.5 * 1024 * 1024) {
        setStatus("error");
-       setErrorMessage("Document exceeds 5MB institutional limit. Please compress or optimize."); 
+       setErrorMessage("Document exceeds 2.5MB institutional limit. Please compress or optimize."); 
        setSelectedFile(null);
        return; 
     }
@@ -302,7 +302,7 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
                 <FileText className="h-12 w-12 text-ssk-navy mb-2" />
                 <div>
                    <p className="text-ssk-navy font-bold">{isAr ? "قم بسحب المستند هنا أو اضغط للاستعراض" : "Drag Document Here or Click to Browse"}</p>
-                   <p className="text-xs font-bold text-ssk-navy mt-2">{isAr ? "الحد الأقصى (5MB). الصيغ: PDF, DOCX" : "Maximum payload (5MB). Formats: PDF, DOCX"}</p>
+                   <p className="text-xs font-bold text-ssk-navy mt-2">{isAr ? "الحد الأقصى (2.5MB). الصيغ: PDF, DOCX" : "Maximum payload (2.5MB). Formats: PDF, DOCX"}</p>
                 </div>
                 <div className="mt-6 px-8 py-3 bg-ssk-navy text-ssk-cyan text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center">
                    {isAr ? "اختر ملفاً" : "Select File"}

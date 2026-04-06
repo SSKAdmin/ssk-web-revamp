@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB Limit per CIO Sec Ops
+const MAX_FILE_SIZE = 2.5 * 1024 * 1024; // 2.5MB Limit per Vercel Payload boundaries
 const ALLOWED_MIME_TYPES = [
   "application/pdf",
   "application/msword",
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     if (file.size > MAX_FILE_SIZE) {
       console.warn(`[SECURITY] Payload too large: ${file.size} bytes`);
       return NextResponse.json(
-        { error: "File exceeds the 5MB institutional limit." },
+        { error: "File exceeds the 2.5MB institutional limit." },
         { status: 413 }
       );
     }
@@ -46,6 +46,15 @@ export async function POST(request: Request) {
     // Explicitly reject double extension attacks
     if (![".pdf", ".doc", ".docx"].includes(originalExt)) {
        return NextResponse.json({ error: "Invalid extension masquerade." }, { status: 415 });
+    }
+
+    // In Vercel serverless (Production), the filesystem is read-only.
+    // To ensure the file is preserved securely in the database as requested,
+    // we convert the bytes to a Base64 data URI and return it as the URL.
+    if (process.env.NODE_ENV === "production") {
+      const base64Data = buffer.toString("base64");
+      const publicUrl = `data:${file.type};base64,${base64Data}`;
+      return NextResponse.json({ success: true, url: publicUrl }, { status: 201 });
     }
 
     const secureFileName = `${crypto.randomUUID()}${originalExt}`;
