@@ -52,7 +52,7 @@ export async function POST(request: Request) {
         cvUrl,
         coverLetter,
       })
-      .returning();
+      .returning({ id: schema.applications.id });
 
     const referenceId = `SSK-APP-${newApplication && newApplication.id ? newApplication.id.split('-')[0].toUpperCase() : Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 

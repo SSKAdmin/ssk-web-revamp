@@ -53,7 +53,7 @@ export async function POST(request: Request) {
         organization,
         message: finalMessage,
       })
-      .returning();
+      .returning({ id: schema.contacts.id });
 
     const referenceId = `SSK-REQ-${newContact && newContact.id ? newContact.id.split('-')[0].toUpperCase() : Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
