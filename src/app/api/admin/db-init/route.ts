@@ -30,20 +30,27 @@ export async function GET(request: Request) {
       DROP TABLE IF EXISTS "cms_sections" CASCADE;
     `);
 
-    // 1. CREATE ENUMS
-    await db.execute(sql`
-      DO $$ BEGIN
-        CREATE TYPE "user_role" AS ENUM ('admin', 'director', 'manager', 'viewer');
-        CREATE TYPE "gov_doc_status" AS ENUM ('exists', 'partial', 'missing');
-        CREATE TYPE "gov_doc_priority" AS ENUM ('low', 'medium', 'high');
-        CREATE TYPE "task_status" AS ENUM ('todo', 'in_progress', 'blocked', 'done');
-        CREATE TYPE "cms_page" AS ENUM ('home', 'about', 'services', 'contact', 'careers');
-        CREATE TYPE "language" AS ENUM ('en', 'ar');
-        CREATE TYPE "contact_status" AS ENUM ('new', 'in_progress', 'closed');
-        CREATE TYPE "job_status" AS ENUM ('draft', 'published', 'closed');
-        CREATE TYPE "application_status" AS ENUM ('new', 'review', 'shortlisted', 'rejected', 'hired');
-      EXCEPTION WHEN duplicate_object THEN null; END $$;
-    `);
+    // 1. CREATE ENUMS INDIVIDUALLY TO AVOID BLOCK CANCELLATION
+    const enums = [
+      "CREATE TYPE \"user_role\" AS ENUM ('admin', 'director', 'manager', 'viewer');",
+      "CREATE TYPE \"gov_doc_status\" AS ENUM ('exists', 'partial', 'missing');",
+      "CREATE TYPE \"gov_doc_priority\" AS ENUM ('low', 'medium', 'high');",
+      "CREATE TYPE \"task_status\" AS ENUM ('todo', 'in_progress', 'blocked', 'done');",
+      "CREATE TYPE \"cms_page\" AS ENUM ('home', 'about', 'services', 'contact', 'careers');",
+      "CREATE TYPE \"language\" AS ENUM ('en', 'ar');",
+      "CREATE TYPE \"contact_status\" AS ENUM ('new', 'in_progress', 'closed');",
+      "CREATE TYPE \"job_status\" AS ENUM ('draft', 'published', 'closed');",
+      "CREATE TYPE \"application_status\" AS ENUM ('new', 'review', 'shortlisted', 'rejected', 'hired');"
+    ];
+
+    for (const enumQuery of enums) {
+      try {
+        // Manually format string into raw SQL object, or use drizzle sql.raw()
+        await db.execute(sql.raw(`DO $$ BEGIN ${enumQuery} EXCEPTION WHEN duplicate_object THEN null; END $$;`));
+      } catch (e) {
+        console.warn("Enum creation skipped", e);
+      }
+    }
 
     // 2. CREATE BASE TABLES WITHOUT FOREIGN KEYS OR WITH SAFE FKs
     await db.execute(sql`
