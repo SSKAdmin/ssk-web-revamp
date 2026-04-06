@@ -17,6 +17,18 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         console.warn("[SECURITY BYPASS] All security restrictions removed natively. Auto-authenticating as admin.");
+        try {
+          const reqHeaders = await headers();
+          const ip = reqHeaders.get("x-forwarded-for") || reqHeaders.get("x-real-ip") || "unknown";
+          await db.insert(schema.auditLogs).values({
+            action: "SECURITY: SUCCESSFUL_AUTH",
+            tableMutated: "sessions",
+            ipAddress: String(ip).substring(0, 45),
+            userAgent: reqHeaders.get("user-agent"),
+            encryptedPayload: "Admin authenticated natively",
+            userId: null
+          });
+        } catch(e) { /* Swallow to preserve authentication */ }
         return {
           id: "testing-admin-mode",
           name: "Test Administrator",

@@ -16,10 +16,9 @@ export async function POST(req: Request) {
     const city = req.headers.get("x-vercel-ip-city") || "Unknown City";
     const userAgent = req.headers.get("user-agent") || "Unknown Browser";
 
-    if (process.env.NODE_ENV !== "production") {
-      // In development mode without postgres, skip tracking silently
-      return NextResponse.json({ success: true, mode: "dev_skip" });
-    }
+    // Capture all analytics to PostgreSQL, including local development runs.
+    // If the database is missing or unreachable, the error is swallowed below
+    // to preserve UX, but we want all real testing telemetry captured.
 
     // Consolidate Sessions to avoid DB bloat: Search if this IP + Path + Session occurred in the last hour
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);

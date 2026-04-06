@@ -86,6 +86,69 @@ export async function GET(request: Request) {
       );
     `);
 
+    await db.execute(sql`
+      CREATE TABLE IF NOT EXISTS "website_analytics" (
+        "id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+        "path" varchar(255) NOT NULL,
+        "ip_address" varchar(45),
+        "country" varchar(100),
+        "city" varchar(100),
+        "user_agent" text,
+        "session_id" varchar(100),
+        "duration_seconds" integer DEFAULT 0,
+        "visited_at" timestamp with time zone DEFAULT now() NOT NULL
+      );
+    `);
+
+    await db.execute(sql`
+      CREATE TABLE IF NOT EXISTS "audit_logs" (
+        "id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+        "action" varchar(100) NOT NULL,
+        "table_mutated" varchar(100),
+        "ip_address" varchar(45),
+        "user_agent" text,
+        "encrypted_payload" text,
+        "user_id" uuid,
+        "created_at" timestamp with time zone DEFAULT now() NOT NULL
+      );
+    `);
+
+    await db.execute(sql`
+      CREATE TABLE IF NOT EXISTS "system_settings" (
+        "key" varchar(150) PRIMARY KEY NOT NULL,
+        "value" text,
+        "is_encrypted" boolean DEFAULT false NOT NULL,
+        "description" text,
+        "updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+        "updated_by" uuid
+      );
+    `);
+
+    await db.execute(sql`
+      CREATE TABLE IF NOT EXISTS "crm_accounts" (
+        "id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+        "company_name" varchar(255) NOT NULL,
+        "industry" varchar(100),
+        "sector" varchar(100),
+        "annual_revenue" varchar(100),
+        "assigned_manager_id" uuid,
+        "status" varchar(50) DEFAULT 'prospect' NOT NULL,
+        "created_at" timestamp with time zone DEFAULT now() NOT NULL,
+        "updated_at" timestamp with time zone DEFAULT now() NOT NULL
+      );
+    `);
+
+    await db.execute(sql`
+      CREATE TABLE IF NOT EXISTS "backup_records" (
+        "id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+        "file_name" varchar(255) NOT NULL,
+        "file_size" varchar(50),
+        "status" varchar(50) DEFAULT 'completed' NOT NULL,
+        "url" text,
+        "created_at" timestamp with time zone DEFAULT now() NOT NULL
+      );
+    `);
+
     return NextResponse.json({ success: true, message: "CRITICAL TABLES CREATED SUCCESSFULLY" });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error?.message || String(error) }, { status: 500 });
