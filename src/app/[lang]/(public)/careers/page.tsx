@@ -148,8 +148,7 @@ export default async function CareersPage({
                      </p>
                    </div>
                    
-                   <div className="pt-6 border-t border-ssk-border mt-auto flex justify-between items-center">
-                     <span className="text-[10px] font-bold text-ssk-navy uppercase tracking-[0.3em]">REF: {job.id}</span>
+                   <div className="pt-6 border-t border-ssk-border mt-auto flex justify-end items-center">
                      <Link href={`/${lang}/careers/${job.id}`} className="group-hover:translate-x-2 transition-transform inline-flex items-center text-[12px] font-bold text-ssk-cyan uppercase tracking-[0.2em]">
                        {isAr ? "التفاصيل الوظيفية" : "View Sequence"} <ArrowRight className={cn("w-4 h-4 ml-2", isAr && "rotate-180 mr-2 ml-0")} />
                      </Link>

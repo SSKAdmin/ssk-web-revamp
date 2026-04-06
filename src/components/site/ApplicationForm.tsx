@@ -195,7 +195,6 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
          <Briefcase className="h-6 w-6 text-ssk-cyan mb-2" />
          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-ssk-navy">{isAr ? "تطبيق على وظيفة" : "APPLICATION FOR"}</p>
          <h3 className="text-xl md:text-2xl font-bold tracking-tight text-ssk-navy">{jobTitle}</h3>
-         <p className="text-xs font-bold text-ssk-cyan uppercase tracking-widest">ID: {jobId}</p>
       </div>
 
       {status === "error" && (

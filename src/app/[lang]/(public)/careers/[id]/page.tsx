@@ -99,9 +99,9 @@ export default async function JobDetailsPage({ params }: JobDetailsProps) {
                   {isAr ? "الإطار التشغيلي (السياق)" : "Operational Context"}
                 </h2>
                 <div className="w-12 h-1 bg-ssk-navy mb-8"></div>
-                <p className="text-[18px] text-ssk-navy font-bold leading-relaxed">
+                <div className="text-[18px] text-ssk-navy font-bold leading-relaxed whitespace-pre-wrap text-justify">
                   {description}
-                </p>
+                </div>
              </div>
 
              {/* RESPONSIBILITIES */}
