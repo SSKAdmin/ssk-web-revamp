@@ -48,17 +48,16 @@ async function seedArabic() {
     await db.insert(cmsSections).values(section);
   }
 
-  // JOBS - ARABIC
+  // JOBS - ARABIC (Mapped to Bilingual Properties)
   const jobsList = [
     {
-      lang: "ar" as const,
-      title: "مدير برنامج التنفيذ الاستراتيجي",
+      titleEn: "Strategic Execution Program Manager",
+      titleAr: "مدير برنامج التنفيذ الاستراتيجي",
       department: "مكتب إدارة الإنجاز (MEO)",
       location: "الرياض، المملكة العربية السعودية",
       type: "دوام كامل",
-      description: "قيادة التحول المؤسسي من خلال الإشراف المهني والمباشر على مسارات التنفيذ.",
-      responsibilities: "إدارة المسار الحرج للمبادرات النوعية، وضمان الالتزام الكامل بالمعايير التشغيلية المعتمدة.",
-      requirements: "خبرة لا تقل عن 10 سنوات في القطاع الحكومي أو مجالات إدارة البرامج الاستراتيجية.",
+      descriptionEn: "Lead institutional transformation through direct monitoring of execution tracks.",
+      descriptionAr: "قيادة التحول المؤسسي من خلال الإشراف المهني والمباشر على مسارات التنفيذ.",
     }
   ];
 

@@ -18,7 +18,7 @@ export default async function CareersInboxPage() {
          coverLetter: schema.applications.coverLetter,
          status: schema.applications.status,
          createdAt: schema.applications.createdAt,
-         jobTitle: schema.jobs.title
+         jobTitle: schema.jobs.titleEn
       })
       .from(schema.applications)
       .leftJoin(schema.jobs, eq(schema.applications.jobId, schema.jobs.id))

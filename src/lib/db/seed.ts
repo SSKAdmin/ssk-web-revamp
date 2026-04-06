@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { db } from "@/lib/db";
-import { users } from "@/lib/db/schema";
+import { users, jobs } from "@/lib/db/schema";
 import { hashPassword } from "@/lib/auth/password";
 
 async function main() {
@@ -13,6 +13,22 @@ async function main() {
     role: "admin",
     isActive: true,
   });
+
+  const jobsList = [
+    {
+      titleEn: "Senior Digital Strategist",
+      titleAr: "خبير استراتيجيات رقمية كبير",
+      department: "Strategy",
+      location: "Riyadh, KSA",
+      type: "Full-time",
+      descriptionEn: "Lead digital transformation strategy for key government clients.",
+      descriptionAr: "قيادة استراتيجية التحول الرقمي للعملاء الحكوميين الرئيسيين."
+    }
+  ];
+
+  for (const job of jobsList) {
+    await db.insert(jobs).values(job);
+  }
 
   console.log("Seed completed successfully.");
 }

@@ -43,13 +43,13 @@ export async function POST(request: Request) {
     const [newJob] = await db
       .insert(schema.jobs)
       .values({
-        title,
+        titleEn: title,
+        titleAr: title,
         department,
         location,
         type,
-        description,
-        responsibilities,
-        requirements,
+        descriptionEn: description,
+        descriptionAr: description,
         status: "published",
       })
       .returning();
