@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { getDictionary } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
+import { AnalyticsTracker } from "@/components/site/AnalyticsTracker";
 
 const outfit = Outfit({ variable: "--font-body", subsets: ["latin"] });
 const montserrat = Montserrat({ variable: "--font-display", subsets: ["latin"], weight: ["700", "800", "900"] });
@@ -46,6 +47,7 @@ export default async function RootLayout({
           "selection:bg-ssk-cyan/30 bg-ssk-surface text-ssk-navy",
           isRtl ? 'font-arabic' : 'font-sans'
         )}>
+        <AnalyticsTracker />
         {children}
       </body>
     </html>
