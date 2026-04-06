@@ -28,8 +28,8 @@ export async function generateMetadata({ params }: ApplyPageProps) {
   if (!job) return { title: isAr ? "تفاصيل الوظيفة | SSK" : "Role Specifications | SSK" };
   
   return {
-    title: `${job.title} | SSK ${isAr ? "للتوظيف" : "Careers"}`,
-    description: job.description,
+    title: `${isAr ? job.titleAr : job.titleEn} | SSK ${isAr ? "للتوظيف" : "Careers"}`,
+    description: isAr ? job.descriptionAr : job.descriptionEn,
   };
 }
 
@@ -42,12 +42,12 @@ export default async function JobDetailsPage({ params }: ApplyPageProps) {
     notFound();
   }
 
-  const title = job.title;
-  const description = job.description;
+  const title = isAr ? job.titleAr : job.titleEn;
+  const description = isAr ? job.descriptionAr : job.descriptionEn;
   
-  // Normalize arrays if they exist, else empty array
-  const responsibilities = job.responsibilities || [];
-  const requirements = job.requirements || [];
+  // Clean arrays since we dropped them from DB (the new Admin UI uses single comprehensive executive summaries)
+  const responsibilities: string[] = [];
+  const requirements: string[] = [];
 
   return (
     <main className="min-h-screen bg-white">

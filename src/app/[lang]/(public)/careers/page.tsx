@@ -28,7 +28,11 @@ export default async function CareersPage({
   const isAr = lang === "ar";
 
   const allJobs = await getJobs();
-  const activeJobs = allJobs.filter((j: any) => j.active !== false && j.lang === lang && j.status === "published");
+  const activeJobs = allJobs.filter((j: any) => j.status === "published").map((j: any) => ({
+    ...j,
+    title: isAr ? j.titleAr : j.titleEn,
+    description: isAr ? j.descriptionAr : j.descriptionEn
+  }));
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">

@@ -55,9 +55,9 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, timestamp: new Date().toISOString() });
-  } catch (error) {
-    // Silently fail to not disrupt user experience
+  } catch (error: any) {
+    // Silently fail in general, but for current debug pass, expose it.
     console.error("[ANALYTICS_INGEST_ERROR]", error);
-    return NextResponse.json({ success: false }, { status: 500 });
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

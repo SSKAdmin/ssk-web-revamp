@@ -91,6 +91,6 @@ export async function GET() {
             simulated: true
         });
     }
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal Server Error", detail: (error as any)?.message || String(error) }, { status: 500 });
   }
 }

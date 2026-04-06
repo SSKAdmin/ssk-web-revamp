@@ -106,31 +106,63 @@ export async function toggleSetting(key: string) {
 export async function getKnowledge() { return readDb().knowledge || []; }
 
 // JOBS (Careers)
-export async function getJobs() { return readDb().jobs || []; }
+export async function getJobs() { 
+  try {
+    const records = await db.select().from(schema.jobs).orderBy(desc(schema.jobs.createdAt));
+    return records.map(r => ({
+      id: r.id,
+      titleEn: r.titleEn,
+      titleAr: r.titleAr,
+      department: r.department,
+      location: r.location,
+      type: r.type,
+      descriptionEn: r.descriptionEn,
+      descriptionAr: r.descriptionAr,
+      status: r.status,
+      active: r.status !== 'closed',
+      createdAt: new Date(r.createdAt || Date.now()).toISOString().split('T')[0]
+    }));
+  } catch (e) {
+    return [];
+  }
+}
+
 export async function addJob(job: any) {
-  const db = readDb();
-  if(!db.jobs) db.jobs = [];
-  db.jobs.push({ 
-     ...job, 
-     id: "SSK-JOB-" + Date.now(), 
-     active: true, 
-     createdAt: new Date().toISOString().split('T')[0] 
-  });
-  writeDb(db);
-  return { success: true };
+  try {
+    await db.insert(schema.jobs).values({
+      titleEn: job.titleEn,
+      titleAr: job.titleAr,
+      department: job.department,
+      location: job.location || 'Riyadh, KSA',
+      type: job.type || 'Full-time',
+      descriptionEn: job.descriptionEn,
+      descriptionAr: job.descriptionAr,
+      status: 'published'
+    });
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: String(e) };
+  }
 }
+
 export async function toggleJob(id: string) {
-  const db = readDb();
-  if(!db.jobs) return { success: false };
-  const j = db.jobs.find((x: any) => x.id === id);
-  if(j) j.active = !j.active;
-  writeDb(db);
-  return { success: true };
+  try {
+    const [current] = await db.select({ status: schema.jobs.status }).from(schema.jobs).where(eq(schema.jobs.id, id));
+    if (!current) return { success: false };
+    
+    const newStatus = current.status === 'published' ? 'closed' : 'published';
+    await db.update(schema.jobs).set({ status: newStatus as any }).where(eq(schema.jobs.id, id));
+    return { success: true };
+  } catch (e) {
+    return { success: false };
+  }
 }
+
 export async function deleteJob(id: string) {
-  const db = readDb();
-  if(!db.jobs) return { success: false };
-  db.jobs = db.jobs.filter((j: any) => j.id !== id);
-  writeDb(db);
-  return { success: true };
+  try {
+    await db.delete(schema.jobs).where(eq(schema.jobs.id, id));
+    return { success: true };
+  } catch (e) {
+    return { success: false };
+  }
 }

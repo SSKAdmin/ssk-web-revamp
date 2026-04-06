@@ -49,16 +49,18 @@ export async function GET(request: Request) {
     `);
 
     await db.execute(sql`
-      CREATE TABLE IF NOT EXISTS "jobs" (
+      -- Drop old structures safely to migrate to bilingual unified rows
+      DROP TABLE IF EXISTS "jobs" CASCADE;
+      
+      CREATE TABLE "jobs" (
         "id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-        "lang" "language" DEFAULT 'en' NOT NULL,
-        "title" varchar(255) NOT NULL,
+        "title_en" varchar(255) NOT NULL,
+        "title_ar" varchar(255) NOT NULL,
         "department" varchar(100) NOT NULL,
         "location" varchar(100) DEFAULT 'Riyadh, KSA' NOT NULL,
         "type" varchar(50) DEFAULT 'Full-time' NOT NULL,
-        "description" text NOT NULL,
-        "responsibilities" text,
-        "requirements" text,
+        "description_en" text NOT NULL,
+        "description_ar" text NOT NULL,
         "status" "job_status" DEFAULT 'published' NOT NULL,
         "created_at" timestamp with time zone DEFAULT now() NOT NULL
       );

@@ -23,9 +23,11 @@ export async function generateMetadata({ params }: ApplyPageProps) {
   
   if (!job) return { title: isAr ? "تقديم طلب | SSK" : "Apply | SSK" };
   
+  const title = isAr ? job.titleAr : job.titleEn;
+  
   return {
-    title: `${isAr ? "تقديم:" : "Apply:"} ${job.title} | SSK`,
-    description: isAr ? `نموذج التقديم لوظيفة ${job.title} في قطاع ${job.department}` : `Application form for ${job.title} in ${job.department}`,
+    title: `${isAr ? "تقديم:" : "Apply:"} ${title} | SSK`,
+    description: isAr ? `نموذج التقديم لوظيفة ${title} في قطاع ${job.department}` : `Application form for ${title} in ${job.department}`,
   };
 }
 
@@ -38,7 +40,7 @@ export default async function ApplyPage({ params }: ApplyPageProps) {
   }
 
   const isAr = lang === "ar";
-  const title = job.title;
+  const title = isAr ? job.titleAr : job.titleEn;
 
   return (
     <main className="min-h-screen bg-white">

@@ -132,14 +132,13 @@ export const contacts = pgTable("contacts", {
 
 export const jobs = pgTable("jobs", {
   id: uuid("id").defaultRandom().primaryKey(),
-  lang: languageEnum("lang").notNull().default("en"),
-  title: varchar("title", { length: 255 }).notNull(),
+  titleEn: varchar("title_en", { length: 255 }).notNull(),
+  titleAr: varchar("title_ar", { length: 255 }).notNull(),
   department: varchar("department", { length: 100 }).notNull(),
   location: varchar("location", { length: 100 }).notNull().default("Riyadh, KSA"),
   type: varchar("type", { length: 50 }).notNull().default("Full-time"),
-  description: text("description").notNull(),
-  responsibilities: text("responsibilities"),
-  requirements: text("requirements"),
+  descriptionEn: text("description_en").notNull(),
+  descriptionAr: text("description_ar").notNull(),
   status: jobStatusEnum("status").notNull().default("published"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
