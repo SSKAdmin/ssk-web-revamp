@@ -52,71 +52,46 @@ export async function POST(request: Request) {
         phone,
         organization,
         message: finalMessage,
-        ipAddress: ip,
-        userAgent: userAgent,
       })
       .returning();
 
     const referenceId = `SSK-REQ-${newContact && newContact.id ? newContact.id.split('-')[0].toUpperCase() : Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
-    // 3. Email Notification to Support Desk
-    await sendInstitutionalMail({
-      to: process.env.SUPPORT_EMAIL || "info@ssk.sa",
-      subject: `[${referenceId}] New Corporate Engagement: ${organization || name}`,
-      html: `
-        <h2>New Contact Request: ${referenceId}</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone || "N/A"}</p>
-        <p><strong>Organization:</strong> ${organization || "N/A"}</p>
-        <p><strong>Message:</strong></p>
-        <blockquote style="border-left: 4px solid #0ABAB5; padding-left: 10px;">${finalMessage}</blockquote>
-      `,
-    });
+    // 3. Try to dispatch mail (Catch if it fails so it doesn't block submission)
+    try {
+      await sendInstitutionalMail({
+        to: process.env.SUPPORT_EMAIL || "info@ssk.sa",
+        subject: `[${referenceId}] New Engagement: ${organization || name}`,
+        html: `
+          <h2>New Contact Request: ${referenceId}</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${phone || "N/A"}</p>
+          <p><strong>Organization:</strong> ${organization || "N/A"}</p>
+          <p><strong>Message:</strong></p>
+          <blockquote style="border-left: 4px solid #0ABAB5; padding-left: 10px;">${finalMessage}</blockquote>
+        `,
+      });
 
-    // 4. Auto-Responder to Client
-    await sendInstitutionalMail({
-      to: email,
-      subject: `SSK Engagement Request Received - [${referenceId}]`,
-      html: `
-        <div style="font-family: sans-serif; color: #0B1F3A;">
-          <h2>Request Successfully Submitted</h2>
-          <p>Dear ${name},</p>
-          <p>We have successfully received your engagement request. Your reference ID is: <strong>${referenceId}</strong>.</p>
-          <p>Our executive team will review your inquiry and contact you shortly.</p>
-          <p>Best regards,<br/><strong>SSK: Sovereign Strategy & Knowledge</strong></p>
-        </div>
-      `,
-    });
+      await sendInstitutionalMail({
+        to: email,
+        subject: `SSK Engagement Request Received - [${referenceId}]`,
+        html: `
+          <div style="font-family: sans-serif; color: #0B1F3A;">
+            <h2>Request Successfully Submitted</h2>
+            <p>Dear ${name},</p>
+            <p>We have received your engagement request. Your reference ID is: <strong>${referenceId}</strong>.</p>
+            <p>Best regards,<br/><strong>SSK: Sovereign Strategy & Knowledge</strong></p>
+          </div>
+        `,
+      });
+    } catch (smtpError) {
+      console.warn("SMTP failure, ignoring so DB insertion persists", smtpError);
+    }
 
-    return NextResponse.json({ success: true, message: "Contact registered and notifications deployed" }, { status: 201 });
+    return NextResponse.json({ success: true, message: "Contact registered successfully" }, { status: 201 });
   } catch (error) {
     logApiError("CONTACT_POST", error);
-    
-    // SIMULATION MODE FALLBACK: If DB is offline locally, ensure form works for boardroom presentations
-    if (isDbConnectionError(error)) {
-      const isDev = process.env.NODE_ENV !== "production";
-      if (isDev) {
-        try {
-          const mockFile = path.resolve(process.cwd(), "mock-db.json");
-          const existing = fs.existsSync(mockFile) ? JSON.parse(fs.readFileSync(mockFile, "utf-8")) : {};
-          existing.offline_contacts = existing.offline_contacts || [];
-          existing.offline_contacts.push({ ...json, timestamp: new Date().toISOString() });
-          fs.writeFileSync(mockFile, JSON.stringify(existing, null, 2));
-        } catch (e) {
-          console.error("Simulation fallback log failed:", e);
-        }
-        return NextResponse.json({ success: true, message: "Simulation Mode: Contact registered and notifications deployed" }, { status: 201 });
-      }
-    }
-
-    // 5. Ultimate Fallback for Production (Vercel Boardroom Demo)
-    // If we fail due to DB or SMTP and are in production, still return success to keep forms "working 100%"
-    // as per boardroom standards without showing crashes to users.
-    if (process.env.NODE_ENV === "production") {
-      return NextResponse.json({ success: true, message: "Demo Mode: Form logged safely in memory" }, { status: 201 });
-    }
-
     return safeApiErrorResponse(error);
   }
 }

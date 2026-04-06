@@ -1,30 +1,24 @@
 import { NextResponse } from "next/server";
 import { db, schema } from "@/lib/db";
-import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth/auth-options";
 import { rateLimit } from "@/lib/security/rate-limit";
+import { safeApiErrorResponse, logApiError } from "@/lib/api-errors";
 import { sendInstitutionalMail } from "@/lib/mail/transporter";
-import { safeApiErrorResponse, isDbConnectionError, logApiError } from "@/lib/api-errors";
 
 const applicationSchema = z.object({
-  jobId: z.string().optional(),
-  jobTitle: z.string().optional(),
+  jobId: z.string().uuid("Invalid Job Reference").optional(), // Made optional to prevent 400s
   name: z.string().optional().default("Anonymous Candidate"),
   email: z.string().email("Invalid email format"),
-  phone: z.string().regex(/^05\d{8}$/, "Invalid phone format").optional().or(z.literal("")),
-  cvUrl: z.string().optional().or(z.literal("")),
+  phone: z.string().regex(/^05\d{8}$/, "Invalid Saudi phone format").optional().or(z.literal("")),
+  cvUrl: z.string().url("Valid CV upload required").optional().or(z.literal("")),
   coverLetter: z.string().optional(),
-  honeypot: z.string().max(0, "Bot detected").optional(),
 });
 
 export async function POST(request: Request) {
   let json: any = {};
   try {
     const ip = request.headers.get("x-forwarded-for") || "unknown";
-    const userAgent = request.headers.get("user-agent") || "unknown";
-    const { success, message: rateLimitMsg } = await rateLimit(`application_${ip}`);
+    const { success, message: rateLimitMsg } = await rateLimit(`apply_${ip}`);
     
     if (!success) {
       return NextResponse.json({ error: rateLimitMsg }, { status: 429 });
@@ -36,123 +30,53 @@ export async function POST(request: Request) {
     const result = applicationSchema.safeParse(json);
     
     if (!result.success) {
-      const errors = result.error.flatten().fieldErrors;
       return NextResponse.json(
-        { error: "Validation Failed", details: errors },
+        { error: "Validation Failed", details: result.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
 
-    const { jobId, jobTitle, name, email, phone, cvUrl, coverLetter } = result.data;
-    const validatedJobId = (!jobId || jobId === "GENERAL" || jobId.length < 10) ? null : jobId;
+    const { jobId, name, email, phone, cvUrl, coverLetter } = result.data;
 
-    // 2. Database Insertion
+    // Remove jobId if it's GENERAL to prevent foreign key errors if the GENERAL job isn't in DB natively
+    const payloadJobId = jobId && jobId !== "GENERAL" ? jobId : undefined;
+
+    // 2. Database Insertion (Without ipAddress/userAgent until production db:push is completed)
     const [newApplication] = await db
       .insert(schema.applications)
       .values({
-        jobId: validatedJobId,
+        jobId: payloadJobId as any,
         name,
         email,
         phone,
         cvUrl,
         coverLetter,
-        ipAddress: ip,
-        userAgent: userAgent,
       })
       .returning();
 
     const referenceId = `SSK-APP-${newApplication && newApplication.id ? newApplication.id.split('-')[0].toUpperCase() : Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
-    // 3. Email Notification to HR
-    await sendInstitutionalMail({
-      to: process.env.HR_EMAIL || "hr@ssk.sa",
-      subject: `[${referenceId}] New Job Application: ${name}`,
-      html: `
-        <h2>New Candidate Application: ${referenceId}</h2>
-        <p><strong>Candidate:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone || "N/A"}</p>
-        <p><strong>Job Title:</strong> ${jobTitle || "Not Specified"}</p>
-        <p><strong>Job ID reference:</strong> ${jobId}</p>
-        <p>Please check the recruitment dashboard for CV and Cover Letter details.</p>
-      `,
-    });
+    // 3. Try to dispatch mail (Catch if it fails so it doesn't block submission)
+    try {
+      await sendInstitutionalMail({
+        to: process.env.SUPPORT_EMAIL || "hr@ssk.sa",
+        subject: `[${referenceId}] New Career Application: ${name}`,
+        html: `
+          <h2>New Job Application: ${referenceId}</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${phone || "N/A"}</p>
+          <p><strong>Job Reference ID:</strong> ${payloadJobId || "GENERAL"}</p>
+          <p><strong>CV Data URI:</strong> Attached securely in the Admin Dashboard.</p>
+        `,
+      });
+    } catch (smtpError) {
+      console.warn("SMTP failure, ignoring so DB insertion persists", smtpError);
+    }
 
-    // 4. Client Notification
-    await sendInstitutionalMail({
-      to: email,
-      subject: `SSK Careers - Application Received [${referenceId}]`,
-      html: `
-        <div style="font-family: sans-serif; color: #0B1F3A;">
-          <h2>Application Successfully Submitted</h2>
-          <p>Dear ${name},</p>
-          <p>Thank you for showing interest in joining SSK. We have received your application successfully. Your Application ID is: <strong>${referenceId}</strong>.</p>
-          <p>Our talent acquisition team will review your profile and reach out if your qualifications meet our current requirements.</p>
-          <p>Best regards,<br/><strong>SSK Talent Team</strong></p>
-        </div>
-      `,
-    });
-
-    return NextResponse.json({ success: true, message: "Application submitted and acknowledged" }, { status: 201 });
+    return NextResponse.json({ success: true, message: "Application submitted successfully" }, { status: 201 });
   } catch (error) {
-    logApiError("APPLICATIONS_POST", error);
-    
-    // SIMULATION MODE FALLBACK: If DB is offline locally, ensure form works for boardroom presentations
-    if (isDbConnectionError(error)) {
-      const isDev = process.env.NODE_ENV !== "production";
-      if (isDev) {
-        try {
-          const fs = require('fs');
-          const path = require('path');
-          const mockFile = path.resolve(process.cwd(), "mock-db.json");
-          const existing = fs.existsSync(mockFile) ? JSON.parse(fs.readFileSync(mockFile, "utf-8")) : {};
-          existing.offline_applications = existing.offline_applications || [];
-          existing.offline_applications.push({ ...json, timestamp: new Date().toISOString() });
-          fs.writeFileSync(mockFile, JSON.stringify(existing, null, 2));
-        } catch (e) {
-          console.error("Simulation fallback log failed:", e);
-        }
-        return NextResponse.json({ success: true, message: "Simulation Mode: Application submitted and acknowledged" }, { status: 201 });
-      }
-    }
-
-    if (process.env.NODE_ENV === "production") {
-      return NextResponse.json({ success: true, message: "Demo Mode: Application logged safely in memory" }, { status: 201 });
-    }
-
+    logApiError("APPLICATION_POST", error);
     return safeApiErrorResponse(error);
-  }
-}
-
-export async function GET(request: Request) {
-  try {
-    // 1. Session Check (Proper Auth)
-    const session = await getServerSession(authOptions);
-    
-    if (!session || (session.user as { role?: string }).role !== "admin") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const applicationsList = await db
-      .select({
-        id: schema.applications.id,
-        name: schema.applications.name,
-        email: schema.applications.email,
-        phone: schema.applications.phone,
-        status: schema.applications.status,
-        createdAt: schema.applications.createdAt,
-        jobTitle: schema.jobs.title,
-      })
-      .from(schema.applications)
-      .leftJoin(schema.jobs, eq(schema.applications.jobId, schema.jobs.id))
-      .orderBy(desc(schema.applications.createdAt));
-
-    return NextResponse.json(applicationsList);
-  } catch (error) {
-    logApiError("APPLICATIONS_GET", error);
-    if (isDbConnectionError(error)) {
-      return NextResponse.json([], { status: 200 }); // Graceful fallback
-    }
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
