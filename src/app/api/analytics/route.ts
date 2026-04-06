@@ -4,17 +4,18 @@ import { eq, and, gte } from "drizzle-orm";
 
 export async function POST(req: Request) {
   try {
-    const { path, sessionId } = await req.json();
-
+    let { path, sessionId } = await req.json();
     if (!path) {
       return NextResponse.json({ error: "Path missing" }, { status: 400 });
     }
+    path = String(path).substring(0, 255);
 
     // Capture precise telemetry directly from Vercel's global edge network headers
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
-    const country = req.headers.get("x-vercel-ip-country") || "Local/Unknown Region";
-    const city = req.headers.get("x-vercel-ip-city") || "Unknown City";
-    const userAgent = req.headers.get("user-agent") || "Unknown Browser";
+    let ipRaw = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    const ip = ipRaw.split(',')[0].trim().substring(0, 45); // Keep length strictly under varchar(45) and no proxies
+    const country = (req.headers.get("x-vercel-ip-country") || "Local/Unknown Region").substring(0, 100);
+    const city = (req.headers.get("x-vercel-ip-city") || "Unknown City").substring(0, 100);
+    const userAgent = (req.headers.get("user-agent") || "Unknown Browser").substring(0, 500);
 
     // Capture all analytics to PostgreSQL, including local development runs.
     // If the database is missing or unreachable, the error is swallowed below

@@ -1,15 +1,29 @@
 import { NextResponse } from "next/server";
 import { db, schema } from "@/lib/db";
 import { desc, count, countDistinct, sum, sql } from "drizzle-orm";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth/auth-options";
+import { cookies } from "next/headers";
+import { jwtVerify } from "jose";
 import { isDbConnectionError, logApiError } from "@/lib/api-errors";
+
+const ADMIN_JWT_SECRET = process.env.ADMIN_JWT_SECRET || "fallback-secret-for-development-only";
+const encodedAdminKey = new TextEncoder().encode(ADMIN_JWT_SECRET);
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || (session.user as any).role !== "admin" && (session.user as any).role !== "super_admin") {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("ssk_admin_session")?.value;
+
+    if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+       const { payload } = await jwtVerify(token, encodedAdminKey, { algorithms: ["HS256"] });
+       if (payload.role !== "admin" && payload.role !== "super_admin") {
+          return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+       }
+    } catch (e) {
+       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // 1. Detailed Website Analytics / IP Visitors Record
