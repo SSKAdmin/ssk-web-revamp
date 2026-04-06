@@ -1,9 +1,0 @@
-Pseudo-terminal will not be allocated because stdin is not a terminal.
-Could not stat /Users/fahadalotaibi/.ssh: Operation not permitted
-Failed to add the host to the list of known hosts (/Users/fahadalotaibi/.ssh/known_hosts).
-Allocated port 5 for remote forward to localhost:3007
-You are not authenticated.
-Your tunnel will expire in 60 minutes. Upgrade to Pinggy Pro to get unrestricted tunnels. https://dashboard.pinggy.io
-http://viuap-2a02-cb81-1100-2e12-8823-4007-e031-e9a0.run.pinggy-free.link
-https://viuap-2a02-cb81-1100-2e12-8823-4007-e031-e9a0.run.pinggy-free.link
-Connection to a.pinggy.io closed by remote host.

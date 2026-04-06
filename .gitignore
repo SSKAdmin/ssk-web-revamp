@@ -57,3 +57,11 @@ cloudflared*
 tunnel-url.txt
 mock-db.json
 
+
+# local archives and logs
+*.log
+*.zip
+*.tar.gz
+*.tgz
+cloudflared
+public/uploads/*
