@@ -192,7 +192,7 @@ export function ClientEngagementForm({
           </label>
           <input 
             {...register("phone")}
-            placeholder="+966 5X XXX XXXX"
+            placeholder="05XXXXXXXX"
             pattern="[0-9]*"
             className={cn(
                "w-full bg-[#f7f9fb] text-black font-semibold border-b-2 border-ssk-border px-6 py-5 text-[18px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors",

@@ -253,7 +253,7 @@ export function ApplicationForm({ jobId, jobTitle, lang }: { jobId: string, jobT
         </label>
         <input
           {...register("phone")}
-          placeholder="+966 5X XXX XXXX"
+          placeholder="05XXXXXXXX"
           className={cn(
             "w-full bg-[#f7f9fb] border-b-2 border-ssk-border px-6 py-5 text-[16px] focus:border-ssk-cyan focus:bg-white outline-none transition-colors text-black font-semibold placeholder:text-gray-400 placeholder:font-normal",
             errors.phone ? "border-destructive focus:border-destructive bg-destructive/5" : ""

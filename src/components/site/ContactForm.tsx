@@ -184,7 +184,7 @@ export function ContactForm({ dict, isRtl }: ContactFormProps) {
               "bg-white border-ssk-border rounded-none py-6 focus:border-ssk-cyan focus:ring-0 h-14 text-black font-semibold placeholder:text-neutral-400 placeholder:font-medium",
               isRtl && "text-right font-[var(--font-arabic)]"
             )} 
-            placeholder="+966 5X XXX XXXX" 
+            placeholder="05XXXXXXXX" 
             pattern="[0-9]*"
           />
           {errors.phone && <p className="text-[10px] text-red-500 font-bold uppercase tracking-[0.2em]">{errors.phone.message}</p>}
