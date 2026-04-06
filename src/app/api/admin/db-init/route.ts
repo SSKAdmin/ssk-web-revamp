@@ -30,7 +30,7 @@ export async function GET(request: Request) {
       DROP TABLE IF EXISTS "cms_sections" CASCADE;
     `);
 
-    // 1. CREATE ENUMS INDIVIDUALLY TO AVOID BLOCK CANCELLATION
+    // 1. CREATE ENUMS INDIVIDUALLY (JS Catch instead of PL/pgSQL)
     const enums = [
       "CREATE TYPE \"user_role\" AS ENUM ('admin', 'director', 'manager', 'viewer');",
       "CREATE TYPE \"gov_doc_status\" AS ENUM ('exists', 'partial', 'missing');",
@@ -45,10 +45,11 @@ export async function GET(request: Request) {
 
     for (const enumQuery of enums) {
       try {
-        // Manually format string into raw SQL object, or use drizzle sql.raw()
-        await db.execute(sql.raw(`DO $$ BEGIN ${enumQuery} EXCEPTION WHEN duplicate_object THEN null; END $$;`));
-      } catch (e) {
-        console.warn("Enum creation skipped", e);
+        await db.execute(sql.raw(enumQuery));
+      } catch (e: any) {
+        if (!String(e?.message).includes("already exists")) {
+          console.error("Enum error:", e);
+        }
       }
     }
 
