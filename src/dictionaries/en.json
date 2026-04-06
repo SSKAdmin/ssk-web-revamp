@@ -596,7 +596,7 @@
     "placeholders": {
       "name": "Full Name",
       "email": "example@email.com",
-      "phone": "+966",
+      "phone": "05XXXXXXXX",
       "summary": "Briefly describe your main professional achievements..."
     },
     "validation": {

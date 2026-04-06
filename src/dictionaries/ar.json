@@ -453,9 +453,9 @@
       "submitting": "جارٍ الإرسال..."
     },
     "placeholders": {
-      "name": "الاسم الثلاثي",
+      "name": "الاسم الكامل",
       "email": "example@email.com",
-      "phone": "+966",
+      "phone": "05XXXXXXXX",
       "summary": "تحدث باختصار عن أبرز إنجازاتك المهنية..."
     },
     "validation": {

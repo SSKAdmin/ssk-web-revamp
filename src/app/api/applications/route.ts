@@ -38,8 +38,9 @@ export async function POST(request: Request) {
 
     const { jobId, name, email, phone, cvUrl, coverLetter } = result.data;
 
-    // Remove jobId if it's GENERAL to prevent foreign key errors if the GENERAL job isn't in DB natively
-    const payloadJobId = jobId && jobId !== "GENERAL" ? jobId : undefined;
+    // Remove jobId if it's GENERAL (case-insensitive) to prevent foreign key errors
+    const normalizedJobId = jobId ? jobId.toUpperCase() : undefined;
+    const payloadJobId = normalizedJobId && normalizedJobId !== "GENERAL" ? jobId : undefined;
 
     // 2. Database Insertion (Without ipAddress/userAgent until production db:push is completed)
     const [newApplication] = await db
