@@ -16,11 +16,13 @@ import {
 import { getJobById } from "@/lib/db/queries";
 import { cn } from "@/lib/utils";
 
-interface ApplyPageProps {
+export const dynamic = "force-dynamic";
+
+interface JobDetailsProps {
   params: Promise<{ id: string; lang: string }>;
 }
 
-export async function generateMetadata({ params }: ApplyPageProps) {
+export async function generateMetadata({ params }: JobDetailsProps) {
   const { id, lang } = await params;
   const job = await getJobById(id);
   const isAr = lang === "ar";
@@ -33,7 +35,7 @@ export async function generateMetadata({ params }: ApplyPageProps) {
   };
 }
 
-export default async function JobDetailsPage({ params }: ApplyPageProps) {
+export default async function JobDetailsPage({ params }: JobDetailsProps) {
   const { id, lang } = await params;
   const job = await getJobById(id);
   const isAr = lang === "ar";

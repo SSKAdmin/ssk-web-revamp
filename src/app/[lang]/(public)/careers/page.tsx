@@ -7,7 +7,9 @@ import { ArrowRight, Briefcase, Cpu, ShieldCheck, Users, MapPin, Clock } from "l
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { ApplicationForm } from "@/components/site/ApplicationForm";
-import { getJobs } from "@/lib/admin-actions";
+import { getJobs } from "@/lib/db/queries";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
