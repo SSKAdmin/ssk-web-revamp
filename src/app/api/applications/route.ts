@@ -6,7 +6,7 @@ import { safeApiErrorResponse, logApiError } from "@/lib/api-errors";
 import { sendInstitutionalMail } from "@/lib/mail/transporter";
 
 const applicationSchema = z.object({
-  jobId: z.string().uuid("Invalid Job Reference").optional(), // Made optional to prevent 400s
+  jobId: z.string().optional(), // Removed UUID constraint to allow "GENERAL"
   name: z.string().optional().default("Anonymous Candidate"),
   email: z.string().email("Invalid email format"),
   phone: z.string().regex(/^05\d{8}$/, "Invalid Saudi phone format").optional().or(z.literal("")),
