@@ -41,5 +41,6 @@ export function safeApiErrorResponse(error: any) {
     return NextResponse.json({ success: false, error: "Service temporarily unavailable" }, { status: 503 });
   }
   
-  return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
+  const detailedError = error?.cause?.message || error?.message || String(error);
+  return NextResponse.json({ success: false, error: "System Fault: " + detailedError }, { status: 500 });
 }
