@@ -1,6 +1,8 @@
 "use server";
 import fs from 'fs';
 import path from 'path';
+import { db, schema } from "@/lib/db";
+import { desc, eq } from "drizzle-orm";
 
 const DB_PATH = path.join(process.cwd(), 'mock-db.json');
 
@@ -59,13 +61,37 @@ export async function updateCms(id: string, en: string, ar: string) {
 }
 
 // INBOX
-export async function getInbox() { return readDb().inbox || []; }
+export async function getInbox() { 
+  try {
+     const records = await db.select().from(schema.contacts).orderBy(desc(schema.contacts.createdAt));
+     return records.map(r => ({
+       id: r.id,
+       from: r.name,
+       sub: "Engagement Request",
+       comp: r.organization || "No Organization Provided",
+       time: new Date(r.createdAt || Date.now()).toISOString().split('T')[0],
+       unread: r.status === "new",
+       archived: r.status === "closed",
+       body: r.message,
+       phone: r.phone,
+       email: r.email
+     }));
+  } catch (e) {
+     return readDb().inbox || []; 
+  }
+}
+
 export async function archiveMessage(id: string) {
-  const db = readDb();
-  const m = db.inbox.find((m: any) => m.id === id);
-  if(m) { m.archived = true; m.unread = false; }
-  writeDb(db);
-  return { success: true };
+  try {
+     await db.update(schema.contacts).set({ status: "closed" }).where(eq(schema.contacts.id, id));
+     return { success: true };
+  } catch (e) {
+     const dbMock = readDb();
+     const m = dbMock.inbox?.find((m: any) => m.id === id);
+     if(m) { m.archived = true; m.unread = false; }
+     writeDb(dbMock);
+     return { success: true };
+  }
 }
 
 // SETTINGS
