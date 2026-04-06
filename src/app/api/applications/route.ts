@@ -9,7 +9,7 @@ import { sendInstitutionalMail } from "@/lib/mail/transporter";
 import { safeApiErrorResponse, isDbConnectionError, logApiError } from "@/lib/api-errors";
 
 const applicationSchema = z.object({
-  jobId: z.string().uuid("Invalid Job ID"),
+  jobId: z.string().optional(),
   jobTitle: z.string().optional(),
   name: z.string().optional().default("Anonymous Candidate"),
   email: z.string().email("Invalid email format"),
@@ -44,12 +44,13 @@ export async function POST(request: Request) {
     }
 
     const { jobId, jobTitle, name, email, phone, cvUrl, coverLetter } = result.data;
+    const validatedJobId = (!jobId || jobId === "GENERAL" || jobId.length < 10) ? null : jobId;
 
     // 2. Database Insertion
     const [newApplication] = await db
       .insert(schema.applications)
       .values({
-        jobId,
+        jobId: validatedJobId,
         name,
         email,
         phone,
