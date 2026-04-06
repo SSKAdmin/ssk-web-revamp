@@ -10,7 +10,7 @@ import path from "path";
 const contactSchema = z.object({
   name: z.string().optional().default("Anonymous Client"),
   email: z.string().email("Invalid email format"),
-  phone: z.string().regex(/^05\d{8}$/, "Invalid phone format").optional().or(z.literal("")),
+  phone: z.string().regex(/^\+?[0-9\s\-\(\)]{7,20}$/, "Invalid phone format").optional().or(z.literal("")),
   organization: z.string().optional(),
   message: z.string().optional(),
   honeypot: z.string().max(0, "Bot detected").optional(),

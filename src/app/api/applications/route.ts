@@ -9,7 +9,7 @@ const applicationSchema = z.object({
   jobId: z.string().optional(), // Removed UUID constraint to allow "GENERAL"
   name: z.string().optional().default("Anonymous Candidate"),
   email: z.string().email("Invalid email format"),
-  phone: z.string().regex(/^05\d{8}$/, "Invalid Saudi phone format").optional().or(z.literal("")),
+  phone: z.string().regex(/^\+?[0-9\s\-\(\)]{7,20}$/, "Invalid phone format").optional().or(z.literal("")),
   cvUrl: z.string().url("Valid CV upload required").optional().or(z.literal("")),
   coverLetter: z.string().optional(),
 });
