@@ -84,15 +84,16 @@ export async function getJobs(isAdmin: boolean = false) {
   }
 }
 
-export async function getJobById(id: string) {
+export async function getJobById(identifier: string) {
   try {
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(identifier);
     const [job] = await db
       .select()
       .from(schema.jobs)
-      .where(eq(schema.jobs.id, id));
+      .where(isUuid ? eq(schema.jobs.id, identifier) : eq(schema.jobs.slug, identifier));
     return job || null;
   } catch (error) {
-    console.error("[GET_JOB_BY_ID]", error);
+    console.error("[GET_JOB_BY_IDENTIFIER]", error);
     return null;
   }
 }

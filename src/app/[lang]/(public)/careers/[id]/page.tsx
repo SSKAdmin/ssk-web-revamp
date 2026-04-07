@@ -11,7 +11,10 @@ import {
   ShieldCheck,
   Building2,
   Workflow,
-  Cpu
+  Cpu,
+  Linkedin,
+  Link2,
+  MessageCircle
 } from "lucide-react";
 import { getJobById } from "@/lib/db/queries";
 import { cn } from "@/lib/utils";
@@ -35,6 +38,75 @@ export async function generateMetadata({ params }: JobDetailsProps) {
   };
 }
 
+// Custom Markdown Parser for the DB Text Block
+function StructuredJobDescription({ text, isAr }: { text: string, isAr: boolean }) {
+  if (!text) return null;
+  
+  // Split based on common Arabic/English Headers to give them visual weight
+  // or simply split by double newline.
+  const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim() !== "");
+
+  return (
+    <div className="space-y-10">
+      {paragraphs.map((block, index) => {
+        // Detect if this block is a header or list of bullets
+        const lines = block.split('\n');
+        
+        // If it starts with a known header keyword or is very short, treat as Header + Content
+        const isHeader = lines[0].includes(":") || lines[0].includes("المسؤوليات") || lines[0].includes("المؤهلات") || lines[0].includes("Requirements") || lines[0].includes("Responsibilities");
+
+        if (isHeader && lines.length > 1) {
+           return (
+             <div key={index}>
+               <h3 className={cn(
+                 "text-[20px] font-bold text-ssk-navy mb-6 tracking-tight",
+                 isAr && "font-[var(--font-arabic)] tracking-normal text-[24px]"
+               )}>
+                 {lines[0].replace(":", "")}
+               </h3>
+               {/* Check for dashed lines */}
+               <ul className="space-y-4">
+                 {lines.slice(1).map((line, liIdx) => {
+                   const cleanLine = line.replace(/^-/, "").trim();
+                   if (!cleanLine) return null;
+                   return (
+                     <li key={liIdx} className="flex items-start bg-white border border-ssk-border p-4 group hover:border-ssk-cyan transition-colors">
+                        <div className="mt-1 flex-shrink-0 h-4 w-4 rounded-full bg-ssk-navy/5 flex items-center justify-center mr-4 rtl:mr-0 rtl:ml-4 group-hover:bg-ssk-cyan/10 transition-colors">
+                           <CheckCircle2 className="h-2 w-2 text-ssk-navy group-hover:text-ssk-cyan transition-colors" />
+                        </div>
+                        <p className="text-[15px] font-medium text-ssk-navy leading-relaxed">{cleanLine}</p>
+                     </li>
+                   )
+                 })}
+               </ul>
+             </div>
+           )
+        }
+
+        // Just regular paragraphs or dashed lists without a clear header
+        return (
+          <div key={index} className="text-[16px] text-ssk-navy leading-[2.2] font-medium text-justify">
+             {lines.map((line, lIdx) => {
+               if (line.trim().startsWith("-")) {
+                 return (
+                   <div key={lIdx} className="flex items-start mb-3">
+                     <span className="mr-3 rtl:mr-0 rtl:ml-3 text-ssk-cyan font-bold">•</span>
+                     <span>{line.replace(/^-/, "").trim()}</span>
+                   </div>
+                 );
+               }
+               return <p key={lIdx} className="mb-4">{line}</p>;
+             })}
+          </div>
+        )
+      })}
+    </div>
+  );
+}
+
+// Client Side Share Component since window.location requires 'use client'
+import { ShareJobPanel } from "./ShareJobPanel";
+
 export default async function JobDetailsPage({ params }: JobDetailsProps) {
   const { id, lang } = await params;
   const job = await getJobById(id);
@@ -46,10 +118,6 @@ export default async function JobDetailsPage({ params }: JobDetailsProps) {
 
   const title = isAr ? job.titleAr : job.titleEn;
   const description = isAr ? job.descriptionAr : job.descriptionEn;
-  
-  // Clean arrays since we dropped them from DB (the new Admin UI uses single comprehensive executive summaries)
-  const responsibilities: string[] = [];
-  const requirements: string[] = [];
 
   return (
     <main className="min-h-screen bg-white">
@@ -87,70 +155,24 @@ export default async function JobDetailsPage({ params }: JobDetailsProps) {
         <div className="max-w-[1280px] mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
           
           {/* MAIN CONTENT */}
-          <div className="lg:col-span-8 space-y-20">
-             
-             {/* CONTEXT */}
+          <div className="lg:col-span-8">
              <div>
                 <h2 className={cn(
                   "text-[12px] font-bold uppercase tracking-[0.3em] text-ssk-cyan mb-6 flex items-center",
                   isAr && "tracking-normal text-[14px]"
                 )}>
                   <Briefcase className="w-4 h-4 mr-3 rtl:mr-0 rtl:ml-3" />
-                  {isAr ? "الإطار التشغيلي (السياق)" : "Operational Context"}
+                  {isAr ? "النطاق الإداري والوظيفي" : "Role Specifications"}
                 </h2>
-                <div className="w-12 h-1 bg-ssk-navy mb-8"></div>
-                <div className="text-[18px] text-ssk-navy font-bold leading-relaxed whitespace-pre-wrap text-justify">
-                  {description}
-                </div>
+                <div className="w-12 h-1 bg-ssk-navy mb-12"></div>
+                
+                {/* Structured Professional Markdown Rendering */}
+                <StructuredJobDescription text={description} isAr={isAr} />
              </div>
-
-             {/* RESPONSIBILITIES */}
-             {(responsibilities as string[]).length > 0 && (
-               <div>
-                  <h3 className={cn(
-                    "text-[28px] font-bold text-ssk-navy mb-8 tracking-tight",
-                    isAr && "font-[var(--font-arabic)] tracking-normal text-[32px]"
-                  )}>
-                    {isAr ? "نطاق المسؤوليات الاستراتيجي" : "Strategic Responsibilities"}
-                  </h3>
-                  <div className="w-12 h-1 bg-ssk-cyan mb-8"></div>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     {(responsibilities as string[]).map((resp: string, i: number) => (
-                       <li key={i} className="flex flex-col p-6 border-l-2 border-ssk-border bg-[#f7f9fb] group hover:border-ssk-cyan transition-all rtl:border-l-0 rtl:border-r-2">
-                          <span className="text-[20px] font-bold text-ssk-navy/20 mb-3 group-hover:text-ssk-cyan transition-colors">0{i+1}</span>
-                          <p className="text-[15px] font-medium text-ssk-navy leading-relaxed">{resp}</p>
-                       </li>
-                     ))}
-                  </ul>
-               </div>
-             )}
-
-             {/* REQUIREMENTS */}
-             {(requirements as string[]).length > 0 && (
-               <div>
-                  <h3 className={cn(
-                    "text-[28px] font-bold text-ssk-navy mb-8 tracking-tight",
-                    isAr && "font-[var(--font-arabic)] tracking-normal text-[32px]"
-                  )}>
-                    {isAr ? "معايير الكفاءة والقبول" : "Execution Credentials"}
-                  </h3>
-                  <div className="w-12 h-1 bg-ssk-cyan mb-8"></div>
-                  <ul className="space-y-4">
-                     {(requirements as string[]).map((req: string, i: number) => (
-                       <li key={i} className="flex items-start bg-white border border-ssk-border p-5 group hover:border-ssk-cyan transition-colors">
-                          <div className="mt-1 flex-shrink-0 h-5 w-5 rounded-full bg-ssk-navy/5 flex items-center justify-center mr-4 rtl:mr-0 rtl:ml-4 group-hover:bg-ssk-cyan/10 transition-colors">
-                             <CheckCircle2 className="h-3 w-3 text-ssk-navy group-hover:text-ssk-cyan transition-colors" />
-                          </div>
-                          <p className="text-[16px] font-bold text-ssk-navy">{req}</p>
-                       </li>
-                     ))}
-                  </ul>
-               </div>
-             )}
           </div>
 
-          {/* SIDEBAR: ACTION */}
-          <div className="lg:col-span-4">
+          {/* SIDEBAR: ACTION & SHARING */}
+          <div className="lg:col-span-4 space-y-8">
              <div className="sticky top-40 bg-[#f7f9fb] border-2 border-ssk-border p-10 hover:border-ssk-cyan/50 transition-colors">
                 <div className="flex items-center justify-between mb-8">
                    <h4 className={cn(
@@ -175,30 +197,19 @@ export default async function JobDetailsPage({ params }: JobDetailsProps) {
                       </Button>
                    </Link>
                    
-                   <div className="flex items-center justify-center text-[10px] font-bold uppercase tracking-[0.2em] text-ssk-navy">
+                   <div className="flex items-center justify-center text-[10px] font-bold uppercase tracking-[0.2em] text-ssk-navy border-b border-ssk-border pb-6">
                       <ShieldCheck className="h-4 w-4 mr-2 rtl:mr-0 rtl:ml-2 text-ssk-cyan" /> 
                       {isAr ? "نظام مشفر ومؤمن بالكامل" : "Secured Processing"}
                    </div>
+                   
+                   {/* Share Component Hook */}
+                   <ShareJobPanel isAr={isAr} title={title} />
+                   
                 </div>
              </div>
           </div>
 
         </div>
-      </section>
-
-      {/* 3. FINAL CTA MAP */}
-      <section className="bg-ssk-surface py-20 border-t border-ssk-border text-center">
-        <h2 className={cn(
-          "text-[32px] font-bold text-ssk-navy mb-8",
-          isAr ? "font-[var(--font-arabic)]" : "font-[var(--font-display)]"
-        )}>
-          {isAr ? "هل أنت جاهز للمهمة الاستراتيجية؟" : "Ready to Drive Execution?"}
-        </h2>
-        <Link href={`/${lang}/careers/${job.id}/apply`}>
-           <Button className="bg-ssk-cyan text-ssk-navy hover:bg-ssk-navy hover:text-white font-bold uppercase tracking-[0.2em] text-[12px] px-16 py-8 h-auto rounded-none transition-colors border-none shadow-ssk-glow">
-             {isAr ? "المضي قدماً والتسجيل" : "Proceed to Application"}
-           </Button>
-        </Link>
       </section>
     </main>
   );

@@ -132,6 +132,7 @@ export const contacts = pgTable("contacts", {
 
 export const jobs = pgTable("jobs", {
   id: uuid("id").defaultRandom().primaryKey(),
+  slug: varchar("slug", { length: 255 }).unique(),
   titleEn: varchar("title_en", { length: 255 }).notNull(),
   titleAr: varchar("title_ar", { length: 255 }).notNull(),
   department: varchar("department", { length: 100 }).notNull(),
