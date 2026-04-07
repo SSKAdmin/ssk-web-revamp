@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Linkedin, MessageCircle, Link2, Check } from "lucide-react";
+import { Share2, MessageCircle, Link2, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function ShareJobPanel({ isAr, title }: { isAr: boolean, title: string }) {
+export function ShareJobPanel({ isAr, title, jobId }: { isAr: boolean, title: string, jobId: string }) {
   const [url, setUrl] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -12,10 +12,15 @@ export function ShareJobPanel({ isAr, title }: { isAr: boolean, title: string })
     setUrl(window.location.href);
   }, []);
 
+  const trackShare = () => {
+    fetch(`/api/jobs/${jobId}/share`, { method: "POST" }).catch(console.error);
+  };
+
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
+      trackShare();
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy URL", err);
@@ -37,6 +42,7 @@ export function ShareJobPanel({ isAr, title }: { isAr: boolean, title: string })
           href={`https://wa.me/?text=${encodeURIComponent(whatsappText + " " + url)}`}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={trackShare}
           className="w-10 h-10 border border-ssk-border flex items-center justify-center text-ssk-navy hover:bg-[#25D366] hover:text-white hover:border-transparent transition-all"
         >
           <MessageCircle className="w-5 h-5" />
@@ -46,9 +52,10 @@ export function ShareJobPanel({ isAr, title }: { isAr: boolean, title: string })
           href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={trackShare}
           className="w-10 h-10 border border-ssk-border flex items-center justify-center text-ssk-navy hover:bg-[#0077B5] hover:text-white hover:border-transparent transition-all"
         >
-          <Linkedin className="w-5 h-5" />
+          <Share2 className="w-5 h-5" />
         </a>
 
         <button 

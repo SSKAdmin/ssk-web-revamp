@@ -107,16 +107,16 @@ export default function AdminPortalOverview() {
       {/* --- BUSINESS TIER --- */}
       <div>
          <h2 className="text-sm font-bold text-white mb-4 uppercase tracking-widest flex items-center gap-2">
-            <LineChart className="w-4 h-4 text-[#1d9cf0]" /> Strategic Outcomes
+            <LineChart className="w-4 h-4 text-[#1d9cf0]" /> Strategic Outcomes & Pipeline Analytics
          </h2>
-         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="bg-white/5 border border-[#1d9cf0]/30 p-6 rounded-xl relative overflow-hidden">
                <div className="absolute top-0 right-0 p-6 opacity-10"><FileSignature className="w-16 h-16 text-[#1d9cf0]" /></div>
-               <h3 className="text-sm font-medium text-slate-400 uppercase tracking-widest mb-2">Service Inquiries (Leads)</h3>
+               <h3 className="text-sm font-medium text-slate-400 uppercase tracking-widest mb-2">Service Inquiries</h3>
                <p className="text-4xl font-bold text-white mb-2 flex items-center gap-2">
                  {business.totalLeads}
                </p>
-               <p className="text-xs text-slate-500">Form submissions & corporate requests</p>
+               <p className="text-xs text-slate-500">Form submissions</p>
             </div>
             <div className="bg-white/5 border border-white/5 p-6 rounded-xl relative overflow-hidden">
                <div className="absolute top-0 right-0 p-6 opacity-10"><Briefcase className="w-16 h-16" /></div>
@@ -124,13 +124,21 @@ export default function AdminPortalOverview() {
                <p className="text-3xl font-bold text-white mb-2 flex items-center gap-2">
                  {business.totalApplications}
                </p>
-               <p className="text-xs text-slate-500">CV submissions & applications</p>
+               <p className="text-xs text-slate-500">CV submissions & apps</p>
+            </div>
+            <div className="bg-white/5 border border-[#1d9cf0]/30 p-6 rounded-xl relative overflow-hidden bg-[#1d9cf0]/5">
+               <div className="absolute top-0 right-0 p-6 opacity-10"><Search className="w-16 h-16 text-[#1d9cf0]" /></div>
+               <h3 className="text-sm font-medium text-slate-400 uppercase tracking-widest mb-2">Job Catalog Views</h3>
+               <p className="text-3xl font-bold text-white mb-2 flex items-center gap-2">
+                 {business.jobViews || 0}
+               </p>
+               <p className="text-xs text-[#1d9cf0]/70 flex items-center gap-1"><ArrowUpRight className="w-3 h-3" /> Organic Impressions</p>
             </div>
             <div className="bg-white/5 border border-white/5 p-6 rounded-xl relative overflow-hidden">
                <div className="absolute top-0 right-0 p-6 opacity-10"><Activity className="w-16 h-16" /></div>
-               <h3 className="text-sm font-medium text-slate-400 uppercase tracking-widest mb-2">Total Conversions</h3>
-               <p className="text-3xl font-bold text-[#1d9cf0] mb-2">{business.conversionActions}</p>
-               <p className="text-xs text-[#1d9cf0]/70 flex items-center gap-1"><ArrowUpRight className="w-3 h-3" /> Aggregated inbound outcomes</p>
+               <h3 className="text-sm font-medium text-slate-400 uppercase tracking-widest mb-2">Network Distributions</h3>
+               <p className="text-3xl font-bold text-white mb-2">{business.jobShares || 0}</p>
+               <p className="text-xs text-slate-500 flex items-center gap-1"><ArrowUpRight className="w-3 h-3" /> WhatsApp / LinkedIn Shares</p>
             </div>
          </div>
          {business.trends?.length > 0 && <TrendGraph trends={business.trends.slice().reverse()} />}

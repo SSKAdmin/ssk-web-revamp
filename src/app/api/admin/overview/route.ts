@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db, schema } from "@/lib/db";
-import { desc, count, countDistinct, sum, sql } from "drizzle-orm";
+import { desc, count, countDistinct, sum, sql, eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
 import { isDbConnectionError, logApiError } from "@/lib/api-errors";
@@ -103,12 +103,18 @@ export async function GET() {
     desktop = totalSessions - mobile - tablet;
     if (desktop < 0) desktop = 0;
 
+    const activeJobs = await db.select({ views: schema.jobs.views, shares: schema.jobs.shares }).from(schema.jobs).where(eq(schema.jobs.status, "published"));
+    const totalJobViews = activeJobs.reduce((acc, job) => acc + (job.views || 0), 0);
+    const totalJobShares = activeJobs.reduce((acc, job) => acc + (job.shares || 0), 0);
+
     return NextResponse.json({
       business: {
          totalLeads,
          totalApplications,
          conversionActions: totalLeads + totalApplications,
-         trends: trendData
+         trends: trendData,
+         jobViews: totalJobViews,
+         jobShares: totalJobShares
       },
       traffic: {
         totalSessions,

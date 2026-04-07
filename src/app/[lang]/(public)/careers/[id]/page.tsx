@@ -32,9 +32,27 @@ export async function generateMetadata({ params }: JobDetailsProps) {
   
   if (!job) return { title: isAr ? "تفاصيل الوظيفة | SSK" : "Role Specifications | SSK" };
   
+  const optimizedTitle = `${isAr ? job.titleAr : job.titleEn} | SSK ${isAr ? "للتوظيف" : "Careers"}`;
+  const extractedDesc = (isAr ? job.descriptionAr : job.descriptionEn).substring(0, 160) + "...";
+  
   return {
-    title: `${isAr ? job.titleAr : job.titleEn} | SSK ${isAr ? "للتوظيف" : "Careers"}`,
-    description: isAr ? job.descriptionAr : job.descriptionEn,
+    title: optimizedTitle,
+    description: extractedDesc,
+    openGraph: {
+      title: optimizedTitle,
+      description: extractedDesc,
+      url: `https://www.ssk.sa/${lang}/careers/${job.slug || job.id}`,
+      siteName: "SSK Consulting Platform",
+      images: [{ url: 'https://www.ssk.sa/logo.png', width: 1200, height: 630, alt: 'SSK Sovereign Strategy Consulting' }],
+      locale: isAr ? 'ar_SA' : 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: optimizedTitle,
+      description: extractedDesc,
+      images: ['https://www.ssk.sa/logo.png'],
+    }
   };
 }
 
@@ -104,6 +122,9 @@ function StructuredJobDescription({ text, isAr }: { text: string, isAr: boolean 
   );
 }
 
+import { db } from "@/lib/db";
+import * as schema from "@/lib/db/schema";
+import { eq, sql } from "drizzle-orm";
 // Client Side Share Component since window.location requires 'use client'
 import { ShareJobPanel } from "./ShareJobPanel";
 
@@ -115,6 +136,10 @@ export default async function JobDetailsPage({ params }: JobDetailsProps) {
   if (!job || job.status !== "published") {
     notFound();
   }
+
+  // Asynchronously increment view metric without blocking the render
+  db.update(schema.jobs).set({ views: sql`${schema.jobs.views} + 1` }).where(eq(schema.jobs.id, job.id))
+    .catch(err => console.error("Failed to increment job view telemetry", err));
 
   const title = isAr ? job.titleAr : job.titleEn;
   const description = isAr ? job.descriptionAr : job.descriptionEn;
@@ -203,7 +228,7 @@ export default async function JobDetailsPage({ params }: JobDetailsProps) {
                    </div>
                    
                    {/* Share Component Hook */}
-                   <ShareJobPanel isAr={isAr} title={title} />
+                   <ShareJobPanel isAr={isAr} title={title} jobId={job.id} />
                    
                 </div>
              </div>
