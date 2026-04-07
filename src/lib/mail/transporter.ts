@@ -15,19 +15,8 @@ export async function sendInstitutionalMail({
   subject: string;
   html: string;
 }) {
-  const isDev = process.env.NODE_ENV === "development";
+  // Removed the development mock to enforce real SMTP testing as requested.
 
-  if (isDev) {
-    console.log("--- SECURED MAIL PROTOCOL INITIALIZED ---");
-    console.log(`TO: ${to}`);
-    console.log(`SUBJECT: ${subject}`);
-    console.log("--- CONTENT START ---");
-    console.log(html);
-    console.log("--- CONTENT END ---");
-    return { success: true, messageId: "dev-mock-id" };
-  }
-
-  // PRODUCTION LOGIC (Uncomment after npm install nodemailer)
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST || "smtp.gmail.com",
     port: Number(process.env.SMTP_PORT) || 587,
@@ -38,12 +27,17 @@ export async function sendInstitutionalMail({
     },
   });
 
-  return await transporter.sendMail({
-    from: `"SSK Support Desk" <${process.env.SMTP_USER}>`,
-    to,
-    subject,
-    html,
-  });
-
-  return { success: false, error: "SMTP Transporter not initialized" };
+  try {
+    const info = await transporter.sendMail({
+      from: `"SSK Network Node" <${process.env.SMTP_USER}>`,
+      to,
+      subject,
+      html,
+    });
+    console.log("Email dispatched:", info.messageId);
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error("SMTP Dispatch Error:", error);
+    return { success: false, error };
+  }
 }
