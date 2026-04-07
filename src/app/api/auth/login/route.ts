@@ -47,35 +47,52 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Anti-bot verification failed" }, { status: 403 });
     }
 
-    // 3. Static High-Clearance Users Bypass
-    const STATIC_USERS = [
-      {
-        email: "Fmeshal@ssksaudi.com",
-        password: "SSK@123",
-        userObj: { id: "admin-1", email: "Fmeshal@ssksaudi.com", role: "super_admin", name: "Admin" }
-      },
-      {
-        email: "HR@ssksaudi.com",
-        password: "SSK@123",
-        userObj: { id: "hr-1", email: "HR@ssksaudi.com", role: "admin", name: "HR" }
-      },
-      {
-        email: "Sales@ssksaudi.com",
-        password: "SSK@123",
-        userObj: { id: "sales-1", email: "Sales@ssksaudi.com", role: "admin", name: "Sales" }
-      }
-    ];
+    // 3. Database Authentication Query
+    const [userRecord] = await db
+      .select({
+        id: users.id,
+        email: users.email,
+        passwordHash: users.passwordHash,
+        role: users.role,
+        name: users.name
+      })
+      .from(users)
+      .where(eq(users.email, email));
 
-    const matchedStaticProfile = STATIC_USERS.find(
-      (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
-    );
+    if (!userRecord) {
+       // Check for emergency static fallback bypass for initial dev only if it matches admin credentials
+       if (email === "Fmeshal@ssksaudi.com" && password === "SSK@123") {
+           const payloadUser = { id: "admin-static", email, role: "super_admin", name: "Fmeshal Fallback" };
+           await createSession({
+             userId: payloadUser.id,
+             email: payloadUser.email,
+             role: payloadUser.role,
+           });
+           return NextResponse.json({ success: true, redirectUrl: "/ssk-admin-portal" });
+       }
+       console.warn(`[AUTH ENGINE] Failed login attempt for non-existent ${email}`);
+       return NextResponse.json({ error: "Invalid credentials or locked account" }, { status: 401 });
+    }
 
-    if (!matchedStaticProfile) {
-      console.warn(`[AUTH ENGINE] Failed login attempt for ${email}`);
+    // 4. Verify Password (assuming bcrypt was used to hash passwords when created)
+    let isPasswordValid = false;
+    if (userRecord.passwordHash === password) {
+       isPasswordValid = true; // Fallback for raw text seed passwords
+    } else {
+       isPasswordValid = await bcrypt.compare(password, userRecord.passwordHash);
+    }
+
+    if (!isPasswordValid) {
+      console.warn(`[AUTH ENGINE] Failed login attempt for ${email} (Invalid password)`);
       return NextResponse.json({ error: "Invalid credentials or locked account" }, { status: 401 });
     }
 
-    const payloadUser = matchedStaticProfile.userObj;
+    const payloadUser = {
+      id: userRecord.id,
+      email: userRecord.email,
+      role: userRecord.role || "admin",
+      name: userRecord.name || "Administrator"
+    };
 
     // 5. Issue stateless JWT Session
     await createSession({

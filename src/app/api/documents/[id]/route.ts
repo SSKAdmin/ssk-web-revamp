@@ -1,20 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth/auth-options";
 import { db } from "@/lib/db";
 import { documents } from "@/lib/db/schema";
 import { logApiError, isDbConnectionError } from "@/lib/api-errors";
 import { eq } from "drizzle-orm";
+import { cookies } from "next/headers";
+import { jwtVerify } from "jose";
+
+const ADMIN_JWT_SECRET = process.env.ADMIN_JWT_SECRET || "fallback-secret-for-development-only";
+const encodedAdminKey = new TextEncoder().encode(ADMIN_JWT_SECRET);
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const cookieStore = await cookies();
+    const token = cookieStore.get("ssk_admin_session")?.value;
 
-    if (!session || session.user.role !== "admin") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
+    }
+
+    try {
+       const { payload } = await jwtVerify(token, encodedAdminKey, { algorithms: ["HS256"] });
+       if (payload.role !== "admin" && payload.role !== "super_admin") {
+          return NextResponse.json({ error: "Unauthorized access" }, { status: 403 });
+       }
+    } catch {
+       return NextResponse.json({ error: "Session invalid" }, { status: 401 });
     }
 
     const { id } = await params;
