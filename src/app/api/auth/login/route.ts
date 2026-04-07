@@ -101,6 +101,19 @@ export async function POST(req: Request) {
       role: payloadUser.role,
     });
 
+    // 6. Log the business action
+    try {
+      await db.insert(schema.auditLogs).values({
+        action: "LOGIN",
+        userId: payloadUser.id,
+        ipAddress: ip,
+        userAgent: req.headers.get("user-agent")?.substring(0, 200) || "none",
+        tableMutated: "users"
+      });
+    } catch (e) {
+      console.warn("Failed to capture audit log for login", e);
+    }
+
     return NextResponse.json({ success: true, redirectUrl: "/ssk-admin-portal" });
   } catch (error) {
     console.error("Login route error:", error);

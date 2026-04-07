@@ -27,7 +27,6 @@ export async function GET() {
     }
 
     // 1. Detailed Website Analytics / IP Visitors Record
-    // Retrieve the last 100 sessions
     const analyticsLogs = await db
       .select({
         ipAddress: schema.websiteAnalytics.ipAddress,
@@ -48,22 +47,48 @@ export async function GET() {
       .orderBy(desc(sql`max(${schema.websiteAnalytics.visitedAt})`))
       .limit(50);
 
-    // 2. Aggregate Summaries
+    // 2. Aggregate Telemetry Summaries
     const [totalSessionsResult] = await db.select({ total: count() }).from(schema.websiteAnalytics);
     const [uniqueIpsResult] = await db.select({ total: countDistinct(schema.websiteAnalytics.ipAddress) }).from(schema.websiteAnalytics);
     const totalSessions = totalSessionsResult?.total || 0;
     const uniqueIps = uniqueIpsResult?.total || 0;
 
-    // 3. Security Details and Attack Recognitions (Fetched from Audit Logs)
+    // 3. Business Aggregates (Leads & Candidates)
+    const [leadsCountResult] = await db.select({ total: count() }).from(schema.contacts);
+    const [appsCountResult] = await db.select({ total: count() }).from(schema.applications);
+    const totalLeads = leadsCountResult?.total || 0;
+    const totalApplications = appsCountResult?.total || 0;
+
+    // 4. Generate 14-day engagement activity trend
+    // To do this simply, we get dates of contacts & applications from last 14 days and group locally
+    const last14Days = Array.from({length: 14}).map((_, i) => {
+      const d = new Date();
+      d.setDate(d.getDate() - (13 - i));
+      return d.toISOString().split("T")[0];
+    });
+
+    const recentContacts = await db.select({ createdAt: schema.contacts.createdAt }).from(schema.contacts);
+    const recentApps = await db.select({ createdAt: schema.applications.createdAt }).from(schema.applications);
+    const recentVisits = await db.select({ createdAt: schema.websiteAnalytics.visitedAt }).from(schema.websiteAnalytics);
+
+    const trendData = last14Days.map(date => {
+       const eng = recentContacts.filter(c => new Date(c.createdAt).toISOString().startsWith(date)).length 
+                + recentApps.filter(a => new Date(a.createdAt).toISOString().startsWith(date)).length;
+       const trf = recentVisits.filter(v => new Date(v.createdAt).toISOString().startsWith(date)).length;
+       return { date, engagements: eng, traffic: trf };
+    });
+
+    // 5. Unify ledgers (Leads and Security)
+    const recentLeads = await db.select().from(schema.contacts).orderBy(desc(schema.contacts.createdAt)).limit(10);
+    const recentTalent = await db.select().from(schema.applications).orderBy(desc(schema.applications.createdAt)).limit(10);
+
     const recentAuditLogs = await db
       .select()
       .from(schema.auditLogs)
       .orderBy(desc(schema.auditLogs.createdAt))
       .limit(20);
 
-    // Filter threats (e.g., Failed Auth or specific Actions). Since auditLogs might only have standard logins,
-    // we also synthesize "Failed Auth" if any rate limit blocks were logged inside the DB (future addition).
-    const securityEvents = recentAuditLogs.filter(log => log.action.includes('FAILED') || log.action.includes('SECURITY'));
+    const securityEvents = recentAuditLogs.filter(log => log.action.includes('FAILED') || log.action.includes('SECURITY') || log.action === 'LOGIN');
     
     // We construct Mobile vs PC telemetry on the fly from the database records
     let desktop = 0, mobile = 0, tablet = 0;
@@ -79,6 +104,12 @@ export async function GET() {
     if (desktop < 0) desktop = 0;
 
     return NextResponse.json({
+      business: {
+         totalLeads,
+         totalApplications,
+         conversionActions: totalLeads + totalApplications,
+         trends: trendData
+      },
       traffic: {
         totalSessions,
         uniqueIps,
@@ -89,17 +120,22 @@ export async function GET() {
         tablet
       },
       ipRecords: analyticsLogs,
+      businessRecords: {
+         leads: recentLeads,
+         talent: recentTalent
+      },
       audits: recentAuditLogs,
       securityThreats: securityEvents.length,
     });
   } catch (error) {
     logApiError("ADMIN_OVERVIEW_GET", error);
     if (isDbConnectionError(error)) {
-        // Return structured mock data for strictly simulation boardrooms
         return NextResponse.json({
+            business: { totalLeads: 0, totalApplications: 0, conversionActions: 0, trends: [] },
             traffic: { totalSessions: 0, uniqueIps: 0 },
             devices: { desktop: 0, mobile: 0, tablet: 0 },
             ipRecords: [],
+            businessRecords: { leads: [], talent: [] },
             audits: [],
             securityThreats: 0,
             simulated: true
