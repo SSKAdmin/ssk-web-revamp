@@ -12,7 +12,6 @@ import {
   Building2,
   Workflow,
   Cpu,
-  Linkedin,
   Link2,
   MessageCircle
 } from "lucide-react";
